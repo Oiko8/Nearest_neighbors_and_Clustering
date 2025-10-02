@@ -9,6 +9,11 @@
 using namespace std;
 typedef mt19937_64 random_generator;
 
+
+
+
+
+
 class Hash {
 public:
     Hash(double w, random_generator& gen);
