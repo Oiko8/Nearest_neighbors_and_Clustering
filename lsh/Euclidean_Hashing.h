@@ -10,10 +10,6 @@ using namespace std;
 typedef mt19937_64 random_generator;
 
 
-
-
-
-
 class Hash {
 public:
     Hash(double w, random_generator& gen, int dim);
@@ -36,6 +32,7 @@ class AmplifiedHash {
 public:
     AmplifiedHash(int k, double w, int tableSize, random_generator& gen, int dim);
     int get_amplified_id(vector<double>& p) const;
+    int get_point_id(vector<double>& p) const;
 
 private:
     int tableS_;
@@ -48,3 +45,7 @@ private:
     static unsigned long long generate_r(unsigned long long M, random_generator& generator);
     static unsigned long long pos_mod(long long x, unsigned long long M);
 };
+
+
+
+double euclidean_distance(const vector<double> &p1, const vector<double> &p2);

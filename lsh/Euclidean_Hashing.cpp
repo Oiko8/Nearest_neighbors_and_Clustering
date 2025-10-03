@@ -70,13 +70,23 @@ AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, random_generator& g
     }
 }
 
-int AmplifiedHash::get_amplified_id(vector<double> &p) const{
-    unsigned long long hash_sum_ = 0;
-    for (int i=0 ; i<k_ ; i++){
-        hash_sum_ += r_[i] * h_[i].get_hash_id(p);
-    }
 
-    return (hash_sum_ % M_)% tableS_;
+int AmplifiedHash::get_point_id(vector<double> &p) const {
+    __int128 acc = 0;                           
+    for (int i = 0; i < k_; ++i) {
+        int hi = h_[i].get_hash_id(p);          // may be negative
+        long long hnorm = hi % M_;
+        if (hnorm < 0) hnorm += M_;             // now hnorm in [0, M-1]
+        acc += static_cast<__int128>(r_[i]) * static_cast<__int128>(hnorm);
+    }
+    int id = static_cast<int>(static_cast<long long>(acc % M_));
+    return id;
+}
+
+int AmplifiedHash::get_amplified_id(vector<double> &p) const{
+    int id_ = get_point_id(p);
+
+    return id_% tableS_;
 }
 
 /* =============== generate r~[0, M-1) to multiply each hash result =========================== */
@@ -87,5 +97,19 @@ unsigned long long AmplifiedHash::generate_r(unsigned long long M, random_genera
 }
 
 
+
+/* =============================================================================================== */
+/* ====================================== Helper Functions ======================================= */
+/* =============================================================================================== */
+
+/* =============================== helper function to calculate euclidean distance ============================ */
+double euclidean_distance(const vector<double> &p1, const vector<double> &p2){
+    double sum = 0.0;
+    int size = p1.size();
+    for (int i = 0 ; i < size ; i++){
+        sum += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+    }
+    return sqrt(sum);
+}
 
 
