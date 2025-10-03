@@ -4,10 +4,11 @@
 /* ================================== Hash Class Implementation ================================== */
 /* =============================================================================================== */
 
-Hash::Hash(double w, random_generator &gen) {
+Hash::Hash(double w, random_generator &gen, int dim) {
     w_ = w;
+    dim_ = dim;
     t_ = generate_t(w_, gen);
-    v_ = vec_2d(gen);
+    v_ = vec_d(gen);
 } 
     
 int Hash::get_hash_id(vector<double>& p) const {
@@ -18,10 +19,11 @@ int Hash::get_hash_id(vector<double>& p) const {
 /* ======================= Helper functions ============================ */
 /* ========= Creating a 2-vector with normal disrtibution ============== */
 
-vector<double> Hash::vec_2d(random_generator& generator){
-    vector<double> v(2);
-    v[0] = normal_distribution_generator(generator);
-    v[1] = normal_distribution_generator(generator);
+vector<double> Hash::vec_d(random_generator& generator){
+    vector<double> v(dim_);
+    for (int i=0 ; i < dim_ ; i++){
+        v[i] = normal_distribution_generator(generator);
+    }
     return v;
 }
 
@@ -39,7 +41,12 @@ double Hash::generate_t(double w, random_generator& generator) {
 }
 
 double Hash::dot(const vector<double>& v, const vector<double>& p){
-    return v[0]*p[0] + v[1]*p[1];
+    double dot_product = 0.0;
+    int size = v.size();
+    for (int i=0 ; i < size ; i++){
+        dot_product += v[i]*p[i];
+    } 
+    return dot_product;
 }
 
   
@@ -47,15 +54,16 @@ double Hash::dot(const vector<double>& v, const vector<double>& p){
 /* ============================ Amplified Hash Class Implementation ============================== */
 /* =============================================================================================== */
 
-AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, random_generator& gen) {
+AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, random_generator& gen, int dim) {
     tableS_ = tableSize;
     k_ = k;
     h_.reserve(k_);
     r_.reserve(k_);
+    dim_ = dim;
 
     for (int i = 0; i < k_; i++) {
         // create new hash function
-        Hash new_h(w, gen);
+        Hash new_h(w, gen, dim_);
         h_.push_back(new_h);
         // generate new r for the hash function
         r_.push_back(generate_r(M_, gen));   // r_i ~ [0, M-1]

@@ -16,16 +16,17 @@ typedef mt19937_64 random_generator;
 
 class Hash {
 public:
-    Hash(double w, random_generator& gen);
+    Hash(double w, random_generator& gen, int dim);
     int get_hash_id(vector<double>& p) const;
 
 private:
     vector<double> v_;
     double t_;
     double w_;
+    int dim_;
 
     // helpers (declared here, defined in .cpp)
-    static vector<double> vec_2d(random_generator& generator);
+    vector<double> vec_d(random_generator& generator);
     static double normal_distribution_generator(random_generator& generator);
     static double generate_t(double w, random_generator& generator);
     static double dot(const vector<double>& v, const vector<double>& p);
@@ -33,12 +34,13 @@ private:
 
 class AmplifiedHash {
 public:
-    AmplifiedHash(int k, double w, int tableSize, random_generator& gen);
+    AmplifiedHash(int k, double w, int tableSize, random_generator& gen, int dim);
     int get_amplified_id(vector<double>& p) const;
 
 private:
     int tableS_;
     int k_;
+    int dim_;
     vector<unsigned long long> r_;
     unsigned long long M_ = 4294967291ULL; // exact (2^32 - 5)
     vector<Hash> h_;
