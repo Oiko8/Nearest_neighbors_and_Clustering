@@ -1,5 +1,43 @@
 #include "Euclidean_Hashing.h"
 
+/*=================================== Global definitions =========================================*/
+std::vector<AmplifiedHash> ghashes;
+std::vector<Table> tables;
+std::vector<std::vector<int>> point_ids;
+std::vector<std::vector<int>> point_bucket_ids;
+
+/* =============================================================================================== */
+/* ===================================== Creating the Tables ===================================== */
+/* =============================================================================================== */
+
+
+void build_tables(const vector<vector<double>> &pts){
+    const int Dim = static_cast<int>(pts.size());
+    const int L = static_cast<int>(ghashes.size());
+
+    point_ids.assign(L, vector<int>(Dim, -1));
+    point_bucket_ids.assign(L, vector<int>(Dim, -1));
+
+    for (int idx = 0; idx < Dim; ++idx) {
+        auto x = pts[idx];
+        for (int l = 0; l < L; ++l) {
+            int raw = ghashes[l].get_point_id(x);
+            int bid = raw % ghashes[l].getTableSize(); 
+
+            point_ids[l][idx] = raw;
+            point_bucket_ids[l][idx] = bid;
+            tables[l][bid].push_back(idx);
+        }
+    }
+}
+
+
+
+
+
+
+
+
 /* =============================================================================================== */
 /* ================================== Hash Class Implementation ================================== */
 /* =============================================================================================== */
@@ -70,6 +108,8 @@ AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, random_generator& g
     }
 }
 
+int AmplifiedHash::getTableSize() const { return tableS_; }
+
 
 int AmplifiedHash::get_point_id(vector<double> &p) const {
     __int128 acc = 0;                           
@@ -111,5 +151,7 @@ double euclidean_distance(const vector<double> &p1, const vector<double> &p2){
     }
     return sqrt(sum);
 }
+
+
 
 
