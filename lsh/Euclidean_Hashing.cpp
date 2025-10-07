@@ -10,6 +10,46 @@ random_generator gen(42);
 
 
 /* =============================================================================================== */
+/* ======================================== The Query ============================================ */
+/* =============================================================================================== */
+vector<double> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k){
+    int dim = q.size();
+    int L = tables.size();
+    // vector<vector<double>> closest_points(L, vector<double>(dim));
+    vector <double> closest_point(dim);
+
+    double min_dist = INFINITY;
+    double dist;
+
+    for (int i = 0 ; i < L ; i++) {
+        int bucket_of_query = amplified_functions[i].get_amplified_id(q); 
+        min_dist = INFINITY;
+        for (int id : tables[i][bucket_of_query]) {
+            dist = euclidean_distance(q, pts[id]);
+            if (dist < min_dist){
+                min_dist = dist;
+                closest_point = pts[id];
+            }
+        }
+        cout << "**********************************************************" << endl;
+        cout << "Point to examine: " << "(" ;
+        for (double ax : q) {cout << ax << ",";}
+        cout << ")" << endl;
+        cout << "Closest point: " << "(" ;
+        for (double ax : closest_point) {cout << ax << ",";}
+        cout << ")" << endl;
+        cout << "Distance: " << min_dist << endl;
+        cout << "**********************************************************" << endl;
+    }
+    
+
+    return closest_point;
+}
+
+
+
+
+/* =============================================================================================== */
 /* ===================================== Creating the Tables ===================================== */
 /* =============================================================================================== */
 void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w){
@@ -32,7 +72,6 @@ void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w){
         }
     } 
 }
-
 
 
 

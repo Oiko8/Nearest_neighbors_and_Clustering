@@ -18,6 +18,8 @@ void nn_query(vector<double> &q, unordered_map <int, vector<int>> table, vector<
     double dist;
     vector<double> closest_point(dim);
 
+
+
     // counting the search time for brute force
     auto t1 = chrono::high_resolution_clock::now();
 
@@ -113,7 +115,7 @@ int main() {
     // cout << pts.size() << endl;
     // return 0;
 
-    int L = 1;      // number of tables 
+    int L = 4;      // number of tables 
     double w = 3;   // window of each bucket in the table
     int khash = 3;      // hashes per amplified g function
     
@@ -124,9 +126,9 @@ int main() {
     vector<double> q{5.2, 2.1, 0.3};
 
     // test using the local function
-    nn_query(q, table, pts, amplified_functions[0]);
+    // nn_query(q, table, pts, amplified_functions[0]);
 
-   
+    vector <double> nearest_neighbor = query_knn(pts, q, 1);
 
     return 0;
 
@@ -142,18 +144,30 @@ int main() {
 // RESULTS
 /* ============================================================================================================= */
 /* ============================================================================================================= */
+
+// Results from 4 different hash tables
+// At least in one of them(here in 3) the real nearest neighbor will be found
 // **********************************************************
-// Search for nearest neighor for a point
-// Point to examine: (5.4,2.1,0.3,)
-// Closest point: (6.49141,2.45775,0.477482,)
-// Distance: 1.16218
-// Brute-force total: 0.021505
+// oiko@OikoLenovo:~/project/project1/lsh$ ./main
 // **********************************************************
-// Search for nearest neighor for a point through the hash table
-// Point to examine: (5.4,2.1,0.3,)
-// Closest point: (6.49141,2.45775,0.477482,)
-// Distance: 1.16218
-// LSH (L=1) total: 0.000391
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.17941,2.3966,0.461232,)
+// Distance: 0.338216
+// **********************************************************
+// **********************************************************
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.64193,1.33288,0.230587,)
+// Distance: 0.888031
+// **********************************************************
+// **********************************************************
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.17941,2.3966,0.461232,)
+// Distance: 0.338216
+// **********************************************************
+// **********************************************************
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.17941,2.3966,0.461232,)
+// Distance: 0.338216
 // **********************************************************
 
 /* ============================================================================================================= */

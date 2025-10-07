@@ -66,7 +66,7 @@ class AmplifiedHash {
 /* ========================= helper functions =============================== */
 void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w);
 vector<int> collect_possible_nn(const vector<double> &q);
-vector<int> query_knn(const vector<vector<double>> &pts, const vector<double> &q, int k);
+vector<double> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k);
 
 double euclidean_distance(const vector<double> &p1, const vector<double> &p2);
 
