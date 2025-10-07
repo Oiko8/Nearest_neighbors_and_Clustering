@@ -6,77 +6,6 @@
 using namespace std;
 typedef mt19937_64 random_generator;
 
-/* ============================================== query function ============================================== */
-void nn_query(vector<double> &q, unordered_map <int, vector<int>> table, vector<vector<double>> pts, AmplifiedHash amplified_h){
-    int dim = q.size();
-    
-    cout << "**********************************************************" << endl;
-    // Search for nearest neighor for a point
-    
-    cout << "Search for nearest neighor for a point" << endl;
-    double min_dist = INFINITY; 
-    double dist;
-    vector<double> closest_point(dim);
-
-
-
-    // counting the search time for brute force
-    auto t1 = chrono::high_resolution_clock::now();
-
-    for (vector<double> p : pts){
-        dist = euclidean_distance(p, q);
-        if (dist < min_dist){
-            min_dist = dist;
-            closest_point = p;
-        }
-    }  
-    auto t2 = std::chrono::high_resolution_clock::now();
-    double ms_bruteforce = std::chrono::duration<double, std::milli>(t2 - t1).count();
-
-    cout << "Point to examine: " << "(" ;
-    for (double ax : q) {cout << ax << ",";}
-    cout << ")" << endl;
-    cout << "Closest point: " << "(" ;
-    for (double ax : closest_point) {cout << ax << ",";}
-    cout << ")" << endl;
-    cout << "Distance: " << min_dist << endl;
-
-    cout << "Brute-force total: " << ms_bruteforce << endl;
-    cout << "**********************************************************" << endl;
-
-    // Search for nearest neighor for a point USING THE HASH TABLE
-    cout << "Search for nearest neighor for a point through the hash table" << endl;
-    int bucket_of_point = amplified_h.get_amplified_id(q);
-    // cout << bucket_of_point << endl;
-
-    min_dist = INFINITY;
-
-    // counting the search time using the hash table
-    auto t3 = std::chrono::high_resolution_clock::now();
-
-    for (int id : table[bucket_of_point]) {
-        dist = euclidean_distance(q, pts[id]);
-        if (dist < min_dist){
-            min_dist = dist;
-            closest_point = pts[id];
-        }
-    }
-    auto t4 = std::chrono::high_resolution_clock::now();
-    double ms_lsh = std::chrono::duration<double, std::milli>(t4 - t3).count();
-
-    cout << "Point to examine: " << "(" ;
-    for (double ax : q) {cout << ax << ",";}
-    cout << ")" << endl;
-    cout << "Closest point: " << "(" ;
-    for (double ax : closest_point) {cout << ax << ",";}
-    cout << ")" << endl;
-    cout << "Distance: " << min_dist << endl;
-
-    cout << "LSH (L=1) total: " << ms_lsh << endl;
-
-    cout << "**********************************************************" << endl;
-
-}
 
 
 
@@ -106,14 +35,14 @@ using Table = unordered_map<int, vector<int>>;
 int main() {
 
     /////////////////////////////////// small test ////////////////////////////////////////
-    int n = 10000;     // number of points int the set 
-    int dim = 3;       // dimension of the points
+    int n = 100000;     // number of points int the set 
+    int dim = 4;       // dimension of the points
     double a = -5.0;   // lowest of each dimension
     double b = 15.0;   // highest of each dimension
     vector<vector<double>> pts = generate_points(n, dim, a, b);
-
-    // cout << pts.size() << endl;
-    // return 0;
+    // query
+    vector<vector<double>> queries = generate_points(2, dim, a, b, 69);
+    vector<double> q = queries[0];
 
     int L = 4;      // number of tables 
     double w = 3;   // window of each bucket in the table
@@ -122,13 +51,20 @@ int main() {
     build_hash_tables(pts, L, khash, w);
     Table table = tables[0];
 
-    // query
-    vector<double> q{5.2, 2.1, 0.3};
+    // vector <double> nearest_neighbor = query_knn(pts, q, 1);
+    double R = 1.3;
 
-    // test using the local function
-    // nn_query(q, table, pts, amplified_functions[0]);
+    vector<int> pts_idx_in_range = range_search(pts, q, R);
 
-    vector <double> nearest_neighbor = query_knn(pts, q, 1);
+    cout << "**********************************************************\n";
+    cout << "Points in range R=" << R <<" from the query point:\n";
+    for (int idx:pts_idx_in_range) {
+        cout << "(";
+        for (auto ax:pts[idx]) cout << ax << ", ";
+        cout << ")" << endl;
+    }
+    cout << "**********************************************************\n";
+
 
     return 0;
 
@@ -151,24 +87,45 @@ int main() {
 // oiko@OikoLenovo:~/project/project1/lsh$ ./main
 // **********************************************************
 // Point to examine: (5.2,2.1,0.3,)
-// Closest point: (5.17941,2.3966,0.461232,)
-// Distance: 0.338216
+// Closest point: (5.13278,2.32067,0.412281,)
+// Distance: 0.256558
 // **********************************************************
 // **********************************************************
 // Point to examine: (5.2,2.1,0.3,)
-// Closest point: (5.64193,1.33288,0.230587,)
-// Distance: 0.888031
+// Closest point: (5.48184,2.20735,0.200077,)
+// Distance: 0.317715
 // **********************************************************
 // **********************************************************
 // Point to examine: (5.2,2.1,0.3,)
-// Closest point: (5.17941,2.3966,0.461232,)
-// Distance: 0.338216
+// Closest point: (5.48184,2.20735,0.200077,)
+// Distance: 0.317715
 // **********************************************************
 // **********************************************************
 // Point to examine: (5.2,2.1,0.3,)
-// Closest point: (5.17941,2.3966,0.461232,)
-// Distance: 0.338216
+// Closest point: (5.13278,2.32067,0.412281,)
+// Distance: 0.256558
 // **********************************************************
+// **********************************************************
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.13278,2.32067,0.412281,)
+// Distance: 0.256558
+// **********************************************************
+// **********************************************************
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.13278,2.32067,0.412281,)
+// Distance: 0.256558
+// **********************************************************
+// **********************************************************
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.13278,2.32067,0.412281,)
+// Distance: 0.256558
+// **********************************************************
+// **********************************************************
+// Point to examine: (5.2,2.1,0.3,)
+// Closest point: (5.48184,2.20735,0.200077,)
+// Distance: 0.317715
+// **********************************************************
+// oiko@OikoLenovo:~/project/project1/lsh$ 
 
 /* ============================================================================================================= */
 /* ============================================================================================================= */

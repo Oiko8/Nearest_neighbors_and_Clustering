@@ -10,17 +10,18 @@ random_generator gen(42);
 
 
 /* =============================================================================================== */
-/* ======================================== The Query ============================================ */
+/* ========================================= NN Search =========================================== */
 /* =============================================================================================== */
 vector<double> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k){
-    int dim = q.size();
-    int L = tables.size();
+    int dim = static_cast<int>(q.size());
+    int L = static_cast<int>(tables.size());
     // vector<vector<double>> closest_points(L, vector<double>(dim));
     vector <double> closest_point(dim);
 
     double min_dist = INFINITY;
     double dist;
 
+    auto t1 = chrono::high_resolution_clock::now();
     for (int i = 0 ; i < L ; i++) {
         int bucket_of_query = amplified_functions[i].get_amplified_id(q); 
         min_dist = INFINITY;
@@ -30,7 +31,7 @@ vector<double> query_knn(const vector<vector<double>> &pts, vector<double> &q, i
                 min_dist = dist;
                 closest_point = pts[id];
             }
-        }
+        }        
         cout << "**********************************************************" << endl;
         cout << "Point to examine: " << "(" ;
         for (double ax : q) {cout << ax << ",";}
@@ -41,11 +42,42 @@ vector<double> query_knn(const vector<vector<double>> &pts, vector<double> &q, i
         cout << "Distance: " << min_dist << endl;
         cout << "**********************************************************" << endl;
     }
-    
+    auto t2 = std::chrono::high_resolution_clock::now();
+    double ms_lsh = std::chrono::duration<double, std::milli>(t2 - t1).count();
+    cout << "LSH (L=" << L << ") total: " << ms_lsh << endl;
+
 
     return closest_point;
 }
 
+
+/* =============================================================================================== */
+/* ========================================= Range Search ======================================== */
+/* =============================================================================================== */
+
+vector<int> range_search(const vector<vector<double>> &pts, vector<double> &q, double R){
+    // int dim = static_cast<int>(q.size());
+    int L = static_cast<int>(tables.size());
+
+    vector<int> pts_idx_in_range;
+    
+    double dist;
+
+    for (int i = 0 ; i < L ; i++) {
+        int bucket_of_query = amplified_functions[i].get_amplified_id(q);
+        for (int id : tables[i][bucket_of_query]) {
+            dist = euclidean_distance(q, pts[id]);
+            if (dist < R){
+                pts_idx_in_range.push_back(id);
+            }
+        }        
+    }
+
+    sort(pts_idx_in_range.begin(), pts_idx_in_range.end());               
+    pts_idx_in_range.erase(unique(pts_idx_in_range.begin(), pts_idx_in_range.end()), pts_idx_in_range.end());
+    return pts_idx_in_range;
+
+}
 
 
 
