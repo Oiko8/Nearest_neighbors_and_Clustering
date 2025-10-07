@@ -102,9 +102,7 @@ vector<vector<double>> generate_points(int n, int dim,
 using Table = unordered_map<int, vector<int>>;
 
 int main() {
-    static random_generator generator(42);
 
-   
     /////////////////////////////////// small test ////////////////////////////////////////
     int n = 10000;     // number of points int the set 
     int dim = 3;       // dimension of the points
@@ -115,22 +113,20 @@ int main() {
     // cout << pts.size() << endl;
     // return 0;
 
-    int L = 8;      // number of tables 
+    int L = 1;      // number of tables 
     double w = 3;   // window of each bucket in the table
-    int k = 3;      // hashes per amplified g function
-    int tableSize = pts.size()/2;   // no of buckets in each table
-    AmplifiedHash amplified_h(k, w, tableSize, generator, 2);
-    unordered_map <int, vector<int>> table;
-
-    for (int i = 0; i < (int)pts.size(); ++i) {
-        table[amplified_h.get_amplified_id(pts[i])].push_back(i);
-    }
+    int khash = 3;      // hashes per amplified g function
+    
+    build_hash_tables(pts, L, khash, w);
+    Table table = tables[0];
 
     // query
-    vector<double> q{5.4, 2.1, 0.3};
+    vector<double> q{5.2, 2.1, 0.3};
 
-    nn_query(q, table, pts, amplified_h);
+    // test using the local function
+    nn_query(q, table, pts, amplified_functions[0]);
 
+   
 
     return 0;
 
