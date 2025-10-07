@@ -1,39 +1,37 @@
 #include "Euclidean_Hashing.h"
 
 /*=================================== Global definitions =========================================*/
-std::vector<AmplifiedHash> ghashes;
-std::vector<Table> tables;
-std::vector<std::vector<int>> point_ids;
-std::vector<std::vector<int>> point_bucket_ids;
+vector<AmplifiedHash> amplified_functions;
+vector<Hash> hash_functions;
+vector<Table> tables;
+vector<vector<int>> point_ids;
+vector<vector<int>> point_bucket_ids;
+random_generator gen(42);
+
 
 /* =============================================================================================== */
 /* ===================================== Creating the Tables ===================================== */
 /* =============================================================================================== */
+void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w){
+    int tableSize = pts.size()/2;   // no of buckets in each table
+    int dim = pts[0].size();
 
+    tables.clear();
+    tables.resize(L);
 
-void build_tables(const vector<vector<double>> &pts){
-    const int Dim = static_cast<int>(pts.size());
-    const int L = static_cast<int>(ghashes.size());
+    amplified_functions.clear();
+    amplified_functions.resize(L);
 
-    point_ids.assign(L, vector<int>(Dim, -1));
-    point_bucket_ids.assign(L, vector<int>(Dim, -1));
-
-    for (int idx = 0; idx < Dim; ++idx) {
-        auto x = pts[idx];
-        for (int l = 0; l < L; ++l) {
-            int raw = ghashes[l].get_point_id(x);
-            int bid = raw % ghashes[l].getTableSize(); 
-
-            point_ids[l][idx] = raw;
-            point_bucket_ids[l][idx] = bid;
-            tables[l][bid].push_back(idx);
-        }
+    for (int i = 0 ; i < L ; i ++) {
+        amplified_functions[i] = AmplifiedHash(khash, w, tableSize, dim);
     }
+    
+    for (int l = 0; l < L ; l++) {
+        for (int i = 0; i < (int)pts.size(); ++i) {
+            tables[l][amplified_functions[l].get_amplified_id(pts[i])].push_back(i);
+        }
+    } 
 }
-
-
-
-
 
 
 
@@ -42,11 +40,11 @@ void build_tables(const vector<vector<double>> &pts){
 /* ================================== Hash Class Implementation ================================== */
 /* =============================================================================================== */
 
-Hash::Hash(double w, random_generator &gen, int dim) {
+Hash::Hash(double w, int dim) {
     w_ = w;
     dim_ = dim;
-    t_ = generate_t(w_, gen);
-    v_ = vec_d(gen);
+    t_ = generate_t(w_);
+    v_ = vec_d();
 } 
     
 int Hash::get_hash_id(vector<double>& p) const {
@@ -57,25 +55,25 @@ int Hash::get_hash_id(vector<double>& p) const {
 /* ======================= Helper functions ============================ */
 /* ========= Creating a 2-vector with normal disrtibution ============== */
 
-vector<double> Hash::vec_d(random_generator& generator){
+vector<double> Hash::vec_d(){
     vector<double> v(dim_);
     for (int i=0 ; i < dim_ ; i++){
-        v[i] = normal_distribution_generator(generator);
+        v[i] = normal_distribution_generator();
     }
     return v;
 }
 
 /* ========= return a point with normal distribution =================== */
-double Hash::normal_distribution_generator(random_generator& generator){
+double Hash::normal_distribution_generator(){
     normal_distribution<double> dist(0.0, 1.0);
-    return dist(generator);
+    return dist(gen);
 }
 
 /* ========== generate a small disturbance t =========================== */
-double Hash::generate_t(double w, random_generator& generator) {
+double Hash::generate_t(double w) {
     // keep your original definition (Uniform[0, w])
     uniform_real_distribution<double> dist(0.0, w);
-    return dist(generator);
+    return dist(gen);
 }
 
 double Hash::dot(const vector<double>& v, const vector<double>& p){
@@ -92,7 +90,7 @@ double Hash::dot(const vector<double>& v, const vector<double>& p){
 /* ============================ Amplified Hash Class Implementation ============================== */
 /* =============================================================================================== */
 
-AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, random_generator& gen, int dim) {
+AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, int dim) {
     tableS_ = tableSize;
     k_ = k;
     h_.reserve(k_);
@@ -101,10 +99,10 @@ AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, random_generator& g
 
     for (int i = 0; i < k_; i++) {
         // create new hash function
-        Hash new_h(w, gen, dim_);
+        Hash new_h(w, dim_);
         h_.push_back(new_h);
         // generate new r for the hash function
-        r_.push_back(generate_r(M_, gen));   // r_i ~ [0, M-1]
+        r_.push_back(generate_r(M_));   // r_i ~ [0, M-1]
     }
 }
 
@@ -130,10 +128,10 @@ int AmplifiedHash::get_amplified_id(vector<double> &p) const{
 }
 
 /* =============== generate r~[0, M-1) to multiply each hash result =========================== */
-unsigned long long AmplifiedHash::generate_r(unsigned long long M, random_generator& generator) {
+unsigned long long AmplifiedHash::generate_r(unsigned long long M) {
     // integer coefficients r_i ∈ {0, …, M-1}
     uniform_int_distribution<unsigned long long> dist(0ULL, M - 1ULL);
-    return dist(generator);
+    return dist(gen);
 }
 
 
