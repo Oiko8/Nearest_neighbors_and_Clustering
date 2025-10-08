@@ -1,12 +1,4 @@
-#include <unordered_map>
-#include <chrono>
-
 #include "Euclidean_Hashing.h"
-
-using namespace std;
-typedef mt19937_64 random_generator;
-
-
 
 
 /* =================================== helper function to generate point ====================================== */
@@ -30,12 +22,11 @@ vector<vector<double>> generate_points(int n, int dim,
 /* ========================================= Main ================================================ */
 /* =============================================================================================== */
 
-using Table = unordered_map<int, vector<int>>;
 
 int main() {
 
     /////////////////////////////////// small test ////////////////////////////////////////
-    int n = 100000;     // number of points int the set 
+    int n = 1000000;     // number of points int the set 
     int dim = 4;       // dimension of the points
     double a = -5.0;   // lowest of each dimension
     double b = 15.0;   // highest of each dimension
@@ -52,13 +43,13 @@ int main() {
     Table table = tables[0];
 
     /* ======================== NN SEARCH ============================= */
-
-    vector <int> nearest_neighbor_idx = query_knn(pts, q, 5);
+    int k = 5; 
+    vector <int> nearest_neighbor_idx = query_knn(pts, q, k);
     cout << "**********************************************************\n";
-    cout << "Nearest Neighbor in each bucket:\n";
+    cout << "K="<< k << " Nearest Neighbor in each bucket:\n";
     int i = 1;
     for (int idx:nearest_neighbor_idx) {
-        cout << "Bucket " << i << "(";
+        cout << "(";
         for (auto ax:pts[idx]) cout << ax << ", ";
         cout << ")" << endl;
         i++;
@@ -67,7 +58,7 @@ int main() {
     
     
     /* ======================= RANGE SEARCH =========================== */
-    double R = 1.3;
+    double R = 0.6;
 
     vector<int> pts_idx_in_range = range_search(pts, q, R);
 

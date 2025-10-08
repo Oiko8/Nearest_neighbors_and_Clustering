@@ -3,9 +3,14 @@ CXX      := g++
 CXXFLAGS := -std=gnu++17 -O2 -Wall -Wextra
 
 # target and sources
-TARGET := main
-SRCS   := main.cpp Euclidean_Hashing.cpp
+# TARGET := main
+# SRCS   := main.cpp Euclidean_Hashing.cpp
+# OBJS   := $(SRCS:.cpp=.o)
+
+TARGET := search
+SRCS   := search.cpp Euclidean_Hashing.cpp
 OBJS   := $(SRCS:.cpp=.o)
+
 
 # default rule
 all: $(TARGET)
