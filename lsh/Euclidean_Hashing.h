@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <chrono>
+#include <queue>
 
 /* ============================= common definitions ========================= */
 using namespace std;
@@ -67,7 +68,7 @@ class AmplifiedHash {
 /* ========================= helper functions =============================== */
 void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w);
 vector<int> collect_possible_nn(const vector<double> &q);
-vector<double> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k);
+vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k);
 vector<int> range_search(const vector<vector<double>> &pts, vector<double> &q, double R);
 
 double euclidean_distance(const vector<double> &p1, const vector<double> &p2);

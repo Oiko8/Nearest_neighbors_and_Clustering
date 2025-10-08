@@ -12,42 +12,69 @@ random_generator gen(42);
 /* =============================================================================================== */
 /* ========================================= NN Search =========================================== */
 /* =============================================================================================== */
-vector<double> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k){
-    int dim = static_cast<int>(q.size());
-    int L = static_cast<int>(tables.size());
-    // vector<vector<double>> closest_points(L, vector<double>(dim));
-    vector <double> closest_point(dim);
+vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k){
+     int L = static_cast<int>(tables.size());
+    if (k <= 0 || L == 0) return {};
 
-    double min_dist = INFINITY;
-    double dist;
+    vector<pair<double,int>> all_candidates;
+    all_candidates.reserve(L * k);
+    unordered_set<int> seen; // to avoid duplicates
 
-    auto t1 = chrono::high_resolution_clock::now();
-    for (int i = 0 ; i < L ; i++) {
-        int bucket_of_query = amplified_functions[i].get_amplified_id(q); 
-        min_dist = INFINITY;
-        for (int id : tables[i][bucket_of_query]) {
-            dist = euclidean_distance(q, pts[id]);
-            if (dist < min_dist){
-                min_dist = dist;
-                closest_point = pts[id];
+    for (int i = 0; i < L; ++i) {
+        int bucket_of_query = amplified_functions[i].get_amplified_id(q);
+
+        auto it = tables[i].find(bucket_of_query);
+        if (it == tables[i].end()) continue;
+
+        // keep the k closest in THIS table
+        priority_queue<pair<double,int>> local; // (dist, id)
+        for (int id : it->second) {
+            // skip duplicates (already seen from other tables)
+            if (seen.count(id)) continue;
+
+            double d = euclidean_distance(q, pts[id]);
+            if ((int)local.size() < k) {
+                local.emplace(d, id);
+            } else if (d < local.top().first) {
+                local.pop();
+                local.emplace(d, id);
             }
-        }        
-        cout << "**********************************************************" << endl;
-        cout << "Point to examine: " << "(" ;
-        for (double ax : q) {cout << ax << ",";}
-        cout << ")" << endl;
-        cout << "Closest point: " << "(" ;
-        for (double ax : closest_point) {cout << ax << ",";}
-        cout << ")" << endl;
-        cout << "Distance: " << min_dist << endl;
-        cout << "**********************************************************" << endl;
+        }
+
+        // add this table’s k best (marking them as seen)
+        while (!local.empty()) {
+            auto p = local.top();
+            local.pop();
+            if (!seen.count(p.second)) {
+                all_candidates.push_back(p);
+                seen.insert(p.second);
+            }
+        }
     }
-    auto t2 = std::chrono::high_resolution_clock::now();
-    double ms_lsh = std::chrono::duration<double, std::milli>(t2 - t1).count();
-    cout << "LSH (L=" << L << ") total: " << ms_lsh << endl;
 
+    if (all_candidates.empty()) return {};
 
-    return closest_point;
+    // now select global k closest
+    priority_queue<pair<double,int>> global;
+    for (const auto &p : all_candidates) {
+        if ((int)global.size() < k) {
+            global.push(p);
+        } else if (p.first < global.top().first) {
+            global.pop();
+            global.push(p);
+        }
+    }
+
+    // sort and return ids
+    vector<pair<double,int>> best;
+    while (!global.empty()) { best.push_back(global.top()); global.pop(); }
+    sort(best.begin(), best.end(), [](auto &a, auto &b){ return a.first < b.first; });
+
+    vector<int> nn_idx;
+    nn_idx.reserve(best.size());
+    for (auto &p : best) nn_idx.push_back(p.second);
+
+    return nn_idx;
 }
 
 

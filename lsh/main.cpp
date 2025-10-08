@@ -51,7 +51,22 @@ int main() {
     build_hash_tables(pts, L, khash, w);
     Table table = tables[0];
 
-    // vector <double> nearest_neighbor = query_knn(pts, q, 1);
+    /* ======================== NN SEARCH ============================= */
+
+    vector <int> nearest_neighbor_idx = query_knn(pts, q, 5);
+    cout << "**********************************************************\n";
+    cout << "Nearest Neighbor in each bucket:\n";
+    int i = 1;
+    for (int idx:nearest_neighbor_idx) {
+        cout << "Bucket " << i << "(";
+        for (auto ax:pts[idx]) cout << ax << ", ";
+        cout << ")" << endl;
+        i++;
+    }
+    
+    
+    
+    /* ======================= RANGE SEARCH =========================== */
     double R = 1.3;
 
     vector<int> pts_idx_in_range = range_search(pts, q, R);
@@ -64,6 +79,8 @@ int main() {
         cout << ")" << endl;
     }
     cout << "**********************************************************\n";
+
+
 
 
     return 0;
