@@ -1,4 +1,4 @@
-// Usage : ./search -d ../MNIST_data/input.dat -k 4 -w 4.0 -N 5 -R 2500
+// Usage : ./search -d ../MNIST_data/input.dat -q ../MNIST_data/query.dat -k 4 -w 4.0 -N 5 -R 2500
 
 #include "Euclidean_Hashing.h"
 #include <fstream>
@@ -92,14 +92,22 @@ int main(int argc, char* argv[]) {
     }
     Args args = parse_args(argc, argv);
 
+    // From the input file extract the data and transform the correct way
     string input_file = args.data_path;
-
     cout << "Loading dataset: " << input_file << endl;
     vector<vector<double>> pts = load_mnist_dataset(input_file);
     cout << "Loaded " << pts.size() << " images of dimension " << pts[0].size() << endl;
 
+    cout << "*************************************************\n";
+
+    // From the query file extract the data and transform the correct way
+    string query_file = args.query_path;
+    cout << "Loading queries: " << query_file << endl;
+    vector<vector<double>> queries = load_mnist_dataset(query_file);
+    cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
+
     // pick the first image as a query
-    vector<double> q = pts[0];
+    vector<double> q = queries[0];
     int L = args.L, khash = args.khash, k = args.k;
     double w = args.w;
 
