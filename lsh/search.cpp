@@ -1,4 +1,4 @@
-// Usage : ./search -d ../MNIST_data/input.dat -q ../MNIST_data/query.dat -k 4 -w 4.0 -N 5 -R 2500
+// Usage : ./search -d ../MNIST_data/input.dat -q ../MNIST_data/query.dat -k 3 -L 8 -w 6.0 -N 1 -R 2500
 
 #include "Euclidean_Hashing.h"
 #include <fstream>
@@ -106,22 +106,76 @@ int main(int argc, char* argv[]) {
     vector<vector<double>> queries = load_mnist_dataset(query_file);
     cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
 
-    // pick the first image as a query
-    vector<double> q = queries[0];
+    // Normalize the vectors: 0-255 --> 0-1
+    for (auto &point : pts){
+        for (double &dim : point) {
+            dim /= 255.0;
+        }
+    }
+    for (auto &query : queries){
+        for (double &dim : query) {
+            dim /= 255.0;
+        }
+    }
+
+
     int L = args.L, khash = args.khash, k = args.k;
     double w = args.w;
-
+    
+    // Prepare the tables according to the data
     build_hash_tables(pts, L, khash, w);
-    vector<int> nn_idx = query_knn(pts, q, k);
 
-    cout << "*************************************************\n";
-    cout << "Nearest neighbors for image 0:\n";
-    for (int idx : nn_idx) cout << idx << " ";
-    cout << endl;
 
-    cout << "*************************************************\n";
-    int R = args.R;
-    vector<int> in_range_idx = range_search(pts, q, R);
-    for (int idx : in_range_idx) cout << idx << " ";
-    cout << endl;
+    vector<double> q;
+
+    double sum_AF = 0.0;
+    int qcount = 0;
+ 
+    // check the first 10 queries
+    for (int i=100 ; i<110 ; i++){
+        q = queries[i];
+        // Prepare the query
+        vector<int> nn_idx = query_knn(pts, q, k);
+    
+        cout << "Nearest neighbor-1: ";
+        for (int idx : nn_idx) cout << idx << " ";
+        cout << endl;
+        double distApprox = euclidean_distance(pts[nn_idx[0]], q);
+        
+        // Brute force search
+        double dist;
+        double min_dist = INFINITY;
+        int closest_point_idx = -1;
+        for (int i = 0 ; i < static_cast<int>(pts.size()) ; i++){
+            dist = euclidean_distance(pts[i], q);
+            if (dist < min_dist){
+                min_dist = dist;
+                closest_point_idx = i;
+            }
+        }
+        
+        cout << "True Nearest neighbor-1: ";
+        cout << closest_point_idx << endl;
+        
+
+        cout << "DistanceApproximation: " << distApprox << endl;
+        cout << "DistanceTrue: " << min_dist << endl;
+
+        
+        int R = args.R;
+        vector<int> in_range_idx = range_search(pts, q, R);
+        cout << "R-near neighbors:" << endl;
+        for (int idx : in_range_idx) cout << idx << "\n";
+        cout << endl;
+
+        cout << "----------------------------------------------------------------------------\n";
+        cout << "----------------------------------------------------------------------------\n";
+        
+        double AF = distApprox / min_dist;
+        sum_AF += AF;
+        ++qcount;
+    }
+
+    cout << "Average AF: " << sum_AF/qcount << endl;
+
 }
