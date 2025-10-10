@@ -8,7 +8,7 @@ CXXFLAGS := -std=gnu++17 -O2 -Wall -Wextra
 # OBJS   := $(SRCS:.cpp=.o)
 
 TARGET := search
-SRCS   := search.cpp Euclidean_Hashing.cpp
+SRCS   := search.cpp Euclidean_Hashing.cpp Data_loader.cpp
 OBJS   := $(SRCS:.cpp=.o)
 
 
