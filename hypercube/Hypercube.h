@@ -17,6 +17,7 @@
 /* ===================================== common definitions ====================================== */
 using namespace std;
 using random_generator = mt19937_64;
+using Table = unordered_map<string, vector<int>>;
 
 /* ======================================== hash class =========================================== */
 class Hash {
@@ -75,5 +76,13 @@ private:
 };
 
 
+/* =================================== Helper Function ========================================== */
+void build_hypercube(vector<vector<double>> &pts, int k, double w);
+
+
+/* ======================== global variables ================================ */
+extern vector<Hash> hash_functions;
+extern BitMapper bit_function;
+extern Table Hypercube_table;
 
 #endif

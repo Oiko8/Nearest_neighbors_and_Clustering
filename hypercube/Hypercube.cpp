@@ -2,6 +2,9 @@
 
 /*=================================== Global definitions =========================================*/
 random_generator gen(42);
+vector<Hash> hash_functions;
+BitMapper bit_function(0);
+Table Hypercube_table;
 
 
 /* =============================================================================================== */
@@ -70,3 +73,27 @@ BitMapper::BitMapper(int k, uint32_t seed)
     }
 }
 
+
+
+/* ================================= Build the hypercude ========================================= */
+void build_hypercube(vector<vector<double>> &pts, int k, double w){
+    int dim = static_cast<int>(pts[0].size());
+
+    for (int i = 0 ; i < k ; i++) {
+        Hash new_h(w, dim);
+        hash_functions.push_back(new_h);
+
+    }
+
+    bit_function = BitMapper(k);
+    for (int idx = 0 ; idx < static_cast<int>(pts.size()) ; idx++) {
+        string vertex = "";
+        for (int i = 0 ; i < k ; i++) {
+            int h_id = hash_functions[i].get_hash_id(pts[idx]);
+            auto bit = bit_function.bit_for(i, h_id);
+            vertex += (bit ? "1" : "0"); 
+        }
+
+        Hypercube_table[vertex].push_back(idx);
+    }
+}

@@ -24,7 +24,7 @@ vector<vector<double>> generate_points(int n, int dim,
 
 
 int main() {
-    int n = 10;   // number of points
+    int n = 100;   // number of points
     int dim = 4;  // dimension of points
     double hi = 15.0;
     double low = 3.0;
@@ -32,28 +32,21 @@ int main() {
     vector<vector<double>> points = generate_points(n, dim, low, hi);
     // vector<double> point = {2.3, 4.5, 3.4, 8.9};
 
-    double w = 2.0; int d = static_cast<int> (points[0].size());
-    vector<Hash> hashes;
     int k = 4;
-    for (int i = 0 ; i < k ; i++) {
-        Hash new_h(w, d);
-        hashes.push_back(new_h);
-    }
+    double w = 3.0;
 
+    build_hypercube(points, k, w); 
 
-    BitMapper bit_map(k);
-    int p_idx = 1;
-    for (auto point: points) {
-        cout << "Point " << p_idx << ":" <<endl;
-        for (int i = 0 ; i < k ; i++) {
-            int h_id = hashes[i].get_hash_id(point);
-            cout << h_id << " ---> ";
-            cout << bit_map.bit_for(i, h_id) << endl;
+    // Print
+    for (auto &pair : Hypercube_table) {
+        cout << pair.first << ": ";
+        for (int val : pair.second) {
+            cout << val << " ";
         }
-        cout << "====================================\n";
-        p_idx++;
+        cout << endl;
     }
 
+    cout << endl << Hypercube_table.size() << endl;
     return 0;
     
 }
