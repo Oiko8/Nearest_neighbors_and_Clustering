@@ -111,11 +111,12 @@ void search_in_dataset(Args args , string type){
     double sum_AF = 0.0;
     int qcount = 0;
     int hits_at_N = 0;                 // Recall@N counter
+    double sum_recall = 0.0;           // to calculate the average recall
     double sum_tApprox_ms = 0.0;       // sum of the time for the approx search
     double sum_tTrue_ms   = 0.0;       // sum of the time for the true search 
  
     // check the first 10 queries
-    for (int i=0 ; i<100 ; i++){
+    for (int i=0 ; i<10000; i++){
         q = queries[i];
 
 
@@ -182,14 +183,19 @@ void search_in_dataset(Args args , string type){
         // =====================================================================
         
         // ========================= Recall @N =================================
-        // if the true nearest neighbor exists in the N approx nearest neighbors
-        int true_nearest_id = true_topN_ids[0];
-        for (int id : nn_idx) {
-            if (id == true_nearest_id) {
-                hits_at_N ++;
-                break;
+        // the average fraction of true_nearest_neighbor/approx_nearest neigbors.
+        hits_at_N = 0;
+        for (int true_nn_id : true_topN_ids){
+            for (int approx_id : nn_idx) {
+                if (true_nn_id == approx_id) {
+                    hits_at_N ++;
+                }
             }
         }
+
+        double recall = static_cast<double>(hits_at_N) / N;
+        sum_recall += recall;
+
 
         // ======================= Approximation Fraction =====================
         double min_approx_dist = *min_element(approx_dists.begin(), approx_dists.end());
@@ -225,7 +231,7 @@ void search_in_dataset(Args args , string type){
     // =========================================================================
 
     cout << "Average AF: " << (qcount ? (sum_AF / qcount) : 0.0) << "\n";
-    cout << "Recall@N: "   << (qcount ? (double)hits_at_N / qcount : 0.0) << "\n";
+    cout << "Recall@N: "   << (qcount ? sum_recall / qcount : 0.0) << "\n";
 
     double tApproxAvg = qcount ? (sum_tApprox_ms / qcount) : 0.0;
     double tTrueAvg   = qcount ? (sum_tTrue_ms   / qcount) : 0.0;
