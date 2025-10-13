@@ -8,7 +8,7 @@ CXXFLAGS := -std=gnu++17 -O2 -Wall -Wextra
 # OBJS   := $(SRCS:.cpp=.o)
 
 TARGET := search
-SRCS   := search.cpp Euclidean_Hashing.cpp Data_loader.cpp ../bruteforce/BruteForceImplementation.cpp ../utils_functions/Euclidean_dist.cpp 
+SRCS   := search.cpp Euclidean_Hashing.cpp ../utils_functions/Data_loader.cpp ../bruteforce/BruteForceImplementation.cpp ../utils_functions/Euclidean_dist.cpp 
 OBJS   := $(SRCS:.cpp=.o)
 
 

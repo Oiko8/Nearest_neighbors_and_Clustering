@@ -3,7 +3,7 @@
 // SIFT  : ./search -d ../SIFT_data/input.dat -q ../SIFT_data/query.dat  -k 3 -L 8 -w 250.0 -N 5 -R 200 -type sift -range true
 
 #include "Euclidean_Hashing.h"
-#include "Data_loader.h"
+#include "../utils_functions/Data_loader.h"
 #include "../bruteforce/BruteForceImplementation.h"
 #include "../utils_functions/Euclidean_dist.h"
 #include <fstream>
