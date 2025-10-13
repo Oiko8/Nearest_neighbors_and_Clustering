@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include "Hypercube.h"
+#include "../bruteforce/BruteForceImplementation.h"
 
 using random_generator = mt19937_64;
 using namespace std;
@@ -46,7 +47,33 @@ int main() {
         cout << endl;
     }
 
-    cout << endl << Hypercube_table.size() << endl;
+    cout << endl << "Number of Vertices with points: ";
+    cout << Hypercube_table.size() << endl;
+
+    auto ids = cube_query_knn(points, points[0], /*N*/5, /*M*/100, /*probes*/12);
+    cout << "Query 0: "; 
+    for (auto id : ids) cout << id << " ";
+    cout << endl;
+
+    vector<double> q = points[0];
+    // Brute force
+    vector<pair<double,int>> all;
+    all = brute_force_search(points, q, 5);
+
+    vector<int> true_topN_ids;
+    true_topN_ids.reserve(all.size());
+    vector<double> true_topN_dists;
+    true_topN_dists.reserve(all.size());
+    for (auto& p : all) { 
+        true_topN_dists.push_back(p.first);
+        true_topN_ids.push_back(p.second); 
+    }
+    
+    cout << "Query 0: "; 
+    for (auto id : true_topN_ids) cout << id << " ";
+    cout << endl;
+
+
     return 0;
     
 }

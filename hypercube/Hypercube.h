@@ -13,6 +13,7 @@
 #include <unordered_set>
 #include <chrono>
 #include <queue>
+#include "../utils_functions/Euclidean_dist.h"
 
 /* ===================================== common definitions ====================================== */
 using namespace std;
@@ -23,7 +24,7 @@ using Table = unordered_map<string, vector<int>>;
 class Hash {
     public:
     Hash(double w, int dim);
-    int get_hash_id(vector<double>& p) const;
+    int get_hash_id(const vector<double>& p) const;
     
     private:
     vector<double> v_;
@@ -76,8 +77,26 @@ private:
 };
 
 
+/* ==================================== Build & Query API ======================================== */
+// build the hypercube table
+void build_hypercube(const vector<vector<double>> &pts, int kproj, double w, uint32_t seed = 1);
+
+// N-NN (ids in ascending distance); if candidates < N, returns smaller vector
+vector<int> cube_query_knn(const vector<vector<double>> &pts,
+                           const vector<double> &q,
+                           int N, int M, int probes);
+
+// Range search (ids with dist <= R)
+vector<int> cube_query_range(const vector<vector<double>> &pts,
+                             const vector<double> &q,
+                             double R, int M, int probes);
+
+
 /* =================================== Helper Function ========================================== */
-void build_hypercube(vector<vector<double>> &pts, int k, double w);
+// Compute the k-bit vertex for a point with current hash_functions/bit_function
+string vertex_for_point(const vector<double> &p);
+// Enumerate neighbor masks by increasing Hamming weight, clipped to 'probes'
+vector<uint32_t> neighbor_masks_in_hamming_order(int k, int probes);
 
 
 /* ======================== global variables ================================ */

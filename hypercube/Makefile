@@ -8,7 +8,7 @@ CXXFLAGS := -std=gnu++17 -O2 -Wall -Wextra
 # OBJS   := $(SRCS:.cpp=.o)
 
 TARGET := main
-SRCS   := main.cpp Hypercube.cpp
+SRCS   := main.cpp Hypercube.cpp ../bruteforce/BruteForceImplementation.cpp ../utils_functions/Euclidean_dist.cpp 
 OBJS   := $(SRCS:.cpp=.o)
 
 
