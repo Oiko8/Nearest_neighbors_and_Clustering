@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Hypercube.h"
 #include "../bruteforce/BruteForceImplementation.h"
+#include "../utils_functions/Data_loader.h"
 
 using random_generator = mt19937_64;
 using namespace std;
@@ -25,37 +26,49 @@ vector<vector<double>> generate_points(int n, int dim,
 
 
 int main() {
-    int n = 100;   // number of points
-    int dim = 4;  // dimension of points
-    double hi = 15.0;
-    double low = 3.0;
+    string input_file = "../MNIST_data/input.dat";
+    string query_file = "../MNIST_data/query.dat";
+    
+    // From the input file extract the data and transform the correct way
+    cout << "Loading dataset: " << input_file << endl;
+    vector<vector<double>> points = load_mnist_dataset(input_file);
+    cout << "Loaded " << points.size() << " images of dimension " << points.size() << endl;
 
-    vector<vector<double>> points = generate_points(n, dim, low, hi);
-    // vector<double> point = {2.3, 4.5, 3.4, 8.9};
+    cout << "*************************************************\n";
 
-    int k = 4;
-    double w = 3.0;
+    // From the query file extract the data and transform the correct way
+    cout << "Loading queries: " << query_file << endl;
+    vector<vector<double>> queries = load_mnist_dataset(query_file);
+    cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
+
+
+    // Normalize the vectors: 0-255 --> 0-1
+    for (auto &point : points){
+        for (double &dim : point) {
+            dim /= 255.0;
+        }
+    }
+    for (auto &query : queries){
+        for (double &dim : query) {
+            dim /= 255.0;
+        }
+    }
+
+    int k = 14;
+    double w = 8.0;
 
     build_hypercube(points, k, w); 
 
-    // Print
-    for (auto &pair : Hypercube_table) {
-        cout << pair.first << ": ";
-        for (int val : pair.second) {
-            cout << val << " ";
-        }
-        cout << endl;
-    }
 
     cout << endl << "Number of Vertices with points: ";
     cout << Hypercube_table.size() << endl;
-
-    auto ids = cube_query_knn(points, points[0], /*N*/5, /*M*/100, /*probes*/12);
+    
+    vector<double> q = queries[0];
+    auto ids = cube_query_knn(points, q, /*N*/5, /*M*/1000, /*probes*/100);
     cout << "Query 0: "; 
     for (auto id : ids) cout << id << " ";
     cout << endl;
 
-    vector<double> q = points[0];
     // Brute force
     vector<pair<double,int>> all;
     all = brute_force_search(points, q, 5);
