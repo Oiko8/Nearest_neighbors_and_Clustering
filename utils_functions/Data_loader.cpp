@@ -1,7 +1,7 @@
 #include "Data_loader.h"
 
 // load the mnist dataset
-vector<vector<double>> load_mnist_dataset(const string &filename) {
+vector<vector<float>> load_mnist_dataset(const string &filename) {
     ifstream f(filename, ios::binary);
     if (!f.is_open()) {
         cerr << "Error: cannot open " << filename << endl;
@@ -27,24 +27,24 @@ vector<vector<double>> load_mnist_dataset(const string &filename) {
     cols = swap32(cols);
 
     int dim = rows * cols;
-    vector<vector<double>> data(num_images, vector<double>(dim));
+    vector<vector<float>> data(num_images, vector<float>(dim));
 
     for (uint32_t i = 0; i < num_images; ++i) {
         for (int j = 0; j < dim; ++j) {
             unsigned char pixel;
             f.read(reinterpret_cast<char*>(&pixel), 1);
-            data[i][j] = static_cast<double>(pixel);
+            data[i][j] = static_cast<float>(pixel);
         }
     }
     return data;
 }
 
 // load the sift dataset
-vector<vector<double>> load_sift_dataset(const string& filename) {
+vector<vector<float>> load_sift_dataset(const string& filename) {
     ifstream f(filename, ios::binary);
     if (!f) { cerr << "Error: cannot open " << filename << "\n"; exit(1); }
 
-    vector<vector<double>> data;
+    vector<vector<float>> data;
     while (true) {
         uint32_t d;
         if (!f.read(reinterpret_cast<char*>(&d), 4)) break;         // EOF cleanly
@@ -59,8 +59,8 @@ vector<vector<double>> load_sift_dataset(const string& filename) {
             cerr << "Truncated file while reading vector\n";
             break;
         }
-        vector<double> v(d);
-        for (uint32_t i = 0; i < d; ++i) v[i] = static_cast<double>(buf_f[i]);
+        vector<float> v(d);
+        for (uint32_t i = 0; i < d; ++i) v[i] = buf_f[i];
         data.emplace_back(std::move(v));
     }
     return data;

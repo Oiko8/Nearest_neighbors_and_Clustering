@@ -5,4 +5,4 @@
 
 using namespace std;
 
-vector <pair<double,int>> brute_force_search(const vector<vector<double>> &pts, vector<double> q, int N);
+vector <pair<float,int>> brute_force_search(const vector<vector<float>> &pts, vector<float> q, int N);

@@ -2,4 +2,4 @@
 #include <cmath>
 using namespace std;
 
-double euclidean_distance(const vector<double> &p1, const vector<double> &p2);
+float euclidean_distance(const vector<float> &p1, const vector<float> &p2);
