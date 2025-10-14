@@ -9,7 +9,7 @@
 #include <fstream>
 
 using clock_type = std::chrono::steady_clock;
-using ms = std::chrono::duration<double, std::milli>;
+using ms = std::chrono::duration<float, std::milli>;
 
 struct Args {
     string data_path;         // -d
@@ -18,8 +18,8 @@ struct Args {
     int k = 1;                // -N
     int L = 5;                // -L
     int khash = 4;            // -k
-    double w = 4.0;           // -w
-    double R = 2000.0;        // -R (MNIST default)
+    float w = 4.0;           // -w
+    float R = 2000.0;        // -R (MNIST default)
     bool range = false;       // -range (if there will be a range search)
 };
 
@@ -56,8 +56,8 @@ Args parse_args(int argc, char** argv){
 
 
 void search_in_dataset(Args args , string type){
-    vector<vector<double>> pts;
-    vector<vector<double>> queries;
+    vector<vector<float>> pts;
+    vector<vector<float>> queries;
     if (type == "mnist"){
         // From the input file extract the data and transform the correct way
         string input_file = args.data_path;
@@ -75,12 +75,12 @@ void search_in_dataset(Args args , string type){
     
         // Normalize the vectors: 0-255 --> 0-1
         for (auto &point : pts){
-            for (double &dim : point) {
+            for (float &dim : point) {
                 dim /= 255.0;
             }
         }
         for (auto &query : queries){
-            for (double &dim : query) {
+            for (float &dim : query) {
                 dim /= 255.0;
             }
         }
@@ -102,20 +102,20 @@ void search_in_dataset(Args args , string type){
     }
 
     int L = args.L, khash = args.khash, N = args.k;
-    double w = args.w;
+    float w = args.w;
     
     // Prepare the tables according to the data
     build_hash_tables(pts, L, khash, w);
 
 
-    vector<double> q;
+    vector<float> q;
 
-    double sum_AF = 0.0;
+    float sum_AF = 0.0;
     int qcount = 0;
     int hits_at_N = 0;                 // Recall@N counter
-    double sum_recall = 0.0;           // to calculate the average recall
-    double sum_tApprox_ms = 0.0;       // sum of the time for the approx search
-    double sum_tTrue_ms   = 0.0;       // sum of the time for the true search 
+    float sum_recall = 0.0;           // to calculate the average recall
+    float sum_tApprox_ms = 0.0;       // sum of the time for the approx search
+    float sum_tTrue_ms   = 0.0;       // sum of the time for the true search 
  
     // check the first 10 queries
     for (int i=0 ; i<100; i++){
@@ -130,10 +130,10 @@ void search_in_dataset(Args args , string type){
         auto t0 = clock_type::now();
         vector<int> nn_idx = query_knn(pts, q, N);
         auto t1 = clock_type::now();
-        double approx_search_time = chrono::duration_cast<ms>(t1-t0).count();
+        float approx_search_time = chrono::duration_cast<ms>(t1-t0).count();
 
         // Compute distances for the approx list (in the same order)
-        vector<double> approx_dists; approx_dists.reserve(nn_idx.size());
+        vector<float> approx_dists; approx_dists.reserve(nn_idx.size());
         for (int id : nn_idx) {
             approx_dists.push_back(euclidean_distance(pts[id], q));
         }
@@ -142,15 +142,15 @@ void search_in_dataset(Args args , string type){
         // ============= Search with brute force and the time needed ===========
         t0 = clock_type::now();
         // collect the distances for all the queries and get the N top
-        vector<pair<double,int>> all;
+        vector<pair<float,int>> all;
         all = brute_force_search(pts, q, N);
 
         t1 = clock_type::now();
-        double true_search_time = chrono::duration_cast<ms>(t1 - t0).count();
+        float true_search_time = chrono::duration_cast<ms>(t1 - t0).count();
 
         vector<int> true_topN_ids;
         true_topN_ids.reserve(all.size());
-        vector<double> true_topN_dists;
+        vector<float> true_topN_dists;
         true_topN_dists.reserve(all.size());
         for (auto& p : all) { 
             true_topN_dists.push_back(p.first);
@@ -162,7 +162,7 @@ void search_in_dataset(Args args , string type){
         // =====================================================================
         vector<int> in_range_idx;
         if (args.range == true){
-            double R = args.R;
+            float R = args.R;
             vector<int> in_range_idx = range_search(pts, q, R);         
         }
 
@@ -182,13 +182,13 @@ void search_in_dataset(Args args , string type){
             }
         }
 
-        double recall = static_cast<double>(hits_at_N) / N;
+        float recall = static_cast<float>(hits_at_N) / N;
         sum_recall += recall;
 
 
         // ======================= Approximation Fraction =====================
-        double min_approx_dist = *min_element(approx_dists.begin(), approx_dists.end());
-        double AF = min_approx_dist / true_topN_dists[0];
+        float min_approx_dist = *min_element(approx_dists.begin(), approx_dists.end());
+        float AF = min_approx_dist / true_topN_dists[0];
         sum_AF += AF;
         sum_tApprox_ms += approx_search_time;
         sum_tTrue_ms   += true_search_time;
@@ -205,7 +205,7 @@ void search_in_dataset(Args args , string type){
             cout << "Nearest neighbor-" << (i+1) << ": " << nn_idx[i] << "\n";
             cout << "distanceApproximate: " << approx_dists[i] << "\n";
             // If we have fewer true items than i+1 (shouldn’t happen), clamp
-            double dtrue_i = true_topN_dists[ min(i, (int)true_topN_dists.size()-1) ];
+            float dtrue_i = true_topN_dists[ min(i, (int)true_topN_dists.size()-1) ];
             cout << "distanceTrue: " << dtrue_i << "\n";
         }
         
@@ -222,18 +222,18 @@ void search_in_dataset(Args args , string type){
     cout << "Average AF: " << (qcount ? (sum_AF / qcount) : 0.0) << "\n";
     cout << "Recall@N: "   << (qcount ? sum_recall / qcount : 0.0) << "\n";
 
-    double tApproxAvg = qcount ? (sum_tApprox_ms / qcount) : 0.0;
-    double tTrueAvg   = qcount ? (sum_tTrue_ms   / qcount) : 0.0;
+    float tApproxAvg = qcount ? (sum_tApprox_ms / qcount) : 0.0;
+    float tTrueAvg   = qcount ? (sum_tTrue_ms   / qcount) : 0.0;
     cout << "QPS: " << (sum_tApprox_ms > 0.0 ? (qcount / (sum_tApprox_ms / 1000.0)) : 0.0) << "\n";
     cout << "tApproximateAverage: " << tApproxAvg << "\n";
     cout << "tTrueAverage: "        << tTrueAvg   << "\n";
 }
 
 
-//$./search –d <input file> –q <query file> –k <int> -L <int> -w <double> -ο <output file> -Ν <number of nearest> -R <radius> 
+//$./search –d <input file> –q <query file> –k <int> -L <int> -w <float> -ο <output file> -Ν <number of nearest> -R <radius> 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        cerr << "Usage: " << argv[0] << " -d <input file> -q <query file> -k <int> -L <int> -w <double>" 
+        cerr << "Usage: " << argv[0] << " -d <input file> -q <query file> -k <int> -L <int> -w <float>" 
                                      << " -o <output file> -N <number of nearest> -R <radius> " << endl;
         return 1;
     }

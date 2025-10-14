@@ -25,20 +25,20 @@ using Table = unordered_map<int, vector<int>>;
 /* ============================== hash class ================================ */
 class Hash {
     public:
-    Hash(double w, int dim);
-    int get_hash_id(vector<double>& p) const;
+    Hash(float w, int dim);
+    int get_hash_id(vector<float>& p) const;
     
     private:
-    vector<double> v_;
-    double t_;
-    double w_;
+    vector<float> v_;
+    float t_;
+    float w_;
     int dim_;
     
     // helpers (declared here, defined in .cpp)
-    vector<double> vec_d();
-    static double normal_distribution_generator();
-    static double generate_t(double w);
-    static double dot(const vector<double>& v, const vector<double>& p);
+    vector<float> vec_d();
+    static float normal_distribution_generator();
+    static float generate_t(float w);
+    static float dot(const vector<float>& v, const vector<float>& p);
 };
 
 
@@ -46,9 +46,9 @@ class Hash {
 class AmplifiedHash {
     public:
     AmplifiedHash() = default;
-    AmplifiedHash(int k, double w, int tableSize, int dim);
-    int get_amplified_id(vector<double>& p) const;
-    int get_point_id(vector<double>& p) const;
+    AmplifiedHash(int k, float w, int tableSize, int dim);
+    int get_amplified_id(vector<float>& p) const;
+    int get_point_id(vector<float>& p) const;
     int getTableSize() const;
     
     private:
@@ -66,10 +66,10 @@ class AmplifiedHash {
 
 
 /* ========================= helper functions =============================== */
-void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w);
-vector<int> collect_possible_nn(const vector<double> &q);
-vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k);
-vector<int> range_search(const vector<vector<double>> &pts, vector<double> &q, double R);
+void build_hash_tables(vector<vector<float>> &pts, int L, int khash, float w);
+vector<int> collect_possible_nn(const vector<float> &q);
+vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k);
+vector<int> range_search(const vector<vector<float>> &pts, vector<float> &q, float R);
 
 
 
