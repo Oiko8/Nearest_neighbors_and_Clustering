@@ -9,6 +9,9 @@
 #include <cmath>         // sqrt
 #include <cstdlib>       // exit
 
+using clock_type = std::chrono::high_resolution_clock;
+using ms = std::chrono::milliseconds;
+
 // ===== parse args struct =====
 struct Args {
     std::string method = "ivfflat"; // default, dinoume -method ivfflat
@@ -16,7 +19,7 @@ struct Args {
     std::string query_path;         // -q <path> (queries)
     std::string type = "mnist";     // -type mnist|sift
     int N = 5;                      // -N number of neighbors pou theloume
-    int C = 50;                    // -C clusters (kmeans clusters)
+    int kclusters = 50;                    // -kclusters (kmeans clusters)
     int nprobe = 5;                 // -nprobe poses listes tha anazhtisoume
     double R = -1.0;                // -R radius (optional)
     unsigned seed = 1;              // -seed gia kmeans
@@ -33,7 +36,7 @@ Args parse_args(int argc, char** argv) {
         else if (f == "-q") { need(1); a.query_path = argv[++i]; }   // diavase -q queries path
         else if (f == "-type") { need(1); a.type = argv[++i]; }      // diavase -type (mnist/sift)
         else if (f == "-N") { need(1); a.N = std::stoi(argv[++i]); } // -N number of neighbors
-        else if (f == "-C") { need(1); a.C = std::stoi(argv[++i]); }// -C clusters
+        else if (f == "-kclusters") { need(1); a.kclusters = std::stoi(argv[++i]); }// -kclusters clusters
         else if (f == "-nprobe") { need(1); a.nprobe = std::stoi(argv[++i]); } // -nprobe
         else if (f == "-R") { need(1); a.R = std::stod(argv[++i]); }  // -R radius
         else if (f == "-seed") { need(1); a.seed = static_cast<unsigned>(std::stoul(argv[++i])); } // -seed
@@ -103,10 +106,10 @@ int main(int argc, char** argv) {
     std::cout << "Query vectors:   n=" << queries.n << "  d=" << queries.d << std::endl;
 
     // train IVFFlat
-    std::cout << "Training IVFFlat with C=" << args.C << "  seed=" << args.seed << " ...\n";
+    std::cout << "Training IVFFlat with C=" << args.kclusters << "  seed=" << args.seed << " ...\n";
     IVFFlat index;
-    index.train_and_index(base, static_cast<size_t>(args.C), args.seed);
-    std::cout << "Index built. Number of lists (clusters): " << args.C << "\n";
+    index.train_and_index(base, static_cast<size_t>(args.kclusters), args.seed);
+    std::cout << "Index built. Number of lists (clusters): " << args.kclusters << "\n";
 
     // initialize metrics
     int maxQ = std::min((size_t)100, queries.n); // teleutaia: kai epilogh gia #queries

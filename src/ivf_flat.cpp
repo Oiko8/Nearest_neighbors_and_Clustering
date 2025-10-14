@@ -1,21 +1,29 @@
 #include "ivf_flat.h"
 #include "kmeans.h"
 #include "euclid.h"
+#include <iostream>
 #include <queue>
 #include <functional>
 #include <algorithm>
+#include <cassert>
 
 void IVFFlat::train_and_index(const Dataset &ds, size_t kclusters_, unsigned seed){
     kclusters = kclusters_;
     d = ds.d;
     centroids = KMeans::train(ds, kclusters, seed);
+    assert(centroids.size() == kclusters*d);
     lists.assign(kclusters, {});
     // assign points
-    std::vector<uint32_t> assign;
+    std::vector<uint32_t> assign(ds.n);
     KMeans::assign_all(ds, centroids, assign);
+    // ME DEBUG //
     for(size_t i=0;i<ds.n;i++){
-        lists[ assign[i] ].push_back((uint32_t)i);
+    if(assign[i] < kclusters){
+        std::cerr << "Error: assignment out of bounds! i=" << i << " assign[i]=" << assign[i] << " kclusters=" << kclusters << "\n";
     }
+    assert(assign[i] < kclusters);
+    lists[ assign[i] ].push_back((uint32_t)i);
+}
 }
 
 // return top-N pairs (id, dist)
@@ -34,8 +42,14 @@ std::vector<std::pair<uint32_t, float>> IVFFlat::search(const float* q, const Da
     using PI = std::pair<float, uint32_t>;
     std::priority_queue<PI> heap;
 
+    // ME DEBUG //
     for(size_t p : probe_idxs){
-        for(uint32_t id : lists[p]){
+    assert(p < lists.size());
+    for(uint32_t id : lists[p]){
+        if(id >= ds.n){
+            std::cerr << "Error: id out of bounds! id=" << id << " ds.n=" << ds.n << "\n";
+        }
+        assert(id < ds.n);
             float dist = eucliddistance(q, ds.row(id), d);
             if(R>0 && dist > R*R) continue;
             if(heap.size() < N) heap.emplace(dist, id);
