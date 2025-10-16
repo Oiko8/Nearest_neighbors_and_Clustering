@@ -100,6 +100,7 @@ vector<int> range_search(const vector<vector<float>> &pts, vector<float> &q, flo
             if (dist < R){
                 pts_idx_in_range.push_back(id);
             }
+            
         }        
     }
 

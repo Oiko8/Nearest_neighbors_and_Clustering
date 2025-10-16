@@ -15,6 +15,7 @@ struct Args {
     string data_path;         // -d
     string query_path;        // -q (optional)
     string type = "mnist";    // -type mnist|sift
+    string algorithm;         // which algorithm we use
     int k = 1;                // -N
     int L = 5;                // -L
     int khash = 4;            // -k
@@ -163,8 +164,9 @@ void search_in_dataset(Args args , string type){
         vector<int> in_range_idx;
         if (args.range == true){
             float R = args.R;
-            vector<int> in_range_idx = range_search(pts, q, R);         
+            in_range_idx = range_search(pts, q, R);         
         }
+
 
 
         // =====================================================================
