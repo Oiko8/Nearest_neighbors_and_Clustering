@@ -3,7 +3,7 @@
 /*=================================== Global definitions =========================================*/
 random_generator gen(42);
 vector<Hash> hash_functions;
-BitMapper bit_function(0);
+vector<BitMapper> bit_functions;
 Table Hypercube_table;
 
 
@@ -11,14 +11,14 @@ Table Hypercube_table;
 /* ================================== Hash Class Implementation ================================== */
 /* =============================================================================================== */
 
-Hash::Hash(double w, int dim) {
+Hash::Hash(float w, int dim) {
     w_ = w;
     dim_ = dim;
     t_ = generate_t(w_);
     v_ = vec_d();
 } 
     
-int Hash::get_hash_id(const vector<double>& p) const {
+int Hash::get_hash_id(const vector<float>& p) const {
     int h = static_cast<int>(floor((dot(v_, p) + t_) / w_));
     return h;
 }
@@ -26,8 +26,8 @@ int Hash::get_hash_id(const vector<double>& p) const {
 /* ======================= Helper functions ============================ */
 /* ========= Creating a 2-vector with normal disrtibution ============== */
 
-vector<double> Hash::vec_d(){
-    vector<double> v(dim_);
+vector<float> Hash::vec_d(){
+    vector<float> v(dim_);
     for (int i=0 ; i < dim_ ; i++){
         v[i] = normal_distribution_generator();
     }
@@ -35,20 +35,20 @@ vector<double> Hash::vec_d(){
 }
 
 /* ========= return a point with normal distribution =================== */
-double Hash::normal_distribution_generator(){
-    normal_distribution<double> dist(0.0, 1.0);
+float Hash::normal_distribution_generator(){
+    normal_distribution<float> dist(0.0, 1.0);
     return dist(gen);
 }
 
 /* ========== generate a small disturbance t =========================== */
-double Hash::generate_t(double w) {
+float Hash::generate_t(float w) {
     // keep your original definition (Uniform[0, w])
-    uniform_real_distribution<double> dist(0.0, w);
+    uniform_real_distribution<float> dist(0.0, w);
     return dist(gen);
 }
 
-double Hash::dot(const vector<double>& v, const vector<double>& p){
-    double dot_product = 0.0;
+float Hash::dot(const vector<float>& v, const vector<float>& p){
+    float dot_product = 0.0;
     int size = v.size();
     for (int i=0 ; i < size ; i++){
         dot_product += v[i]*p[i];
@@ -78,26 +78,28 @@ BitMapper::BitMapper(int k, uint32_t seed)
 /* ===================================== Build the hypercude ===================================== */
 /* =============================================================================================== */
 
-void build_hypercube(const vector<vector<double>> &pts, int k, double w, uint32_t seed){
+void build_hypercube(const vector<vector<float>> &pts, int k, float w, uint32_t seed){
     int dim = static_cast<int>(pts[0].size());
 
     // (re)seed global RNG and reset state for rebuilds
     gen.seed(seed);
     hash_functions.clear();
     Hypercube_table.clear();
+    bit_functions.clear();
 
     for (int i = 0 ; i < k ; i++) {
         Hash new_h(w, dim);
         hash_functions.push_back(new_h);
+
+        bit_functions.emplace_back(1, seed + i);
     }
 
-    bit_function = BitMapper(k, seed);
 
     for (int idx = 0 ; idx < static_cast<int>(pts.size()) ; idx++) {
         string vertex = "";
         for (int i = 0 ; i < k ; i++) {
             int h_id = hash_functions[i].get_hash_id(pts[idx]);
-            auto bit = bit_function.bit_for(i, h_id);
+            auto bit = bit_functions[i].bit_for(0, h_id);
             vertex += (bit ? "1" : "0");
         }
         Hypercube_table[vertex].push_back(idx);
@@ -112,13 +114,13 @@ void build_hypercube(const vector<vector<double>> &pts, int k, double w, uint32_
 
 /* ============================== Helper: compute a vertex for a query =====================================  */
 
-string vertex_for_point(const vector<double> &p){
-    int k = bit_function.bits();
+string vertex_for_point(const vector<float> &p){
+    int k = (int)bit_functions.size();
     string v;
     v.reserve(k);
     for (int i = 0; i < k; ++i){
         int h_id = hash_functions[i].get_hash_id(p);
-        uint32_t b = bit_function.bit_for(i, h_id);
+        uint32_t b = bit_functions[i].bit_for(0, h_id);
         v += (b ? '1' : '0');
     }
     return v;
@@ -147,6 +149,27 @@ vector<uint32_t> neighbor_masks_in_hamming_order(int k, int probes){
     return masks; // includes 0 mask first
 }
 
+vector<uint32_t> neighbor_masks_within_radius(int k, int radius){
+    vector<uint32_t> masks;
+    if (k <= 0) return masks;
+    if (radius < 0) return masks;
+    if (radius > k) radius = k;
+
+    const uint32_t limit = (k >= 32) ? 0xFFFFFFFFu : ((1u << k) - 1u);
+    // light hint to avoid massive pre-reserve for large k
+    if (k <= 20) masks.reserve(1u << k);
+
+    for (int w = 0; w <= radius; ++w){
+        for (uint32_t m = 0; m <= limit; ++m){
+            if (popcount32(m) == w){
+                masks.push_back(m);
+            }
+        }
+    }
+    return masks;
+}
+
+
 static inline void flip_in_place(string &v, uint32_t mask){
     int k = static_cast<int>(v.size());
     for (int j = 0; j < k; ++j){
@@ -162,48 +185,135 @@ static inline string xor_vertex_with_mask(const string &v, uint32_t mask){
     return out;
 }
 
+long long vertices_within_radius(int k, int r) {
+    if (k <= 0 || r < 0) return 0;
+    if (r > k) r = k;
+    long long sum = 0, C = 1; // C(k,0)
+    for (int i = 0; i <= r; ++i) {
+        if (i > 0) C = C * (k - (i - 1)) / i;
+        sum += C;
+    }
+    return sum;
+}
+
+// Build best-first mask list up to 'probes' by bucket size.
+// Order: weight 0 (the base), then best Hamming-1 by bucket size,
+// then (if needed) best Hamming-2 ranked by estimated size.
+vector<uint32_t> neighbor_masks_top_by_bucket(const string& base, int k, int probes){
+    vector<uint32_t> out;
+    out.reserve(probes);
+    if (probes <= 0) return out;
+
+    // always include base (mask 0)
+    out.push_back(0u);
+    if ((int)out.size() >= probes) return out;
+
+    struct Item { uint32_t mask; size_t score; };
+    // Hamming-1
+    vector<Item> w1;
+    w1.reserve(k);
+    for (int j = 0; j < k; ++j){
+        uint32_t m = (1u << j);
+        string v1 = xor_vertex_with_mask(base, m);
+        size_t sz = 0;
+        auto it = Hypercube_table.find(v1);
+        if (it != Hypercube_table.end()) sz = it->second.size();
+        w1.push_back({m, sz});
+    }
+    sort(w1.begin(), w1.end(), [](const Item& a, const Item& b){ return a.score > b.score; });
+
+    for (auto &it : w1){
+        if ((int)out.size() >= probes) break;
+        out.push_back(it.mask);
+    }
+    if ((int)out.size() >= probes) return out;
+
+    // Hamming-2 (choose top pairs from the strongest w1 entries)
+    vector<Item> w2;
+    int top1 = min(k, max(2, probes)); // small cap guided by probes
+    for (int a = 0; a < top1; ++a){
+        for (int b = a + 1; b < top1; ++b){
+            uint32_t m = w1[a].mask | w1[b].mask;
+            // estimate: product (or min) of the two singles
+            size_t score = (size_t)w1[a].score * (size_t)w1[b].score;
+            w2.push_back({m, score});
+        }
+    }
+    sort(w2.begin(), w2.end(), [](const Item& A, const Item& B){ return A.score > B.score; });
+    for (auto &it : w2){
+        if ((int)out.size() >= probes) break;
+        out.push_back(it.mask);
+    }
+    return out;
+}
+
 
 /* =============================== Candidate gathering ============================================ */
-static vector<int> gather_candidates(const vector<double> &q,
-                                     int M, int probes)
+
+static vector<int> gather_candidates(const vector<vector<float>> &pts,
+                                     const vector<float> &q,
+                                     int M_per_vertex, int probes)
 {
     vector<int> cand;
-    cand.reserve(M);
+    cand.reserve(M_per_vertex * max(1, probes));
     unordered_set<int> seen;
 
     const string base = vertex_for_point(q);
-    const int k = bit_function.bits();
+    const int k = (int)bit_functions.size();
 
-    vector<uint32_t> masks = neighbor_masks_in_hamming_order(k, probes);
+    // size-guided neighbors (probes = count to visit)
+    vector<uint32_t> masks = neighbor_masks_top_by_bucket(base, k, probes);
 
     for (uint32_t m : masks){
-        if ((int)cand.size() >= M) break;
         string vtx = xor_vertex_with_mask(base, m);
         auto it = Hypercube_table.find(vtx);
         if (it == Hypercube_table.end()) continue;
-        for (int id : it->second){
-            if ((int)cand.size() >= M) break;
-            if (seen.insert(id).second){
-                cand.push_back(id);
+
+        // select closest M_per_vertex inside this bucket
+        const auto& bucket = it->second;
+        vector<pair<float,int>> local;
+        local.reserve(bucket.size());
+        for (int id : bucket){
+            if (seen.find(id) != seen.end()) continue;
+            float d = euclidean_distance(q, pts[id]);
+            local.emplace_back(d, id);
+        }
+        if (local.empty()) continue;
+
+        if ((int)local.size() > M_per_vertex){
+            nth_element(local.begin(), local.begin() + M_per_vertex, local.end(),
+                        [](const auto& a, const auto& b){ return a.first < b.first; });
+            local.resize(M_per_vertex);
+            sort(local.begin(), local.end(),
+                 [](const auto& a, const auto& b){ return a.first < b.first; });
+        } else {
+            sort(local.begin(), local.end(),
+                 [](const auto& a, const auto& b){ return a.first < b.first; });
+        }
+
+        for (auto &p : local){
+            if (seen.insert(p.second).second){
+                cand.push_back(p.second);
             }
         }
     }
     return cand;
 }
 
+
 /* ========================================= KNN query ============================================ */
-vector<int> cube_query_knn(const vector<vector<double>> &pts,
-                           const vector<double> &q,
+vector<int> cube_query_knn(const vector<vector<float>> &pts,
+                           const vector<float> &q,
                            int N, int M, int probes)
 {
-    vector<int> cand = gather_candidates(q, M, probes);
+    vector<int> cand = gather_candidates(pts, q, M, probes);
     if (cand.empty()) return {};
 
     // max-heap of (dist, id); keep only best N
-    priority_queue<pair<double,int>> heap;
+    priority_queue<pair<float,int>> heap;
 
     for (int id : cand){
-        double d = euclidean_distance(q, pts[id]);
+        float d = euclidean_distance(q, pts[id]);
         if ((int)heap.size() < N){
             heap.emplace(d, id);
         } else if (d < heap.top().first){
@@ -213,7 +323,7 @@ vector<int> cube_query_knn(const vector<vector<double>> &pts,
     }
 
     // extract in ascending distance
-    vector<pair<double,int>> tmp;
+    vector<pair<float,int>> tmp;
     tmp.reserve(heap.size());
     while (!heap.empty()){
         tmp.push_back(heap.top());
@@ -230,11 +340,11 @@ vector<int> cube_query_knn(const vector<vector<double>> &pts,
 }
 
 /* ======================================== Range query =========================================== */
-vector<int> cube_query_range(const vector<vector<double>> &pts,
-                             const vector<double> &q,
-                             double R, int M, int probes)
+vector<int> cube_query_range(const vector<vector<float>> &pts,
+                             const vector<float> &q,
+                             float R, int M, int probes)
 {
-    vector<int> cand = gather_candidates(q, M, probes);
+    vector<int> cand = gather_candidates(pts, q, M, probes);
     vector<int> inside;
     inside.reserve(cand.size());
     for (int id : cand){

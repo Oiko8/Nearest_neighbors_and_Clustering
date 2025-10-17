@@ -13,6 +13,7 @@
 #include <unordered_set>
 #include <chrono>
 #include <queue>
+#include <climits>
 #include "../utils_functions/Euclidean_dist.h"
 
 /* ===================================== common definitions ====================================== */
@@ -23,20 +24,20 @@ using Table = unordered_map<string, vector<int>>;
 /* ======================================== hash class =========================================== */
 class Hash {
     public:
-    Hash(double w, int dim);
-    int get_hash_id(const vector<double>& p) const;
+    Hash(float w, int dim);
+    int get_hash_id(const vector<float>& p) const;
     
     private:
-    vector<double> v_;
-    double t_;
-    double w_;
+    vector<float> v_;
+    float t_;
+    float w_;
     int dim_;
     
     // helpers (declared here, defined in .cpp)
-    vector<double> vec_d();
-    static double normal_distribution_generator();
-    static double generate_t(double w);
-    static double dot(const vector<double>& v, const vector<double>& p);
+    vector<float> vec_d();
+    static float normal_distribution_generator();
+    static float generate_t(float w);
+    static float dot(const vector<float>& v, const vector<float>& p);
 };
 
 
@@ -79,29 +80,31 @@ private:
 
 /* ==================================== Build & Query API ======================================== */
 // build the hypercube table
-void build_hypercube(const vector<vector<double>> &pts, int kproj, double w, uint32_t seed = 1);
+void build_hypercube(const vector<vector<float>> &pts, int kproj, float w, uint32_t seed = 1);
 
-// N-NN (ids in ascending distance); if candidates < N, returns smaller vector
-vector<int> cube_query_knn(const vector<vector<double>> &pts,
-                           const vector<double> &q,
-                           int N, int M, int probes);
-
-// Range search (ids with dist <= R)
-vector<int> cube_query_range(const vector<vector<double>> &pts,
-                             const vector<double> &q,
-                             double R, int M, int probes);
+// KNN / Range (M = per-vertex; probes = count of vertices to visit)
+vector<int> cube_query_knn(const vector<vector<float>> &pts, const vector<float> &q, int N, int M, int probes);
+vector<int> cube_query_range(const vector<vector<float>> &pts, const vector<float> &q, float R, int M, int probes);
 
 
 /* =================================== Helper Function ========================================== */
 // Compute the k-bit vertex for a point with current hash_functions/bit_function
-string vertex_for_point(const vector<double> &p);
-// Enumerate neighbor masks by increasing Hamming weight, clipped to 'probes'
-vector<uint32_t> neighbor_masks_in_hamming_order(int k, int probes);
+string vertex_for_point(const vector<float> &p);
+
+// Enumerate all masks with Hamming weight <= radius, in increasing weight
+vector<uint32_t> neighbor_masks_within_radius(int k, int radius);
+
+// Count how many vertices exist within Hamming radius r
+long long vertices_within_radius(int k, int r);
+
+// Enumerate up to 'probes' masks prioritized by bucket size around 'base'
+vector<uint32_t> neighbor_masks_top_by_bucket(const string& base, int k, int probes);
+
 
 
 /* ======================== global variables ================================ */
 extern vector<Hash> hash_functions;
-extern BitMapper bit_function;
+extern vector<BitMapper> bit_functions;
 extern Table Hypercube_table;
 
 #endif
