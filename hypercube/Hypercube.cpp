@@ -1,24 +1,24 @@
 #include "Hypercube.h"
 
 /*=================================== Global definitions =========================================*/
-random_generator gen(42);
-vector<Hash> hash_functions;
+random_generator gen_hc(42);
+vector<Hash_hc> hash_functions_hc;
 vector<BitMapper> bit_functions;
 Table Hypercube_table;
 
 
 /* =============================================================================================== */
-/* ================================== Hash Class Implementation ================================== */
+/* ================================== Hash_hc Class Implementation ================================== */
 /* =============================================================================================== */
 
-Hash::Hash(float w, int dim) {
+Hash_hc::Hash_hc(float w, int dim) {
     w_ = w;
     dim_ = dim;
     t_ = generate_t(w_);
     v_ = vec_d();
 } 
     
-int Hash::get_hash_id(const vector<float>& p) const {
+int Hash_hc::get_hash_id(const vector<float>& p) const {
     int h = static_cast<int>(floor((dot(v_, p) + t_) / w_));
     return h;
 }
@@ -26,7 +26,7 @@ int Hash::get_hash_id(const vector<float>& p) const {
 /* ======================= Helper functions ============================ */
 /* ========= Creating a 2-vector with normal disrtibution ============== */
 
-vector<float> Hash::vec_d(){
+vector<float> Hash_hc::vec_d(){
     vector<float> v(dim_);
     for (int i=0 ; i < dim_ ; i++){
         v[i] = normal_distribution_generator();
@@ -35,19 +35,19 @@ vector<float> Hash::vec_d(){
 }
 
 /* ========= return a point with normal distribution =================== */
-float Hash::normal_distribution_generator(){
+float Hash_hc::normal_distribution_generator(){
     normal_distribution<float> dist(0.0, 1.0);
-    return dist(gen);
+    return dist(gen_hc);
 }
 
 /* ========== generate a small disturbance t =========================== */
-float Hash::generate_t(float w) {
+float Hash_hc::generate_t(float w) {
     // keep your original definition (Uniform[0, w])
     uniform_real_distribution<float> dist(0.0, w);
-    return dist(gen);
+    return dist(gen_hc);
 }
 
-float Hash::dot(const vector<float>& v, const vector<float>& p){
+float Hash_hc::dot(const vector<float>& v, const vector<float>& p){
     float dot_product = 0.0;
     int size = v.size();
     for (int i=0 ; i < size ; i++){
@@ -82,14 +82,16 @@ void build_hypercube(const vector<vector<float>> &pts, int k, float w, uint32_t 
     int dim = static_cast<int>(pts[0].size());
 
     // (re)seed global RNG and reset state for rebuilds
-    gen.seed(seed);
-    hash_functions.clear();
+    gen_hc.seed(seed);
+    hash_functions_hc
+.clear();
     Hypercube_table.clear();
     bit_functions.clear();
 
     for (int i = 0 ; i < k ; i++) {
-        Hash new_h(w, dim);
-        hash_functions.push_back(new_h);
+        Hash_hc new_h(w, dim);
+        hash_functions_hc
+    .push_back(new_h);
 
         bit_functions.emplace_back(1, seed + i);
     }
@@ -98,7 +100,8 @@ void build_hypercube(const vector<vector<float>> &pts, int k, float w, uint32_t 
     for (int idx = 0 ; idx < static_cast<int>(pts.size()) ; idx++) {
         string vertex = "";
         for (int i = 0 ; i < k ; i++) {
-            int h_id = hash_functions[i].get_hash_id(pts[idx]);
+            int h_id = hash_functions_hc
+        [i].get_hash_id(pts[idx]);
             auto bit = bit_functions[i].bit_for(0, h_id);
             vertex += (bit ? "1" : "0");
         }
@@ -119,7 +122,8 @@ string vertex_for_point(const vector<float> &p){
     string v;
     v.reserve(k);
     for (int i = 0; i < k; ++i){
-        int h_id = hash_functions[i].get_hash_id(p);
+        int h_id = hash_functions_hc
+    [i].get_hash_id(p);
         uint32_t b = bit_functions[i].bit_for(0, h_id);
         v += (b ? '1' : '0');
     }

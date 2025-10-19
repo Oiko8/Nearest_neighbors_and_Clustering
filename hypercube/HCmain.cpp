@@ -1,8 +1,6 @@
 // Usage : 
-// MNIST : ./search -d ../MNIST_data/input.dat -q ../MNIST_data/query.dat -k 3 -L 12 -w 6.0 -N 5 -R 5 -type mnist -range true
-// SIFT  : ./search -d ../SIFT_data/input.dat -q ../SIFT_data/query.dat  -k 3 -L 8 -w 250.0 -N 5 -R 200 -type sift -range true
-
-#include "Euclidean_Hashing.h"
+// MNIST : ./main -d ../MNIST_data/input.dat -q ../MNIST_data/query.dat -kproj 10 -w 10.0 -M 20 -probes 8 -N 4 -R 5.0 -type mnist -range false
+#include "Hypercube.h"
 #include "../utils_functions/Data_loader.h"
 #include "../bruteforce/BruteForceImplementation.h"
 #include "../utils_functions/Euclidean_dist.h"
@@ -17,18 +15,19 @@ struct Args {
     string type = "mnist";    // -type mnist|sift
     string algorithm;         // which algorithm we use
     int k = 1;                // -N
-    int L = 5;                // -L
-    int khash = 4;            // -k
+    int kproj = 14;           // -kproj
+    int M = 5;                // -M (per-vertex or total depending on config)
+    int probes = 4;           // -probes (number of vertices to visit)
     float w = 4.0;           // -w
     float R = 2000.0;        // -R (MNIST default)
     bool range = false;       // -range (if there will be a range search)
 };
 
-bool str2bool(const string& s){
+static bool str2bool(const string& s){
     return (s=="1"||s=="true"||s=="True"||s=="TRUE");
 }
 
-Args parse_args(int argc, char** argv){
+static Args parse_args(int argc, char** argv){
     Args a;
     for (int i=1; i<argc; ++i){
         string flag = argv[i];
@@ -37,26 +36,25 @@ Args parse_args(int argc, char** argv){
         else if (flag=="-q") { need(1); a.query_path=argv[++i]; }
         else if (flag=="-type"){ need(1); a.type=argv[++i]; }
         else if (flag=="-N") { need(1); a.k=stoi(argv[++i]); }
-        else if (flag=="-L") { need(1); a.L=stoi(argv[++i]); }
-        else if (flag=="-k") { need(1); a.khash=stoi(argv[++i]); }
+        else if (flag=="-kproj") { need(1); a.kproj=stoi(argv[++i]); }
+        else if (flag=="-M") { need(1); a.M=stoi(argv[++i]); }
+        else if (flag=="-probes") { need(1); a.probes=stoi(argv[++i]); }
         else if (flag=="-w") { need(1); a.w=stod(argv[++i]); }
         else if (flag=="-R") { need(1); a.R=stod(argv[++i]); }
         else if (flag=="-range"){ need(1); a.range=str2bool(argv[++i]); }
-        
+        else if (flag=="-hypercube"){  a.algorithm="hypercube"; }
         else { cerr<<"Unknown flag: "<<flag<<"\n"; exit(1);}
     }
     if (a.data_path.empty()){
         cerr<<"Usage: "<<argv[0]<<" -d <input.dat> [-q <query.dat>] [-type mnist|sift] "
-              "[-k <khash>] -L <L> -w <w> -N <N> -R <R> -range <true|false> -lsh\n";
+              " -kproj <kproj> -w <w> -M <M> -probes <probes> -N <N> -R <R> -range <true|false> -hypercube\n";
         exit(1);
     }
-    // Defaults per spec: MNIST R=2000, SIFT R=2
-    if (a.type=="sift" && a.R==2000.0) a.R = 2.0;
+    
     return a;
 }
 
-
-void search_in_dataset(Args args , string type){
+static void search_in_dataset(Args args , string type){
     vector<vector<float>> pts;
     vector<vector<float>> queries;
     if (type == "mnist"){
@@ -64,7 +62,7 @@ void search_in_dataset(Args args , string type){
         string input_file = args.data_path;
         cout << "Loading dataset: " << input_file << endl;
         pts = load_mnist_dataset(input_file);
-        cout << "Loaded " << pts.size() << " images of dimension " << pts[0].size() << endl;
+        cout << "Loaded " << pts.size() << " images of dimension " << (pts.empty()?0:pts[0].size()) << endl;
     
         cout << "*************************************************\n";
     
@@ -72,7 +70,7 @@ void search_in_dataset(Args args , string type){
         string query_file = args.query_path;
         cout << "Loading queries: " << query_file << endl;
         queries = load_mnist_dataset(query_file);
-        cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
+        cout << "Loaded " << queries.size() << " test images of dimension " << (queries.empty()?0:queries[0].size()) << endl;
     
         // Normalize the vectors: 0-255 --> 0-1
         for (auto &point : pts){
@@ -91,7 +89,7 @@ void search_in_dataset(Args args , string type){
         string input_file = args.data_path;
         cout << "Loading dataset: " << input_file << endl;
         pts = load_sift_dataset(input_file);
-        cout << "Loaded " << pts.size() << " images of dimension " << pts[0].size() << endl;
+        cout << "Loaded " << pts.size() << " images of dimension " << (pts.empty()?0:pts[0].size()) << endl;
 
         cout << "*************************************************\n";
 
@@ -99,15 +97,16 @@ void search_in_dataset(Args args , string type){
         string query_file = args.query_path;
         cout << "Loading queries: " << query_file << endl;
         queries = load_sift_dataset(query_file);
-        cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
+        cout << "Loaded " << queries.size() << " test images of dimension " << (queries.empty()?0:queries[0].size()) << endl;
     }
 
-    int L = args.L, khash = args.khash, N = args.k;
+    int kproj = args.kproj, N = args.k;
+    int M = args.M;
+    int probes = args.probes;
     float w = args.w;
     
-    // Prepare the tables according to the data
-    build_hash_tables(pts, L, khash, w);
-
+    // Build hypercube index
+    build_hypercube(pts, kproj, w);
 
     vector<float> q;
 
@@ -118,20 +117,20 @@ void search_in_dataset(Args args , string type){
     float sum_tApprox_ms = 0.0;       // sum of the time for the approx search
     float sum_tTrue_ms   = 0.0;       // sum of the time for the true search 
  
-    // check the first 10 queries
-    for (int i=0 ; i<100; i++){
+    int queries_num = min(100, (int)queries.size());
+    // check the first 100 queries
+    for (int i=0 ; i<queries_num && i < (int)queries.size(); i++){
         q = queries[i];
-
 
         // =====================================================================
         // ============================ NN Search===============================
         // =====================================================================
 
-        // ============= Approximate search (LSH) and the time needed ==========
+        // ============= Approximate search (Hypercube) and the time needed ==========
         auto t0 = clock_type::now();
-        vector<int> nn_idx = query_knn(pts, q, N);
+        vector<int> nn_idx = cube_query_knn(pts, q, N, M, probes);
         auto t1 = clock_type::now();
-        float approx_search_time = chrono::duration_cast<ms>(t1-t0).count();
+        float approx_search_time = chrono::duration_cast<ms>(t1 - t0).count();
 
         // Compute distances for the approx list (in the same order)
         vector<float> approx_dists; approx_dists.reserve(nn_idx.size());
@@ -142,10 +141,7 @@ void search_in_dataset(Args args , string type){
         
         // ============= Search with brute force and the time needed ===========
         t0 = clock_type::now();
-        // collect the distances for all the queries and get the N top
-        vector<pair<float,int>> all;
-        all = brute_force_search(pts, q, N);
-
+        vector<pair<float,int>> all = brute_force_search(pts, q, N);
         t1 = clock_type::now();
         float true_search_time = chrono::duration_cast<ms>(t1 - t0).count();
 
@@ -164,7 +160,7 @@ void search_in_dataset(Args args , string type){
         vector<int> in_range_idx;
         if (args.range == true){
             float R = args.R;
-            in_range_idx = range_search(pts, q, R);         
+            in_range_idx = cube_query_range(pts, q, R, M, probes);         
         }
 
 
@@ -184,13 +180,14 @@ void search_in_dataset(Args args , string type){
             }
         }
 
-        float recall = static_cast<float>(hits_at_N) / N;
+        float recall = static_cast<float>(hits_at_N) / max(1, N);
         sum_recall += recall;
 
 
         // ======================= Approximation Fraction =====================
-        float min_approx_dist = *min_element(approx_dists.begin(), approx_dists.end());
-        float AF = min_approx_dist / true_topN_dists[0];
+        float min_approx_dist = std::numeric_limits<float>::infinity();
+        if (!approx_dists.empty()) min_approx_dist = *min_element(approx_dists.begin(), approx_dists.end());
+        float AF = (true_topN_dists.empty() || true_topN_dists[0] == 0.0f) ? 0.0f : (min_approx_dist / true_topN_dists[0]);
         sum_AF += AF;
         sum_tApprox_ms += approx_search_time;
         sum_tTrue_ms   += true_search_time;
@@ -202,20 +199,20 @@ void search_in_dataset(Args args , string type){
         // =====================================================================
         // ============================== Results ==============================
         // =====================================================================
-        cout << "Query: " << i+1 << "\n";
-        for (int i = 0; i < (int)nn_idx.size(); ++i) {
-            cout << "Nearest neighbor-" << (i+1) << ": " << nn_idx[i] << "\n";
-            cout << "distanceApproximate: " << approx_dists[i] << "\n";
-            // If we have fewer true items than i+1 (shouldn’t happen), clamp
-            float dtrue_i = true_topN_dists[ min(i, (int)true_topN_dists.size()-1) ];
-            cout << "distanceTrue: " << dtrue_i << "\n";
-        }
+        // cout << "Query: " << i+1 << "\n";
+        // for (int i = 0; i < (int)nn_idx.size(); ++i) {
+        //     cout << "Nearest neighbor-" << (i+1) << ": " << nn_idx[i] << "\n";
+        //     cout << "distanceApproximate: " << approx_dists[i] << "\n";
+        //     // If we have fewer true items than i+1 (shouldn’t happen), clamp
+        //     float dtrue_i = true_topN_dists[ min(i, (int)true_topN_dists.size()-1) ];
+        //     cout << "distanceTrue: " << dtrue_i << "\n";
+        // }
         
-        if (args.range == true) {
-            cout << "\nR-near neighbors:\n";
-            for (int id : in_range_idx) cout << id << "\n";
-        }
-        cout << "\n";
+        // if (args.range == true) {
+        //     cout << "\nR-near neighbors:\n";
+        //     for (int id : in_range_idx) cout << id << "\n";
+        // }
+        // cout << "\n";
     }
     // =========================================================================
     // ========================== Summary ======================================
@@ -232,11 +229,11 @@ void search_in_dataset(Args args , string type){
 }
 
 
-//$./search –d <input file> –q <query file> –k <int> -L <int> -w <float> -ο <output file> -Ν <number of nearest> -R <radius> 
-int main(int argc, char* argv[]) {
+//$./main -d <input file> -q <query file> -kproj <int> -w <float> -M <int> -probes <int> -N <number of nearest> -R <radius> 
+int hypercube_main(int argc, char* argv[]) {
     if (argc < 2) {
-        cerr << "Usage: " << argv[0] << " -d <input file> -q <query file> -k <int> -L <int> -w <float>" 
-                                     << " -o <output file> -N <number of nearest> -R <radius> " << endl;
+        cerr << "Usage: " << argv[0] << " -d <input file> -q <query file> -kproj <int> -w <float>" 
+                                     << " -M <per-vertex> -probes <int> -N <number of nearest> -R <radius> " << endl;
         return 1;
     }
     Args args = parse_args(argc, argv);

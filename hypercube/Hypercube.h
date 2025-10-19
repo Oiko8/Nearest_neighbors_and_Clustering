@@ -22,9 +22,9 @@ using random_generator = mt19937_64;
 using Table = unordered_map<string, vector<int>>;
 
 /* ======================================== hash class =========================================== */
-class Hash {
+class Hash_hc {
     public:
-    Hash(float w, int dim);
+    Hash_hc(float w, int dim);
     int get_hash_id(const vector<float>& p) const;
     
     private:
@@ -88,7 +88,7 @@ vector<int> cube_query_range(const vector<vector<float>> &pts, const vector<floa
 
 
 /* =================================== Helper Function ========================================== */
-// Compute the k-bit vertex for a point with current hash_functions/bit_function
+// Compute the k-bit vertex for a point with current hash_functions_hc/bit_function
 string vertex_for_point(const vector<float> &p);
 
 // Enumerate all masks with Hamming weight <= radius, in increasing weight
@@ -103,7 +103,7 @@ vector<uint32_t> neighbor_masks_top_by_bucket(const string& base, int k, int pro
 
 
 /* ======================== global variables ================================ */
-extern vector<Hash> hash_functions;
+extern vector<Hash_hc> hash_functions_hc;
 extern vector<BitMapper> bit_functions;
 extern Table Hypercube_table;
 
