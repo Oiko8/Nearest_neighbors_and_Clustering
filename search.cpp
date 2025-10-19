@@ -1,10 +1,10 @@
 // Usage : 
 // LSH
-// MNIST : ./search -d MNIST_data/input.dat -q MNIST_data/query.dat -k 3 -L 12 -w 6.0 -N 5 -R 5 -type mnist -range true -lsh
+// MNIST : /search -d MNIST_data/input.dat -q MNIST_data/query.dat -k 3 -L 12 -w 6.0 -N 5 -R 2.0 -type mnist -range true -lsh -o results_lsh.txt
 // SIFT  : ./search -d SIFT_data/input.dat -q SIFT_data/query.dat  -k 3 -L 8 -w 250.0 -N 5 -R 200 -type sift -range true -lsh
 
 // Hypercube : 
-// MNIST : ./search -d MNIST_data/input.dat -q MNIST_data/query.dat -kproj 10 -w 10.0 -M 20 -probes 8 -N 4 -R 5.0 -type mnist -range false -hypercube
+// MNIST : ./search -d MNIST_data/input.dat -q MNIST_data/query.dat -kproj 14 -w 20.0 -M 20 -probes 4 -N 4 -R 5.0 -type mnist -range false -hypercube -o results_hc.txt
 // SIFT  : ./main -d SIFT_data/input.dat -q SIFT_data/query.dat -kproj 12 -w 350.0 -M 80 -probes 4 -N 4 -R 5.0 -type sift -range false 
 #include <iostream>
 #include <string>

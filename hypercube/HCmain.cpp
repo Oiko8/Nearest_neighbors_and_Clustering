@@ -14,6 +14,7 @@ struct Args {
     string query_path;        // -q (optional)
     string type = "mnist";    // -type mnist|sift
     string algorithm;         // which algorithm we use
+    string output_file = "output.txt";  // -o
     int k = 1;                // -N
     int kproj = 14;           // -kproj
     int M = 5;                // -M (per-vertex or total depending on config)
@@ -35,6 +36,7 @@ static Args parse_args(int argc, char** argv){
         if (flag=="-d") { need(1); a.data_path=argv[++i]; }
         else if (flag=="-q") { need(1); a.query_path=argv[++i]; }
         else if (flag=="-type"){ need(1); a.type=argv[++i]; }
+        else if (flag=="-o") { need(1); a.output_file=argv[++i]; }
         else if (flag=="-N") { need(1); a.k=stoi(argv[++i]); }
         else if (flag=="-kproj") { need(1); a.kproj=stoi(argv[++i]); }
         else if (flag=="-M") { need(1); a.M=stoi(argv[++i]); }
@@ -55,6 +57,13 @@ static Args parse_args(int argc, char** argv){
 }
 
 static void search_in_dataset(Args args , string type){
+
+    ofstream out(args.output_file);
+    if (!out.is_open()) {
+        cerr << "Error: could not open output file " << args.output_file << endl;
+        exit(1);
+    }
+
     vector<vector<float>> pts;
     vector<vector<float>> queries;
     if (type == "mnist"){
@@ -199,33 +208,33 @@ static void search_in_dataset(Args args , string type){
         // =====================================================================
         // ============================== Results ==============================
         // =====================================================================
-        // cout << "Query: " << i+1 << "\n";
-        // for (int i = 0; i < (int)nn_idx.size(); ++i) {
-        //     cout << "Nearest neighbor-" << (i+1) << ": " << nn_idx[i] << "\n";
-        //     cout << "distanceApproximate: " << approx_dists[i] << "\n";
-        //     // If we have fewer true items than i+1 (shouldn’t happen), clamp
-        //     float dtrue_i = true_topN_dists[ min(i, (int)true_topN_dists.size()-1) ];
-        //     cout << "distanceTrue: " << dtrue_i << "\n";
-        // }
+        out << "Query: " << i+1 << "\n";
+        for (int i = 0; i < (int)nn_idx.size(); ++i) {
+            out << "Nearest neighbor-" << (i+1) << ": " << nn_idx[i] << "\n";
+            out << "distanceApproximate: " << approx_dists[i] << "\n";
+            // If we have fewer true items than i+1 (shouldn’t happen), clamp
+            float dtrue_i = true_topN_dists[ min(i, (int)true_topN_dists.size()-1) ];
+            out << "distanceTrue: " << dtrue_i << "\n";
+        }
         
-        // if (args.range == true) {
-        //     cout << "\nR-near neighbors:\n";
-        //     for (int id : in_range_idx) cout << id << "\n";
-        // }
-        // cout << "\n";
+        if (args.range == true) {
+            out << "\nR-near neighbors:\n";
+            for (int id : in_range_idx) out << id << "\n";
+        }
+        out << "\n";
     }
     // =========================================================================
     // ========================== Summary ======================================
     // =========================================================================
 
-    cout << "Average AF: " << (qcount ? (sum_AF / qcount) : 0.0) << "\n";
-    cout << "Recall@N: "   << (qcount ? sum_recall / qcount : 0.0) << "\n";
+    out << "Average AF: " << (qcount ? (sum_AF / qcount) : 0.0) << "\n";
+    out << "Recall@N: "   << (qcount ? sum_recall / qcount : 0.0) << "\n";
 
     float tApproxAvg = qcount ? (sum_tApprox_ms / qcount) : 0.0;
     float tTrueAvg   = qcount ? (sum_tTrue_ms   / qcount) : 0.0;
-    cout << "QPS: " << (sum_tApprox_ms > 0.0 ? (qcount / (sum_tApprox_ms / 1000.0)) : 0.0) << "\n";
-    cout << "tApproximateAverage: " << tApproxAvg << "\n";
-    cout << "tTrueAverage: "        << tTrueAvg   << "\n";
+    out << "QPS: " << (sum_tApprox_ms > 0.0 ? (qcount / (sum_tApprox_ms / 1000.0)) : 0.0) << "\n";
+    out << "tApproximateAverage: " << tApproxAvg << "\n";
+    out << "tTrueAverage: "        << tTrueAvg   << "\n";
 }
 
 
