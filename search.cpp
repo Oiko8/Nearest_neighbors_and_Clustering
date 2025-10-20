@@ -13,7 +13,7 @@
 #include "hypercube/HCmain.h"
 using namespace std;
 
-// Forward declarations: rename old mains to these
+
 int lsh_main(int argc, char** argv);
 int hypercube_main(int argc, char** argv);
 // int ivfflat_main(int argc, char** argv);
@@ -30,8 +30,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    // Find which top-level flag is present. We'll forward argv/argc as-is.
-    // This treats flags anywhere on the command line; you can change to argv[1] if you want strict position.
+    // Find the flag which contains the algorithm that we will use
     bool found = false;
     for (int i = 1; i < argc; ++i) {
         string a = argv[i];
