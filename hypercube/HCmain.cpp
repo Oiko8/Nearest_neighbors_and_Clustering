@@ -128,7 +128,7 @@ static void search_in_dataset(Args args , string type){
     float sum_tTrue_ms   = 0.0;       // sum of the time for the true search 
  
     int queries_num = min(100, (int)queries.size());
-    // check the first 100 queries
+    // int queries_num = (int)queries.size();
     for (int i=0 ; i<queries_num && i < (int)queries.size(); i++){
         q = queries[i];
 

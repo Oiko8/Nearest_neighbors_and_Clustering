@@ -128,8 +128,10 @@ static void search_in_dataset(Args args , string type){
     float sum_tApprox_ms = 0.0;       // sum of the time for the approx search
     float sum_tTrue_ms   = 0.0;       // sum of the time for the true search 
  
-    // check the first 10 queries
-    for (int i=0 ; i<100; i++){
+    int queries_num = min(100, (int)queries.size());
+    // int queries_num = (int)queries.size();
+    
+    for (int i=0 ; i < queries_num; i++){
         q = queries[i];
 
 
