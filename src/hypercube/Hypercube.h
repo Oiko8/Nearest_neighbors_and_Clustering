@@ -14,7 +14,7 @@
 #include <chrono>
 #include <queue>
 #include <climits>
-#include "../../utils_functions/Euclidean_dist.h"
+#include "../../utils_functions/euclid.h"
 
 /* ===================================== common definitions ====================================== */
 using namespace std;

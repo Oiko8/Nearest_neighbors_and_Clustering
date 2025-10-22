@@ -1,6 +1,5 @@
 #include "BruteForceImplementation.h"
-#include "../../utils_functions/Euclidean_dist.h"
-
+#include "../../utils_functions/euclid.h"
 vector <pair<float,int>> brute_force_search(const vector<vector<float>> &pts, vector<float> q, int N){
     // collect the distances for all the queries and get the N top
     vector<pair<float,int>> all;

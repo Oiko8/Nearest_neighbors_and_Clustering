@@ -1992,6 +1992,6 @@ R-near neighbors:
 
 Average AF: 1.01095
 Recall@N: 0.706
-QPS: 137.833
-tApproximateAverage: 7.25518
-tTrueAverage: 25.9879
+QPS: 127.203
+tApproximateAverage: 7.86147
+tTrueAverage: 27.2967

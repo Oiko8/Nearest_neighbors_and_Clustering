@@ -8,7 +8,7 @@ SRCS += lsh/LSHmain.cpp lsh/Euclidean_Hashing.cpp
 SRCS += hypercube/HCmain.cpp hypercube/Hypercube.cpp 
 SRCS += ../utils_functions/Data_loader.cpp
 SRCS += bruteforce/BruteForceImplementation.cpp
-SRCS += ../utils_functions/Euclidean_dist.cpp ../utils_functions/Rangesearch.cpp
+SRCS += ../utils_functions/euclid.cpp ../utils_functions/Rangesearch.cpp
 OBJS   := $(SRCS:.cpp=.o)
 
 

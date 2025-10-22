@@ -1,5 +1,5 @@
 #include "Euclidean_Hashing.h"
-#include "../../utils_functions/Euclidean_dist.h"
+#include "../../utils_functions/euclid.h"
 
 
 /*=================================== Global definitions =========================================*/
