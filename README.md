@@ -10,7 +10,7 @@
 
 ---
 
-## Introduction
+## **Introduction**
 In this project we implement several algorithms for Approximate Nearest Neighbors (ANN) search and range search in a n-dimensional space using the Euclidean distance (L2).
 The goal is to efficiently find the k nearest vectors to a given vector query, avoiding the computational cost of search with brute force.  
 
@@ -36,7 +36,7 @@ The output file contains the name of the algorithm that is used in the search al
 
 ---
 
-## Implementation
+## **Implementation**
 
 ### 1. LSH (Euclidean LSH)
 We implement classic Euclidean LSH using Gaussian random projections and amplified hash functions g built from multiple h_i. Each h projects a point p onto a random vector v, adds a random shift t ∈ [0,w), divides by window w and floors to an integer bin:  
@@ -65,4 +65,23 @@ Key implementation notes:
 ### 4. IVF-PQ (Inverted File Product Quantization)
 
 ---
-## Program Structure
+## **Program Structure**
+### LSH (Euclidean Hashing)
+
+- **Euclidean_Hashing.h (.cpp)** : Builds L hash tables using an amplified hash function g formed by concatenating k base Euclidean (L2) hashes. At query time, it gathers candidates from matching buckets, deduplicates, and re-ranks by L2 to return the nearest neighbors.
+- **LSHmain.h (.cpp)** : Performs approximate-NN search for a number of queries and evaluates the performance of the LSH search comparing to a simple exhaustive search. Writes the results in a specified output file. Called via the [search.cpp](src/search.cpp).  
+
+### Hypercube
+
+- **Hypercube.h (.cpp)** : Builds a hash table using as keys the vertices of a binary hypercube. Projects points with Gaussian L2 hashes (from the same function family H as LSH), maps each to a k-bit vertex via a BitMapper, stores buckets by vertex, and at query time visits the base vertex plus up to probes neighbors (ranked by bucket size), taking up to M candidates per visited bucket before exact re-ranking.
+- **HCmain.h (.cpp)** : Performs approximate-nn search for a number of queries and evaluates the performance of the Hypercube search comparing to a simple exhaustive search. Prints the results in a specified output file. It is called through the [search.cpp](src/search.cpp).
+
+### Brute Force (Exhaustive search)
+
+- **BruteForceImplementation.h (.cpp)** : Computes exact distances from the query to all points, uses nth_element to keep the N smallest, sorts them, and returns the exact top-N (id, distance) pairs for ground truth and metrics.
+
+### Utils Functions
+
+- **Data_loader.h (.cpp)** : Reads MNIST (big-endian header, 28×28 bytes per image) and SIFT (blocks of dimension followed by 128 floats) into vector<vector<float>>. In MNIST, it reads each pixel as char because the MNIST files store intensity of gray as raw bytes (0–255) and store each value as float because the vectors get normalized from [0,255] to [0,1]. In different occasion the MNIST vectors' values would be stored as integers.
+- **Rangesearch.h (.cpp)** : Provides a full-scan R-range search using euclidean distance (L2) with an early-abandon cutoff, plus a variant that optionally returns (id, d²) sorted by distance.
+- **euclid.h (.cpp)** : Provides two alternative functions that returns the euclidean distance (L2) of two vectors. One pointers-based that returns the distance² and one vector-based that returns the true distance. The two routines were created in the early stages of the code's building and are kept both due to their usage in different search algorithms.
