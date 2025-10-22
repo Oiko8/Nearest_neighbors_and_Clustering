@@ -81,36 +81,6 @@ vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k)
 
 // vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k){}
 
-/* =============================================================================================== */
-/* ========================================= Range Search ======================================== */
-/* =============================================================================================== */
-
-vector<int> range_search(const vector<vector<float>> &pts, vector<float> &q, float R){
-    // int dim = static_cast<int>(q.size());
-    int L = static_cast<int>(tables.size());
-
-    vector<int> pts_idx_in_range;
-    
-    float dist;
-
-    for (int i = 0 ; i < L ; i++) {
-        int bucket_of_query = amplified_functions[i].get_amplified_id(q);
-        for (int id : tables[i][bucket_of_query]) {
-            dist = euclidean_distance(q, pts[id]);
-            if (dist < R){
-                pts_idx_in_range.push_back(id);
-            }
-            
-        }        
-    }
-
-    sort(pts_idx_in_range.begin(), pts_idx_in_range.end());               
-    pts_idx_in_range.erase(unique(pts_idx_in_range.begin(), pts_idx_in_range.end()), pts_idx_in_range.end());
-    return pts_idx_in_range;
-
-}
-
-
 
 /* =============================================================================================== */
 /* ===================================== Creating the Tables ===================================== */

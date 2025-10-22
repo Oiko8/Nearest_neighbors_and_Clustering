@@ -69,7 +69,6 @@ class AmplifiedHash {
 void build_hash_tables(vector<vector<float>> &pts, int L, int khash, float w);
 vector<int> collect_possible_nn(const vector<float> &q);
 vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k);
-vector<int> range_search(const vector<vector<float>> &pts, vector<float> &q, float R);
 
 
 

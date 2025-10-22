@@ -242,6 +242,15 @@ static void search_in_dataset(Args args , string type){
     out << "QPS: " << (sum_tApprox_ms > 0.0 ? (qcount / (sum_tApprox_ms / 1000.0)) : 0.0) << "\n";
     out << "tApproximateAverage: " << tApproxAvg << "\n";
     out << "tTrueAverage: "        << tTrueAvg   << "\n";
+
+    // print for testing
+    cout << "Average AF: " << (qcount ? (sum_AF / qcount) : 0.0) << "\n";
+    cout << "Recall@N: "   << (qcount ? sum_recall / qcount : 0.0) << "\n";
+
+    cout << "QPS: " << (sum_tApprox_ms > 0.0 ? (qcount / (sum_tApprox_ms / 1000.0)) : 0.0) << "\n";
+    cout << "tApproximateAverage: " << tApproxAvg << "\n";
+    cout << "tTrueAverage: "        << tTrueAvg   << "\n";
+
 }
 
 
