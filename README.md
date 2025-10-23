@@ -126,3 +126,4 @@ Key implementation notes:
    4. Approximate-NN search using IVFPQ algorithm :  
       `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -M <int> -ο <output file> -Ν <number nearest> -R <radius> -type <flag> -nbits <int> -range <true|false> -ivfpq –seed <int> `
  
+ 
