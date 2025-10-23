@@ -85,3 +85,44 @@ Key implementation notes:
 - **Data_loader.h (.cpp)** : Reads MNIST (big-endian header, 28×28 bytes per image) and SIFT (blocks of dimension followed by 128 floats) into vector<vector<float>>. In MNIST, it reads each pixel as char because the MNIST files store intensity of gray as raw bytes (0–255) and store each value as float because the vectors get normalized from [0,255] to [0,1]. In different occasion the MNIST vectors' values would be stored as integers.
 - **Rangesearch.h (.cpp)** : Provides a full-scan R-range search using euclidean distance (L2) with an early-abandon cutoff, plus a variant that optionally returns (id, d²) sorted by distance.
 - **euclid.h (.cpp)** : Provides two alternative functions that returns the euclidean distance (L2) of two vectors. One pointers-based that returns the distance² and one vector-based that returns the true distance. The two routines were created in the early stages of the code's building and are kept both due to their usage in different search algorithms.
+
+---
+## **Compilation and Execution**
+
+- Compilation: `make`
+- Execution:   
+   1. Approximate-NN search using LSH algorithm :  
+      `./search –d <input file> –q <query file> –k <int> -L <int> -w <double> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -lsh -range <true|false>`
+      - `-d <input file>`
+      - `–q <query file>`
+      - `–k <int>`
+      - `-L <int>`
+      - `-w <double>`
+      - `-ο <output file>`
+      - `-Ν <number of nearest>`
+      - `-R <radius>` 
+      - `-type <flag>`
+      - `-range <true|false>`
+      - `-lsh`
+   
+   2. Approximate-NN search using Hypercube algorithm :  
+      `./search –d <input file> –q <query file> –kproj <int> -w <double> -M <int> -probes <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -hypercube`
+      - `–d <input file>`
+      - `–q <query file>`
+      - `–kproj <int>`
+      - `-w <double>`
+      - `-M <int>`
+      - `-probes <int>`
+      - `-ο <output file>`
+      - `-Ν <number of nearest>`
+      - `-R <radius>`
+      - `-type <flag>`
+      - `-range <true|false>`
+      - `-hypercube`
+
+   3. Approximate-NN search using IVFFlat algorithm :  
+      `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -ivfflat –seed <int> `
+
+   4. Approximate-NN search using IVFPQ algorithm :  
+      `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -M <int> -ο <output file> -Ν <number nearest> -R <radius> -type <flag> -nbits <int> -range <true|false> -ivfpq –seed <int> `
+ 
