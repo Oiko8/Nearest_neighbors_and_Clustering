@@ -89,36 +89,37 @@ Key implementation notes:
 ---
 ## **Compilation and Execution**
 
-- Compilation: `make`
+- Compilation: `make`  
+   All algorithms are compiled into the same executable search. You can select which one to run via the corresponding flag (-lsh, -hypercube, -ivfflat, -ivfpq).
 - Execution:   
    1. Approximate-NN search using LSH algorithm :  
       `./search –d <input file> –q <query file> –k <int> -L <int> -w <double> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -lsh -range <true|false>`
-      - `-d <input file>`
-      - `–q <query file>`
-      - `–k <int>`
-      - `-L <int>`
-      - `-w <double>`
-      - `-ο <output file>`
-      - `-Ν <number of nearest>`
-      - `-R <radius>` 
-      - `-type <flag>`
-      - `-range <true|false>`
-      - `-lsh`
+      - `-d <input file>` : contains the set of vectors
+      - `–q <query file>` : contains the query vectors
+      - `–k <int>` : number of hash functions hi that are used to define g()
+      - `-L <int>` : number of hash tables
+      - `-w <double>` : window used for hashing on the projection line
+      - `-ο <output file>` : contains the results of the search
+      - `-Ν <number of nearest>` : number of NN 
+      - `-R <radius>`  : radius in which the algorithm searches for points from the query 
+      - `-type <flag>` : the dataset that is used (mnist or sift)
+      - `-range <true|false>` : activates (true) or deactivates (false) range search
+      - `-lsh` : the method (algorithm) that is used in the search
    
    2. Approximate-NN search using Hypercube algorithm :  
       `./search –d <input file> –q <query file> –kproj <int> -w <double> -M <int> -probes <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -hypercube`
-      - `–d <input file>`
-      - `–q <query file>`
-      - `–kproj <int>`
-      - `-w <double>`
-      - `-M <int>`
-      - `-probes <int>`
-      - `-ο <output file>`
-      - `-Ν <number of nearest>`
-      - `-R <radius>`
-      - `-type <flag>`
-      - `-range <true|false>`
-      - `-hypercube`
+      - `–d <input file>` : contains the set of vectors
+      - `–q <query file>` : contains the query vectors
+      - `–kproj <int>` : the dimension of the hypercube in which the vectors are projected 
+      - `-w <double>` : window used for hashing on the projection line
+      - `-M <int>` : max number of points that are checked in each edge of the hypercube
+      - `-probes <int>` : max number of edges that are checked for NN
+      - `-ο <output file>` : contains the results of the search
+      - `-Ν <number of nearest>` : number of NN
+      - `-R <radius>` : radius in which the algorithm searches for points from the query
+      - `-type <flag>` : the dataset that is used (mnist or sift)
+      - `-range <true|false>` : activates (true) or deactivates (false) range search
+      - `-hypercube` : the method (algorithm) that is used in the search
 
    3. Approximate-NN search using IVFFlat algorithm :  
       `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -ivfflat –seed <int> `
