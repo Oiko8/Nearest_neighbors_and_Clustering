@@ -23,6 +23,7 @@ struct Args {
     float w = 4.0;           // -w
     float R = 2000.0;        // -R (MNIST default)
     bool range = false;       // -range (if there will be a range search)
+    bool norm = false;
 };
 
 static bool str2bool(const string& s){
@@ -46,6 +47,7 @@ static Args parse_args(int argc, char** argv){
         else if (flag=="-R") { need(1); a.R=stod(argv[++i]); }
         else if (flag=="-range"){ need(1); a.range=str2bool(argv[++i]); }
         else if (flag=="-hypercube"){  a.algorithm="hypercube"; }
+        else if (flag=="-norm"){ a.norm=true; } 
         else { cerr<<"Unknown flag: "<<flag<<"\n"; exit(1);}
     }
     if (a.data_path.empty()){
@@ -83,14 +85,16 @@ static void search_in_dataset(Args args , string type){
         cout << "Loaded " << queries.size() << " test images of dimension " << (queries.empty()?0:queries[0].size()) << endl;
     
         // Normalize the vectors: 0-255 --> 0-1
-        for (auto &point : pts){
-            for (float &dim : point) {
-                dim /= 255.0;
+        if (args.norm == true) {
+            for (auto &point : pts){
+                for (float &dim : point) {
+                    dim /= 255.0;
+                }
             }
-        }
-        for (auto &query : queries){
-            for (float &dim : query) {
-                dim /= 255.0;
+            for (auto &query : queries){
+                for (float &dim : query) {
+                    dim /= 255.0;
+                }
             }
         }
     }

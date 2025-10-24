@@ -105,6 +105,7 @@ Key implementation notes:
       - `-type <flag>` : the dataset that is used (mnist or sift)
       - `-range <true|false>` : activates (true) or deactivates (false) range search
       - `-lsh` : the method (algorithm) that is used in the search
+      - [Optional] `-norm` : applies normalization to the mnist dataset ([0-255] -> [0.0-1.0]). Attention to the parameters that must be alternated.
    
    2. Approximate-NN search using Hypercube algorithm :  
       `./search –d <input file> –q <query file> –kproj <int> -w <double> -M <int> -probes <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -hypercube`
@@ -120,6 +121,7 @@ Key implementation notes:
       - `-type <flag>` : the dataset that is used (mnist or sift)
       - `-range <true|false>` : activates (true) or deactivates (false) range search
       - `-hypercube` : the method (algorithm) that is used in the search
+      - [Optional] `-norm` : applies normalization to the mnist dataset ([0-255] -> [0.0-1.0]). Attention to the parameters that must be alternated.
 
    3. Approximate-NN search using IVFFlat algorithm :  
       `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -ivfflat –seed <int> `
