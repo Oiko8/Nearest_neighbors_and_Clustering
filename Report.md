@@ -91,7 +91,3 @@ The two dataset that were used are the MNIST and the SIFT dataset with their que
 - Larger **L** consistently helps recall (Rows 2 → 1) since more tables improve collision coverage.  
 - Increasing **k** reduces recall but accelerates QPS sharply (Rows 1 → 8).  
 - SIFT’s high dimensionality (128 D) amplifies sensitivity to **k** and **w**, making tuning crucial.
-
-**Recommendation**
-- Report `k=6, L=16, w=450.0` as the **main SIFT–LSH configuration** for balanced performance.  
-- Keep `k=8, L=14, w=300–350` as a **speed-focused** comparison and `k=4, L=14, w=400` as a **high-accuracy baseline**.
