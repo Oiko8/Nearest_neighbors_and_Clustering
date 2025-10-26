@@ -1,4 +1,6 @@
 #include "Euclidean_Hashing.h"
+#include "../../utils_functions/euclid.h"
+
 
 /*=================================== Global definitions =========================================*/
 vector<AmplifiedHash> amplified_functions;
@@ -12,11 +14,11 @@ random_generator gen(42);
 /* =============================================================================================== */
 /* ========================================= NN Search =========================================== */
 /* =============================================================================================== */
-vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k){
+vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k){
     int L = static_cast<int>(tables.size());
     if (k <= 0 || L == 0) return {};
     
-    vector<pair<double,int>> all_candidates;
+    vector<pair<float,int>> all_candidates;
     all_candidates.reserve(L * k);
     unordered_set<int> seen; // to avoid duplicates
     
@@ -27,12 +29,12 @@ vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int 
         if (it == tables[i].end()) continue;
     
         // keep the k closest in THIS table
-        priority_queue<pair<double,int>> local; // (dist, id)
+        priority_queue<pair<float,int>> local; // (dist, id)
         for (int id : it->second) {
             // skip duplicates (already seen from other tables)
             if (seen.count(id)) continue;
     
-            double d = euclidean_distance(q, pts[id]);
+            float d = euclidean_distance(q, pts[id]);
             if ((int)local.size() < k) {
                 local.emplace(d, id);
             } else if (d < local.top().first) {
@@ -55,7 +57,7 @@ vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int 
     if (all_candidates.empty()) return {};
     
     // now select global k closest
-    priority_queue<pair<double,int>> global;
+    priority_queue<pair<float,int>> global;
     for (const auto &p : all_candidates) {
         if ((int)global.size() < k) {
             global.push(p);
@@ -66,7 +68,7 @@ vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int 
     }
     
     // sort and return ids
-    vector<pair<double,int>> best;
+    vector<pair<float,int>> best;
     while (!global.empty()) { best.push_back(global.top()); global.pop(); }
     sort(best.begin(), best.end(), [](auto &a, auto &b){ return a.first < b.first; });
     
@@ -77,42 +79,13 @@ vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int 
     return nn_idx;
 }
 
-// vector<int> query_knn(const vector<vector<double>> &pts, vector<double> &q, int k){}
-
-/* =============================================================================================== */
-/* ========================================= Range Search ======================================== */
-/* =============================================================================================== */
-
-vector<int> range_search(const vector<vector<double>> &pts, vector<double> &q, double R){
-    // int dim = static_cast<int>(q.size());
-    int L = static_cast<int>(tables.size());
-
-    vector<int> pts_idx_in_range;
-    
-    double dist;
-
-    for (int i = 0 ; i < L ; i++) {
-        int bucket_of_query = amplified_functions[i].get_amplified_id(q);
-        for (int id : tables[i][bucket_of_query]) {
-            dist = euclidean_distance(q, pts[id]);
-            if (dist < R){
-                pts_idx_in_range.push_back(id);
-            }
-        }        
-    }
-
-    sort(pts_idx_in_range.begin(), pts_idx_in_range.end());               
-    pts_idx_in_range.erase(unique(pts_idx_in_range.begin(), pts_idx_in_range.end()), pts_idx_in_range.end());
-    return pts_idx_in_range;
-
-}
-
+// vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k){}
 
 
 /* =============================================================================================== */
 /* ===================================== Creating the Tables ===================================== */
 /* =============================================================================================== */
-void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w){
+void build_hash_tables(vector<vector<float>> &pts, int L, int khash, float w){
     int tableSize = pts.size()/2;   // no of buckets in each table
     int dim = pts[0].size();
 
@@ -139,14 +112,14 @@ void build_hash_tables(vector<vector<double>> &pts, int L, int khash, double w){
 /* ================================== Hash Class Implementation ================================== */
 /* =============================================================================================== */
 
-Hash::Hash(double w, int dim) {
+Hash::Hash(float w, int dim) {
     w_ = w;
     dim_ = dim;
     t_ = generate_t(w_);
     v_ = vec_d();
 } 
     
-int Hash::get_hash_id(vector<double>& p) const {
+int Hash::get_hash_id(vector<float>& p) const {
     int h = static_cast<int>(floor((dot(v_, p) + t_) / w_));
     return h;
 }
@@ -154,8 +127,8 @@ int Hash::get_hash_id(vector<double>& p) const {
 /* ======================= Helper functions ============================ */
 /* ========= Creating a 2-vector with normal disrtibution ============== */
 
-vector<double> Hash::vec_d(){
-    vector<double> v(dim_);
+vector<float> Hash::vec_d(){
+    vector<float> v(dim_);
     for (int i=0 ; i < dim_ ; i++){
         v[i] = normal_distribution_generator();
     }
@@ -163,20 +136,20 @@ vector<double> Hash::vec_d(){
 }
 
 /* ========= return a point with normal distribution =================== */
-double Hash::normal_distribution_generator(){
-    normal_distribution<double> dist(0.0, 1.0);
+float Hash::normal_distribution_generator(){
+    normal_distribution<float> dist(0.0, 1.0);
     return dist(gen);
 }
 
 /* ========== generate a small disturbance t =========================== */
-double Hash::generate_t(double w) {
+float Hash::generate_t(float w) {
     // keep your original definition (Uniform[0, w])
-    uniform_real_distribution<double> dist(0.0, w);
+    uniform_real_distribution<float> dist(0.0, w);
     return dist(gen);
 }
 
-double Hash::dot(const vector<double>& v, const vector<double>& p){
-    double dot_product = 0.0;
+float Hash::dot(const vector<float>& v, const vector<float>& p){
+    float dot_product = 0.0;
     int size = v.size();
     for (int i=0 ; i < size ; i++){
         dot_product += v[i]*p[i];
@@ -189,7 +162,7 @@ double Hash::dot(const vector<double>& v, const vector<double>& p){
 /* ============================ Amplified Hash Class Implementation ============================== */
 /* =============================================================================================== */
 
-AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, int dim) {
+AmplifiedHash::AmplifiedHash(int k, float w, int tableSize, int dim) {
     tableS_ = tableSize;
     k_ = k;
     h_.reserve(k_);
@@ -208,7 +181,7 @@ AmplifiedHash::AmplifiedHash(int k, double w, int tableSize, int dim) {
 int AmplifiedHash::getTableSize() const { return tableS_; }
 
 
-int AmplifiedHash::get_point_id(vector<double> &p) const {
+int AmplifiedHash::get_point_id(vector<float> &p) const {
     __int128 acc = 0;                           
     for (int i = 0; i < k_; ++i) {
         int hi = h_[i].get_hash_id(p);          // may be negative
@@ -220,7 +193,7 @@ int AmplifiedHash::get_point_id(vector<double> &p) const {
     return id;
 }
 
-int AmplifiedHash::get_amplified_id(vector<double> &p) const{
+int AmplifiedHash::get_amplified_id(vector<float> &p) const{
     int id_ = get_point_id(p);
 
     return id_% tableS_;
@@ -239,15 +212,6 @@ unsigned long long AmplifiedHash::generate_r(unsigned long long M) {
 /* ====================================== Helper Functions ======================================= */
 /* =============================================================================================== */
 
-/* =============================== helper function to calculate euclidean distance ============================ */
-double euclidean_distance(const vector<double> &p1, const vector<double> &p2){
-    double sum = 0.0;
-    int size = p1.size();
-    for (int i = 0 ; i < size ; i++){
-        sum += (p1[i] - p2[i]) * (p1[i] - p2[i]);
-    }
-    return sqrt(sum);
-}
 
 
 

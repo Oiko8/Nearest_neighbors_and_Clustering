@@ -1,9 +1,7 @@
-#pragma once    // apofevgoume na perilifthei to arxeio pollaples fores (header guard)
+#include "euclid.h"
 
-#include <cstddef>  // periexei orismous typwn opws to size_t
-#include <cmath>    // periexei mathimatikes synarthseis (px pow, sqrt)
+/* =============================== helper functions to calculate euclidean distance ============================ */
 
-// dilwsi inline synarthshs gia ypologismo tetragwnikhs apostashs L2 (euclidean distance)
 inline float eucliddistance(const float* a, const float* b, size_t d) {
 
     float s = 0.0f; // arxikopoihsh synolou (sum) me 0.0 float
@@ -14,4 +12,13 @@ inline float eucliddistance(const float* a, const float* b, size_t d) {
     }
 
     return s;                   // epistrefoume to athroisma twn tetragwnwn (oxi sqrt, ara squared L2)
+}
+
+float euclidean_distance(const vector<float> &p1, const vector<float> &p2) {
+    float sum = 0.0;
+    int size = p1.size();
+    for (int i = 0 ; i < size ; i++){
+        sum += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+    }
+    return sqrt(sum);
 }
