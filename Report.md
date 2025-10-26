@@ -23,9 +23,11 @@ The two dataset that were used are the MNIST and the SIFT dataset with their que
 |10 | 6 | 10 | 12.0 | 1.01269 | 0.722 | 314.68  | 3.18  | 24.27 |
 
 **Observations**
-- **Best recall:** `k=4, L=10, w=12.0` → Recall@N = 0.914  
-- **Fastest setup:** `k=6, L=14, w=7.0` → QPS = 1904.62  
-- **Balanced performance:** `k=3, L=14, w=7.0` → Recall@N = 0.87, AF ≈ 1.00, QPS ≈ 100  
+- **Best recall:** `k=4, L=10, w=12.0` → Recall@N = 0.914. The metrics are really good, but the average time of the approximate search is too long, something that we try to avoid.   
+- **Fastest setup:** `k=6, L=14, w=7.0` → QPS = 1904.62. This setup provides a really fast approximate search, however the recall is low (→ Recall@N = 0.32). The average AF is not too big, a fact that shows that the distance of approximate nearest neigbor for each query is generally close to the distance of the true nearest neighbor. If speed is what we are looking for, this setup is really fast with acceptable results. 
+- **Balanced performance 1:** `k=6, L=10, w=12.0` → Recall@N = 0.72, AF = 1.013, QPS ≈ 314.   
+- **Balanced performance 2:** `k=6, L=14, w=10.0` → Recall@N = 0.61, AF = 1.023, QPS ≈ 476.  
+The last two setups provides a really effective performance with high recalls and fast results. They are approximately 10 times faster than the exhaustive search and with pretty precise results.  
 
 **Trends**
 - Increasing **k** reduces recall but increases speed.  
@@ -37,32 +39,25 @@ The two dataset that were used are the MNIST and the SIFT dataset with their que
 
 | # | k | L  | w     | Average AF | Recall@N | QPS     | tApprox (ms) | tTrue (ms) |
 |---|---|----|-------|------------|----------|---------|--------------|------------|
-| 1 | 2 | 14 | 1500  | 1.00309    | **0.938** | 37.907  | 26.3800      | 24.6660    |
-| 2 | 3 | 14 | 2000  | **1.00011** | 0.908    | 75.082  | 13.3188      | 22.3167    |
-| 3 | 3 | 14 | 1500  | 1.01237    | 0.750    | 152.141 | 6.5728       | 22.3316    |
-| 4 | 3 | 10 | 1500  | 1.02460    | 0.638    | 192.316 | 5.1998       | 24.1452    |
-| 5 | 4 | 16 | 1500  | 1.03100    | 0.550    | 439.531 | 2.2752       | 23.4568    |
-| 6 | 4 | 18 | 1500  | 1.02917    | 0.574    | 398.839 | 2.5073       | 23.0998    |
-| 7 | 3 | 14 | 1200  | 1.03131    | 0.546    | 258.630 | 3.8665       | 22.7467    |
-| 8 | 3 | 14 | 1000  | 1.05229    | 0.452    | 388.150 | 2.5763       | 23.4190    |
-| 9 | 4 | 10 | 1000  | 1.16917    | 0.170    | 2126.27 | 0.4703       | 25.6979    |
-|10 | 4 | 10 | 800   | 1.21207    | 0.106    | **4361.98** | **0.2293**     | 24.9744    |
+| 1 | 3 | 14 | 2000  | **1.00011** | **0.908** | 75.082  | 13.3188      | 22.3167    |
+| 2 | 4 | 14 | 2500  | 1.00215    | 0.880    | 100.984 | 9.9026       | 23.8404    |
+| 3 | 6 | 14 | 3000  | 1.00483    | 0.806    | 237.969 | 4.2022       | 25.1847    |
+| 4 | 6 | 14 | 2000  | 1.06741    | 0.410    | **1202.21** | **0.8318** | 25.4071    |
+| 5 | 4 | 14 | 2000  | 1.00356    | 0.758    | 193.533 | 5.1671       | 25.0713    |
+| 6 | 3 | 14 | 1500  | 1.01237    | 0.750    | 152.141 | 6.5728       | 22.3316    |
+| 7 | 6 | 10 | 3000  | 1.01497    | 0.696    | 309.946 | 3.2264       | 26.3634    |
+| 8 | 4 | 12 | 2000  | 1.00949    | 0.698    | 208.418 | 4.7981       | 27.4284    |
+| 9 | 4 | 10 | 2000  | 1.01656    | 0.656    | 269.518 | 3.7103       | 24.5089    |
+|10 | 6 | 14 | 2500  | 1.02672    | 0.584    | 486.637 | 2.0549       | 24.7020    |
 
 **Observations**
-- Because the data are **not normalized** (pixel values ≈ 0–255), pairwise distances are much larger; you need a **much bigger `w`** to get meaningful bucket collisions.  
-- **High-accuracy setups:**  
-  - `k=2, L=14, w=1500` (Row 1) and `k=3, L=14, w=2000` (Row 2) achieve **Recall@N ≈ 0.94 / 0.91** with AF ≈ 1.00, at the cost of lower QPS.
-- **Balanced options:**  
-  - `k=3, L=14, w=1500` (Row 3) gives **Recall@N = 0.75** with ~6.6 ms/query (QPS ≈ 152).  
-  - `k=3, L=10, w=1500` (Row 4) trades some recall (0.638) for higher throughput.
-- **Throughput-focused (low recall):**  
-  - Smaller `w` (800–1000) or larger `k` drives **QPS way up** (Rows 9–10) but **recall collapses**.
-- **Parameter effects (here):**  
-  - ↑`w` → ↑recall (until ~1500–2000), ↓QPS.  
-  - ↓`k` → ↑recall, ↓QPS.  
-  - ↑`L` → modest ↑recall with roughly linear time cost.
-
-
+- Because the data are **not normalized** (pixel values ≈ 0–255), pairwise distances are much larger; we need a **much bigger `w`** to get a hig rate of collisions in each bucket.  
+- **Best recall:** `k=3, L=14, w=2000.0` → Recall@N = 0.908. The metrics are really good, but the average time of the approximate search is too long, something that we try to avoid.   
+- **Fastest setup:** `k=6, L=14, w=2000.0` → QPS = 1202. This setup gives us really fast performance with 0.83 ms per approximate search on average. The recall is relatively acceptable (Recall@N = 0.41) with a low Average AF, too. For an effective search focused on speed this setup is ideal. 
+- **Balanced performance 1:** `k=6, L=10, w=3000.0` → Recall@N = 0.696, AF = 1.015, QPS ≈ 309.   
+- **Balanced performance 2:** `k=6, L=14, w=3000.0` → Recall@N = 0.806, AF = 1.005, QPS ≈ 238.  
+These 2 sets of parameters provide the more balanced performance with small differences. The first one is almost 9 times faster than the brute force search with a recall close to 0.7. The other is slightly slower but with really high recall equal to 0.806.  
+The final choice depends on the dataset and the need for speed and accuracy.
 
 ### SIFT Dataset
 
@@ -80,14 +75,15 @@ The two dataset that were used are the MNIST and the SIFT dataset with their que
 |10 | 8 | 14 | 300  | 1.21424    | 0.118     | 4358.75 | 0.2294       | 58.1795    |
 
 **Observations**
-- **Best balanced setup:** `k=6, L=16, w=450.0` → **Recall@N = 0.706**, AF ≈ 1.01, QPS ≈ 88.4.  
-  This configuration offers strong accuracy with acceptable query speed — a good default for SIFT.
-- **Fast and decent recall:** `k=6, L=14, w=400.0` (Row 2) achieves similar recall (0.56) but faster queries (7 ms).  
-- **High throughput but low accuracy:** `k=8, L=14, w=300–350` (Rows 9–10) gives QPS > 1800, but recall ≤ 0.21.  
-- **High recall, slower:** `k=4, L=14, w=400.0` (not listed here) reached 0.86 recall but took ~40 ms/query — too slow for large-scale runs.
+- **Best recall:** `k=6, L=16, w=450.0` → Recall@N = 0.706. This configuration provides the best accuracy among the tests, with acceptable query time and low Average AF, making it a strong general-purpose setup for the SIFT dataset.  
+- **Fastest setup:** `k=8, L=14, w=300.0` → QPS = 4358.75. This setup achieves extremely fast approximate searches (0.23 ms per query) but with very low recall (0.12). It highlights the trade-off between speed and accuracy when `k` is too high.  
+- **Balanced performance 1:** `k=6, L=14, w=400.0` → Recall@N = 0.558, AF = 1.027, QPS ≈ 143. This configuration combines good accuracy and high speed, providing results nearly ten times faster than brute-force search.  
+- **Balanced performance 2:** `k=5, L=14, w=350.0` → Recall@N = 0.562, AF = 1.019, QPS ≈ 115. Another solid setup with similar accuracy but slightly lower recall and speed compared to the previous one.  
 
-**Trends**
-- Increasing **w** (350 → 450) improves recall substantially, with mild time cost.  
-- Larger **L** consistently helps recall (Rows 2 → 1) since more tables improve collision coverage.  
-- Increasing **k** reduces recall but accelerates QPS sharply (Rows 1 → 8).  
-- SIFT’s high dimensionality (128 D) amplifies sensitivity to **k** and **w**, making tuning crucial.
+
+#### **Trends on LSH search**
+- Increasing **k** reduces recall but increases speed.  
+- Increasing **w** improves recall up to a certain point, and then it slows down the search.  
+- Increasing **L** slightly improves recall, but it also increases the average query time almost linearly.  
+- The same behavior is observed in all datasets (MNIST, raw MNIST, and SIFT). LSH follows a consistent trade-off between accuracy and speed, and the parameters affect the performance in a similar way.  
+- Small values of **k**, large **L**, and wide **w** give higher recall and accuracy. On the other hand, larger **k**, smaller **L**, and narrower **w** make the algorithm much faster but less accurate.
