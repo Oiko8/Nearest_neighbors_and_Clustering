@@ -1,6 +1,6 @@
 #include "ivf_flat.h"  // Header me orismo tis klasis IVFFlat
 #include "kmeans.h"    // Gia xrisi tou KMeans gia clustering
-#include "euclid.h"    // Gia ypologismo apostasewn me Euclidean distance
+#include "../utils_functions/euclid.h"  // Gia ypologismo apostasewn me Euclidean distance
 #include <iostream>    // Gia debug & ektypwseis
 #include <queue>       // Gia xrisi priority queue
 #include <functional>  // Gia lambdas kai synartiseis sygkrisis

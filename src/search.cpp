@@ -17,8 +17,8 @@ using namespace std;
 
 int lsh_main(int argc, char** argv);
 int hypercube_main(int argc, char** argv);
-// int ivfflat_main(int argc, char** argv);
-// int ivfpq_main(int argc, char** argv);
+int ivfflat_main(int argc, char** argv);
+int ivfpq_main(int argc, char** argv);
 
 void print_usage(const char* prog) {
     cerr << "Usage: " << prog << " -lsh <lsh-args...> | -hypercube <hypercube-args...> "
@@ -42,13 +42,13 @@ int main(int argc, char** argv) {
             found = true;
             return hypercube_main(argc, argv);
         } 
-        // else if (a == "-ivfflat") {
-        //     found = true;
-        //     return ivfflat_main(argc, argv);
-        // } else if (a == "-ivfpq") {
-        //     found = true;
-        //     return ivfpq_main(argc, argv);
-        // }
+        else if (a == "-ivfflat") {
+             found = true;
+             return ivfflat_main(argc, argv);
+         } else if (a == "-ivfpq") {
+             found = true;
+             return ivfpq_main(argc, argv);
+         }
     }
 
     if (!found) {

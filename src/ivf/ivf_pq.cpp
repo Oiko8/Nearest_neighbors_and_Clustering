@@ -1,6 +1,6 @@
 #include "ivf_pq.h"
 #include "kmeans.h"
-#include "euclid.h"
+#include "../utils_functions/euclid.h"
 #include <algorithm>
 #include <queue>
 #include <cstring>
@@ -39,7 +39,7 @@ void IVFPQ::train(const Dataset &ds, size_t kclusters_, size_t M_, size_t nbits_
     subds.data.resize(subds.n * subds.d);
 
     for(size_t m=0;m<M;m++){
-        // γεμίζουμε subds me τα υπο-διανύσματα (padding με 0 αν χρειάζεται)
+        // gemizoume subds me τα υπο-διανύσματα (padding με 0 αν χρειάζεται)
         for(size_t i=0;i<ds.n;i++){
             const float* src = ds.row(i) + m*subd; // pointer sto subvector
             float* dst = &subds.data[i*subd];
