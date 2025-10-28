@@ -84,7 +84,7 @@ void build_hypercube(const vector<vector<float>> &pts, int kproj, float w, uint3
 
 // KNN / Range (M = per-vertex; probes = count of vertices to visit)
 vector<int> cube_query_knn(const vector<vector<float>> &pts, const vector<float> &q, int N, int M, int probes);
-vector<int> cube_query_range(const vector<vector<float>> &pts, const vector<float> &q, float R, int M, int probes);
+vector<int> cube_range_search(const vector<vector<float>> &pts, const vector<float> &q, float R, int M, int probes);
 
 
 /* =================================== Helper Function ========================================== */

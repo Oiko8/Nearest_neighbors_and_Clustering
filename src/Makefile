@@ -9,6 +9,8 @@ SRCS += hypercube/HCmain.cpp hypercube/Hypercube.cpp
 SRCS += ../utils_functions/Data_loader.cpp
 SRCS += bruteforce/BruteForceImplementation.cpp
 SRCS += ../utils_functions/euclid.cpp ../utils_functions/Rangesearch.cpp
+# SRCS += ivf/ivf_flat.cpp ivf/ivf_pq.cpp ivf/kmeans.cpp
+# SRCS += ivf/ivfflat_main.cpp ivf/ivfpq_main.cpp
 OBJS   := $(SRCS:.cpp=.o)
 
 

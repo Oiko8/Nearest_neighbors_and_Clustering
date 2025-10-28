@@ -344,7 +344,7 @@ vector<int> cube_query_knn(const vector<vector<float>> &pts,
 }
 
 /* ======================================== Range query =========================================== */
-vector<int> cube_query_range(const vector<vector<float>> &pts,
+vector<int> cube_range_search(const vector<vector<float>> &pts,
                              const vector<float> &q,
                              float R, int M, int probes)
 {

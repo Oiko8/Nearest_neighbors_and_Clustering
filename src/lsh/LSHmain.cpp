@@ -180,8 +180,8 @@ static void search_in_dataset(Args args , string type){
         vector<int> in_range_idx;
         if (args.range == true){
             float R = args.R;
-            // in_range_idx = range_search(pts, q, R); 
-            in_range_idx = range_search_fullscan(pts, q, R);
+            in_range_idx = range_search(pts, q, R); 
+            
         }
 
 

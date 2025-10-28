@@ -23,7 +23,8 @@ vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k)
     unordered_set<int> seen; // to avoid duplicates
     
     for (int i = 0; i < L; ++i) {
-        int bucket_of_query = amplified_functions[i].get_amplified_id(q);
+        unsigned int bucket_of_query = amplified_functions[i].get_amplified_id(q);
+        // unsigned int query_gid = amplified_functions[i].get_point_id(q);
     
         auto it = tables[i].find(bucket_of_query);
         if (it == tables[i].end()) continue;
@@ -33,7 +34,11 @@ vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k)
         for (int id : it->second) {
             // skip duplicates (already seen from other tables)
             if (seen.count(id)) continue;
-    
+
+            // checking the ID(p)=(r1*h1(p) + r2*h2(p) + ... ) mod M instead of bucket = ((r1*h1(p) + r2*h2(p) + ... ) mod M) mod tablesize
+            // unsigned int cand_gid = amplified_functions[i].get_point_id(const_cast<vector<float>&>(pts[id]));
+            // if (cand_gid != query_gid) continue;  
+
             float d = euclidean_distance(q, pts[id]);
             if ((int)local.size() < k) {
                 local.emplace(d, id);
@@ -80,13 +85,40 @@ vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k)
 }
 
 // vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k){}
+/* =============================================================================================== */
+/* ========================================= Range Search ======================================== */
+/* =============================================================================================== */
+
+vector<int> range_search(const vector<vector<float>> &pts, vector<float> &q, float R){
+    // int dim = static_cast<int>(q.size());
+    int L = static_cast<int>(tables.size());
+
+    vector<int> pts_idx_in_range;
+    
+    float dist;
+
+    for (int i = 0 ; i < L ; i++) {
+        int bucket_of_query = amplified_functions[i].get_amplified_id(q);
+        for (int id : tables[i][bucket_of_query]) {
+            dist = euclidean_distance(q, pts[id]);
+            if (dist < R){
+                pts_idx_in_range.push_back(id);
+            }
+        }        
+    }
+
+    sort(pts_idx_in_range.begin(), pts_idx_in_range.end());               
+    pts_idx_in_range.erase(unique(pts_idx_in_range.begin(), pts_idx_in_range.end()), pts_idx_in_range.end());
+    return pts_idx_in_range;
+
+}
 
 
 /* =============================================================================================== */
 /* ===================================== Creating the Tables ===================================== */
 /* =============================================================================================== */
 void build_hash_tables(vector<vector<float>> &pts, int L, int khash, float w){
-    int tableSize = pts.size()/2;   // no of buckets in each table
+    int tableSize = pts.size()/8;   // no of buckets in each table
     int dim = pts[0].size();
 
     tables.clear();
@@ -181,28 +213,36 @@ AmplifiedHash::AmplifiedHash(int k, float w, int tableSize, int dim) {
 int AmplifiedHash::getTableSize() const { return tableS_; }
 
 
-int AmplifiedHash::get_point_id(vector<float> &p) const {
-    __int128 acc = 0;                           
+unsigned int AmplifiedHash::get_point_id(vector<float> &p) const {
+    long long acc = 0;                           
     for (int i = 0; i < k_; ++i) {
         int hi = h_[i].get_hash_id(p);          // may be negative
-        long long hnorm = hi % M_;
-        if (hnorm < 0) hnorm += M_;             // now hnorm in [0, M-1]
-        acc += static_cast<__int128>(r_[i]) * static_cast<__int128>(hnorm);
+        // cout << hi % M_ << endl;
+        // modulo between a and b to support negative numbers: (a % b + b) %b
+        long long htemp = ((long long)hi % (long long)M_ + (long long)M_) % (long long)M_;
+        // cout << htemp << endl;
+        unsigned int hnorm = (unsigned int)htemp; 
+        // cout << hnorm << endl;
+        // if (hnorm < 0) hnorm += M_;             // now hnorm in [0, M-1]
+        long long curr = static_cast<long long>(r_[i]) * static_cast<long long>(hnorm);
+
+        acc += (curr % M_);
+
     }
-    int id = static_cast<int>(static_cast<long long>(acc % M_));
+    unsigned int id = static_cast<unsigned int>(static_cast<long long>(acc % M_));
     return id;
 }
 
-int AmplifiedHash::get_amplified_id(vector<float> &p) const{
-    int id_ = get_point_id(p);
+unsigned int AmplifiedHash::get_amplified_id(vector<float> &p) const{
+    unsigned int id_ = get_point_id(p);
 
     return id_% tableS_;
 }
 
 /* =============== generate r~[0, M-1) to multiply each hash result =========================== */
-unsigned long long AmplifiedHash::generate_r(unsigned long long M) {
+int AmplifiedHash::generate_r(int M) {
     // integer coefficients r_i ∈ {0, …, M-1}
-    uniform_int_distribution<unsigned long long> dist(0ULL, M - 1ULL);
+    uniform_int_distribution<int> dist(0, M - 1);
     return dist(gen);
 }
 
