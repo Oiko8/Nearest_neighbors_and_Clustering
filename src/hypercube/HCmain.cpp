@@ -4,7 +4,6 @@
 #include "../../utils_functions/Data_loader.h"
 #include "../bruteforce/BruteForceImplementation.h"
 #include "../../utils_functions/euclid.h"
-#include "../../utils_functions/Rangesearch.h"
 #include <fstream>
 
 using clock_type = std::chrono::steady_clock;

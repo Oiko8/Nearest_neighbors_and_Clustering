@@ -77,8 +77,8 @@ vector<int> range_search(const vector<vector<float>> &pts, vector<float> &q, flo
 extern vector<AmplifiedHash> amplified_functions;
 extern vector<Hash> hash_functions;
 extern vector<Table> tables;
-extern vector<vector<int>> point_ids;
-extern vector<vector<int>> point_bucket_ids;
+extern vector<vector<unsigned int>> point_ids;
+// extern vector<vector<int>> point_bucket_ids;
 
 
 #endif

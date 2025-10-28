@@ -6,8 +6,8 @@
 vector<AmplifiedHash> amplified_functions;
 vector<Hash> hash_functions;
 vector<Table> tables;
-vector<vector<int>> point_ids;
-vector<vector<int>> point_bucket_ids;
+vector<vector<unsigned int>> point_ids;
+// vector<vector<int>> point_bucket_ids;
 random_generator gen(42);
 
 
@@ -24,7 +24,7 @@ vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k)
     
     for (int i = 0; i < L; ++i) {
         unsigned int bucket_of_query = amplified_functions[i].get_amplified_id(q);
-        // unsigned int query_gid = amplified_functions[i].get_point_id(q);
+        // unsigned int query_id = amplified_functions[i].get_point_id(q);
     
         auto it = tables[i].find(bucket_of_query);
         if (it == tables[i].end()) continue;
@@ -36,8 +36,7 @@ vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k)
             if (seen.count(id)) continue;
 
             // checking the ID(p)=(r1*h1(p) + r2*h2(p) + ... ) mod M instead of bucket = ((r1*h1(p) + r2*h2(p) + ... ) mod M) mod tablesize
-            // unsigned int cand_gid = amplified_functions[i].get_point_id(const_cast<vector<float>&>(pts[id]));
-            // if (cand_gid != query_gid) continue;  
+            // if (point_ids[i][id] != query_id) continue; 
 
             float d = euclidean_distance(q, pts[id]);
             if ((int)local.size() < k) {
@@ -127,13 +126,22 @@ void build_hash_tables(vector<vector<float>> &pts, int L, int khash, float w){
     amplified_functions.clear();
     amplified_functions.resize(L);
 
+    point_ids.clear();
+    point_ids.resize(L);
+    for (int l = 0; l < L; ++l) point_ids[l].resize(pts.size());
+
     for (int i = 0 ; i < L ; i ++) {
         amplified_functions[i] = AmplifiedHash(khash, w, tableSize, dim);
     }
     
     for (int l = 0; l < L ; l++) {
         for (int i = 0; i < (int)pts.size(); ++i) {
+            // creating the tables using the g(p)
             tables[l][amplified_functions[l].get_amplified_id(pts[i])].push_back(i);
+            // keeping the ID(p)
+            // checking the ID(p)=(r1*h1(p) + r2*h2(p) + ... ) mod M instead of g(p) = ((r1*h1(p) + r2*h2(p) + ... ) mod M) mod tablesize
+            // point_ids[l][i] = amplified_functions[l].get_point_id(pts[i]);
+
         }
     } 
 }
