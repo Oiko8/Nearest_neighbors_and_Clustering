@@ -6,7 +6,6 @@
 #include "../../utils_functions/Data_loader.h"
 #include "../bruteforce/BruteForceImplementation.h"
 #include "../../utils_functions/euclid.h"
-#include "../../utils_functions/Rangesearch.h"
 #include <fstream>
 
 using clock_type = std::chrono::steady_clock;
@@ -114,6 +113,20 @@ static void search_in_dataset(Args args , string type){
         cout << "Loading queries: " << query_file << endl;
         queries = load_sift_dataset(query_file);
         cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
+
+         // Normalize the vectors: 0-255 --> 0-1
+        if (args.norm == true) {
+            for (auto &point : pts){
+                for (float &dim : point) {
+                    dim /= 255.0;
+                }
+            }
+            for (auto &query : queries){
+                for (float &dim : query) {
+                    dim /= 255.0;
+                }
+            }
+        }
     }
 
     int L = args.L, khash = args.khash, N = args.k;
@@ -180,8 +193,8 @@ static void search_in_dataset(Args args , string type){
         vector<int> in_range_idx;
         if (args.range == true){
             float R = args.R;
-            // in_range_idx = range_search(pts, q, R); 
-            in_range_idx = range_search_fullscan(pts, q, R);
+            in_range_idx = range_search(pts, q, R); 
+            
         }
 
 

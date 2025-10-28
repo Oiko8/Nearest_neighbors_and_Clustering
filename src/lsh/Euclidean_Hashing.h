@@ -47,20 +47,19 @@ class AmplifiedHash {
     public:
     AmplifiedHash() = default;
     AmplifiedHash(int k, float w, int tableSize, int dim);
-    int get_amplified_id(vector<float>& p) const;
-    int get_point_id(vector<float>& p) const;
+    unsigned int get_amplified_id(vector<float>& p) const;
+    unsigned int get_point_id(vector<float>& p) const;
     int getTableSize() const;
     
     private:
     int tableS_;
     int k_;
     int dim_;
-    vector<unsigned long long> r_;
-    unsigned long long M_ = 4294967291ULL; // exact (2^32 - 5)
+    vector<int> r_;
+    unsigned int M_ = 4294967291; // exact (2^32 - 5)
     vector<Hash> h_;
     
-    static unsigned long long generate_r(unsigned long long M);
-    static unsigned long long pos_mod(long long x, unsigned long long M);
+    static int generate_r(int M);
 };
 
 
@@ -69,6 +68,7 @@ class AmplifiedHash {
 void build_hash_tables(vector<vector<float>> &pts, int L, int khash, float w);
 vector<int> collect_possible_nn(const vector<float> &q);
 vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k);
+vector<int> range_search(const vector<vector<float>> &pts, vector<float> &q, float R);
 
 
 
@@ -77,8 +77,8 @@ vector<int> query_knn(const vector<vector<float>> &pts, vector<float> &q, int k)
 extern vector<AmplifiedHash> amplified_functions;
 extern vector<Hash> hash_functions;
 extern vector<Table> tables;
-extern vector<vector<int>> point_ids;
-extern vector<vector<int>> point_bucket_ids;
+extern vector<vector<unsigned int>> point_ids;
+// extern vector<vector<int>> point_bucket_ids;
 
 
 #endif
