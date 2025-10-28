@@ -12,6 +12,7 @@
 #include <vector>
 #include "lsh/LSHmain.h"
 #include "hypercube/HCmain.h"
+#include "ivf/ivf_main.h"
 using namespace std;
 
 
