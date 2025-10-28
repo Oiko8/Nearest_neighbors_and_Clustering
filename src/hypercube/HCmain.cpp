@@ -111,6 +111,20 @@ static void search_in_dataset(Args args , string type){
         cout << "Loading queries: " << query_file << endl;
         queries = load_sift_dataset(query_file);
         cout << "Loaded " << queries.size() << " test images of dimension " << (queries.empty()?0:queries[0].size()) << endl;
+
+        // Normalize the vectors: 0-255 --> 0-1
+        if (args.norm == true) {
+            for (auto &point : pts){
+                for (float &dim : point) {
+                    dim /= 255.0;
+                }
+            }
+            for (auto &query : queries){
+                for (float &dim : query) {
+                    dim /= 255.0;
+                }
+            }
+        }
     }
 
     int kproj = args.kproj, N = args.k;
