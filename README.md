@@ -2,7 +2,7 @@
 ---
 ### Team Members:
 ---
-1. - Name : ***Polyxeni Kollia**
+1. - Name : ***Polyxeni Kollia***
    - Email : ***sdi1800280@di.uoa.gr***
    - AM : 1115201800280
 2. - Name : ***Ioannis Oikonomidis***
