@@ -1,5 +1,5 @@
 #include "kmeans.h"   // Header me dilwseis gia ton algorithmo KMeans
-#include "../utils_functions/euclid.h"   // Gia ypologismo apostasis (eucliddistance)
+#include "../../utils_functions/euclid.h"   // Gia ypologismo apostasis (eucliddistance)
 #include <limits>     // Gia orismous arithmitikwn oriwn
 #include <algorithm>  // Gia leitourgies opws fill kai min
 #include <iostream>   // Gia debug ektypwseis
