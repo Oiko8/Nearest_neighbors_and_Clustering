@@ -1,6 +1,6 @@
 #pragma once    // apofeugoume pollapli eisagwgh tou arxeiou (header guard)
 
-#include "../src/ivf/vectors.h"    // perilamvanei ton orismo tou struct Dataset
+#include "vectors.h"    // perilamvanei ton orismo tou struct Dataset
 #include <string>   // xreiazetai gia xrisi typou std::string
 
 // Readers gia MNIST (images as 28x28 unsigned bytes, big-endian header)

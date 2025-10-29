@@ -1,6 +1,6 @@
 #include "ivf_pq.h"
 #include "kmeans.h"
-#include "../../utils_functions/euclid.h"
+#include "../utils_functions/euclid.h"
 #include <algorithm>
 #include <queue>
 #include <cstring>

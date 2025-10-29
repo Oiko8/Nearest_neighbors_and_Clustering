@@ -1,9 +1,9 @@
 #include "ivf_pq.h"
-#include "../bruteforce/BruteForceImplementation.h"
-#include "../../utils_functions/Rangesearch.h"
-#include "../../utils_functions/io.h"
+#include "../utils_functions/BruteForceImplementation.h"
+#include "../utils_functions/Rangesearch.h"
+#include "io.h"
 #include "vectors.h"
-#include "../../utils_functions/euclid.h"
+#include "../utils_functions/euclid.h"
 #include "kmeans.h"
 #include <chrono>
 #include <algorithm>
