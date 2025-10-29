@@ -126,22 +126,23 @@ These results confirm the same behavior as with other datasets — small **k**, 
 
 | # | kproj | w   | M  | probes | Average AF | Recall@N   | QPS         | tApprox (ms) | tTrue (ms) |
 |---|-------|-----|----|--------|------------|------------|-------------|--------------|------------|
-| 1 | 10    | 20  | 20 | 6      | 1.02168    | **0.6675** | 115.978     | 8.62235      | 26.6772    |
-| 2 | 18    | 20  | 20 | 6      | 1.08418    | 0.3800     | **558.152** | **1.79163**  | 28.5365    |
-| 3 | 12    | 20  | 40 | 6      | 1.03802    | 0.5650     | 166.906     | 5.99140      | 28.5480    |
-| 4 | 8     | 10  | 50 | 8      | 1.03852    | 0.5400     | 199.936     | 5.00160      | 27.7670    |
-| 5 | 10    | 10  | 50 | 6      | 1.08234    | 0.3575     | 386.110     | 2.58994      | 27.4821    |
-| 6 | 10    | 12  | 50 | 10     | 1.06108    | 0.5100     | 238.279     | 4.19676      | 26.5158    |
-| 7 | 14    | 20  | 20 | 4      | 1.05514    | 0.4675     | 250.092     | 3.99853      | 29.6014    |
-| 8 | 18    | 30  | 20 | 4      | 1.06201    | 0.4575     | 321.332     | 3.11205      | 29.6644    |
-| 9 | 18    | 40  | 20 | 6      | 1.03214    | 0.6350     | 168.409     | 5.93791      | 28.9569    |
-|10 | 10    | 20  | 40 | 6      | 1.02168    | 0.6675     | 111.921     | 8.93487      | 27.0732    |
+| 1 | 18    | 20  | 20 | 6      | 1.08418    | 0.3800     | **558.152** | **1.79163**  | 28.5365    |
+| 2 | 18    | 18  | 20 | 10     | 1.07775    | 0.4050     | 543.876     | 1.83865      | 27.0732    |
+| 3 | 18    | 30  | 20 | 4      | 1.06201    | 0.4575     | 321.332     | 3.11205      | 29.6644    |
+| 4 | 18    | 20  | 20 | 20     | 1.05718    | 0.4800     | 345.404     | 2.89516      | 28.4821    |
+| 5 | 10    | 12  | 50 | 10     | 1.06108    | 0.5100     | 238.279     | 4.19676      | 26.5158    |
+| 6 | 8     | 8   | 20 | 10     | 1.03737    | 0.5275     | 183.453     | 5.45098      | 28.5480    |
+| 7 | 8     | 10  | 50 | 8      | 1.03852    | 0.5400     | 199.936     | 5.00160      | 27.7670    |
+| 8 | 18    | 40  | 20 | 6      | 1.03214    | 0.6350     | 168.409     | 5.93791      | 28.9569    |
+| 9 | 10    | 20  | 20 | 6      | 1.02168    | 0.6675     | 115.978     | 8.62235      | 26.6772    |
+|10 | 14    | 20  | 20 | 20     | 1.02664    | **0.7075** | 105.035     | 9.52061      | 29.6014    |
 
 **Observations**  
-- **Best recall:** `kproj=10, w=20, M=20, probes=6` → Recall@N = **0.6675**, AF = 1.02168, QPS ≈ 116. This configuration achieves the highest accuracy among the runs, with a low AF and reasonable query time.  
-- **Fastest setup:** `kproj=18, w=20, M=20, probes=6` → QPS = **558.152** (≈1.79 ms/query), Recall@N = 0.38. This setup highlights the speed/accuracy trade-off: larger `kproj` greatly accelerates queries but reduces recall.  
-- **Balanced performance 1:** `kproj=18, w=40, M=20, probes=6` → Recall@N = **0.635**, AF = 1.032, QPS ≈ 168. This gives strong recall with solid speed, suitable when both accuracy and latency matter.  
-- **Balanced performance 2:** `kproj=12, w=20, M=40, probes=6` → Recall@N = **0.565**, AF = 1.038, QPS ≈ 167. A dependable mid-point: good recall, low AF, and ~6 ms per query.
+- **Best recall:** `kproj=14, w=20, M=20, probes=20` → Recall@N = **0.7075**, AF = 1.02664, QPS ≈ 105. This configuration gives the highest accuracy among all runs, maintaining a very low AF and still reasonable query speed.  
+- **Fastest setup:** `kproj=18, w=20, M=20, probes=6` → QPS = **558.152** (≈1.79 ms/query), Recall@N = 0.38. This shows the typical trade-off — very high speed but lower recall, mainly due to the aggressive projection and fewer probes.  
+- **Balanced performance 1:** `kproj=18, w=40, M=20, probes=6` → Recall@N = **0.635**, AF = 1.032, QPS ≈ 168. A strong overall setup where both accuracy and response time stay competitive.  
+- **Balanced performance 2:** `kproj=8, w=10, M=50, probes=8` → Recall@N = **0.540**, AF = 1.038, QPS ≈ 200. This gives a good balance between speed and quality, making it a reliable mid-range choice for the MNIST dataset.
+
 
 
 

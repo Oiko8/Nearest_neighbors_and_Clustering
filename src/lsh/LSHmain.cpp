@@ -84,17 +84,24 @@ static void search_in_dataset(Args args , string type){
         cout << "Loading queries: " << query_file << endl;
         queries = load_mnist_dataset(query_file);
         cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
-    
+        
         // Normalize the vectors: 0-255 --> 0-1
+        // find max number of the set
+        float max = pts[0][0];
+        for (auto p : pts) {
+            for (auto v : p) {
+                if (v > max) max = v;
+            }
+        }
         if (args.norm == true) {
             for (auto &point : pts){
                 for (float &dim : point) {
-                    dim /= 255.0;
+                    dim /= max;
                 }
             }
             for (auto &query : queries){
                 for (float &dim : query) {
-                    dim /= 255.0;
+                    dim /= max;
                 }
             }
         }
@@ -114,16 +121,23 @@ static void search_in_dataset(Args args , string type){
         queries = load_sift_dataset(query_file);
         cout << "Loaded " << queries.size() << " test images of dimension " << queries[0].size() << endl;
 
-         // Normalize the vectors: 0-255 --> 0-1
+        // Normalize the vectors: --> 0-1
+        // find max number of the set
+        float max = pts[0][0];
+        for (auto p : pts) {
+            for (auto v : p) {
+                if (v > max) max = v;
+            }
+        }
         if (args.norm == true) {
             for (auto &point : pts){
                 for (float &dim : point) {
-                    dim /= 255.0;
+                    dim /= max;
                 }
             }
             for (auto &query : queries){
                 for (float &dim : query) {
-                    dim /= 255.0;
+                    dim /= max;
                 }
             }
         }
