@@ -67,12 +67,12 @@ private:
     vector<uint32_t> A_, B_; // per-bit random coefficients
 
     static inline uint32_t mix32(uint32_t x){
-        // Good 32-bit mixer (xorshift* / wyhash-inspired)
-        x ^= x >> 16; 
-        x *= 0x7feb352dU;
-        x ^= x >> 15; 
-        x *= 0x846ca68bU;
-        x ^= x >> 16; 
+        // 32-bit mixer (xorshift* / wyhash-inspired)
+        x ^= x >> 16; // XOR the high 16 bits into low 16 bits
+        x *= 0x7feb352dU; // multiply with 2^32
+        x ^= x >> 15;  // xor and shift again with diff amount
+        x *= 0x846ca68bU; // constant chose by mixers like wihash
+        x ^= x >> 16; // final xorshift
         return x;
     }
 };
