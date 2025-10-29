@@ -6,5 +6,5 @@
 using namespace std;
 
 // dilwsi inline synarthshs gia ypologismo tetragwnikhs apostashs L2 (euclidean distance)
-inline float eucliddistance(const float* a, const float* b, size_t d); 
+float eucliddistance(const float* a, const float* b, size_t d); 
 float euclidean_distance(const vector<float> &p1, const vector<float> &p2);

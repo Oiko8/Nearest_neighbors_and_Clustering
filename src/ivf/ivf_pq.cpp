@@ -92,7 +92,7 @@ void IVFPQ::index_dataset(const Dataset &ds){
 }
 
 // search: ypologizoume LT tables gia to q kai scanaroume ta probe lists
-std::vector<std::pair<uint32_t, float>> IVFPQ::search(const float* q, const Dataset &ds, size_t N, size_t nprobe, float R) const {
+std::vector<std::pair<uint32_t, float>> IVFPQ::search(const float* q, const Dataset &/*ds*/, size_t N, size_t nprobe, float R) const {
     // 1) epikekrimenoi kontinoteri centroids (nprobe)
     struct C { size_t idx; float dist; };
     std::vector<C> cent_d(kclusters);

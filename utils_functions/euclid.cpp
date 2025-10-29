@@ -2,7 +2,7 @@
 
 /* =============================== helper functions to calculate euclidean distance ============================ */
 
-inline float eucliddistance(const float* a, const float* b, size_t d) {
+float eucliddistance(const float* a, const float* b, size_t d) {
 
     float s = 0.0f; // arxikopoihsh synolou (sum) me 0.0 float
 
