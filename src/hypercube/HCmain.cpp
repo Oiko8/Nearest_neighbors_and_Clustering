@@ -2,7 +2,6 @@
 // MNIST : ./main -d ../MNIST_data/input.dat -q ../MNIST_data/query.dat -kproj 10 -w 10.0 -M 20 -probes 8 -N 4 -R 5.0 -type mnist -range false
 #include "Hypercube.h"
 #include "../../utils_functions/Data_loader.h"
-#include "../bruteforce/BruteForceImplementation.h"
 #include "../../utils_functions/euclid.h"
 #include <fstream>
 
@@ -182,7 +181,21 @@ static void search_in_dataset(Args args , string type){
         
         // ============= Search with brute force and the time needed ===========
         t0 = clock_type::now();
-        vector<pair<float,int>> all = brute_force_search(pts, q, N);
+        vector<pair<float,int>> all;
+        all.reserve(pts.size());
+        double dist = 0.0;
+        for (int i = 0 ; i < static_cast<int>(pts.size()) ; i++) {
+            dist = euclidean_distance(pts[i], q);
+            all.emplace_back(dist, i);
+        }
+
+        // use nth_element() and after sort only the n smaller distances
+        nth_element(all.begin(), all.begin() + N, all.end(),
+                    [](auto& a, auto& b){ return a.first < b.first; });
+        // keeping only the first N elements, that are the N smallest values
+        all.resize(N);
+
+        sort(all.begin(), all.end());
         t1 = clock_type::now();
         float true_search_time = chrono::duration_cast<ms>(t1 - t0).count();
 

@@ -4,7 +4,6 @@
 
 #include "Euclidean_Hashing.h"
 #include "../../utils_functions/Data_loader.h"
-#include "../bruteforce/BruteForceImplementation.h"
 #include "../../utils_functions/euclid.h"
 #include <fstream>
 
@@ -187,7 +186,20 @@ static void search_in_dataset(Args args , string type){
         t0 = clock_type::now();
         // collect the distances for all the queries and get the N top
         vector<pair<float,int>> all;
-        all = brute_force_search(pts, q, N);
+        all.reserve(pts.size());
+        double dist = 0.0;
+        for (int i = 0 ; i < static_cast<int>(pts.size()) ; i++) {
+            dist = euclidean_distance(pts[i], q);
+            all.emplace_back(dist, i);
+        }
+
+        // use nth_element() and after sort only the n smaller distances
+        nth_element(all.begin(), all.begin() + N, all.end(),
+                    [](auto& a, auto& b){ return a.first < b.first; });
+        // keeping only the first N elements, that are the N smallest values
+        all.resize(N);
+
+        sort(all.begin(), all.end());
 
         t1 = clock_type::now();
         float true_search_time = chrono::duration_cast<ms>(t1 - t0).count();
