@@ -77,9 +77,6 @@ Key implementation notes:
 - **Hypercube.h (.cpp)** : Builds a hash table using as keys the vertices of a binary hypercube. Projects points with Gaussian L2 hashes (from the same function family H as LSH), maps each to a k-bit vertex via a BitMapper, stores buckets by vertex, and at query time visits the base vertex plus up to probes neighbors (ranked by bucket size), taking up to M candidates per visited bucket before exact re-ranking.
 - **HCmain.h (.cpp)** : Performs approximate-nn search for a number of queries and evaluates the performance of the Hypercube search comparing to a simple exhaustive search. Prints the results in a specified output file. It is called through the [search.cpp](src/search.cpp).
 
-### Brute Force (Exhaustive search)
-
-- **BruteForceImplementation.h (.cpp)** : Computes exact distances from the query to all points, uses nth_element to keep the N smallest, sorts them, and returns the exact top-N (id, distance) pairs for ground truth and metrics.
 
 ### Utils Functions
 
@@ -106,7 +103,12 @@ Key implementation notes:
       - `-type <flag>` : the dataset that is used (mnist or sift)
       - `-range <true|false>` : activates (true) or deactivates (false) range search
       - `-lsh` : the method (algorithm) that is used in the search
-      - [Optional] `-norm` : applies normalization to the mnist dataset ([0-255] -> [0.0-1.0]). Attention to the parameters that must be alternated.
+      - [Optional] `-norm` : applies normalization to the mnist dataset ([0-255] -> [0.0-1.0]). Attention to the parameters that must be alternated.  
+      
+      Example :
+      - ` ./search -d MNIST_data/input.dat -q MNIST_data/query.dat -k 4 -L 14 -w 6.0 -N 5 -R 3.0 -type mnist -range true -lsh -o ../results/results_lsh_mnist.txt -norm `
+      
+   
    
    2. Approximate-NN search using Hypercube algorithm :  
       `./search –d <input file> –q <query file> –kproj <int> -w <double> -M <int> -probes <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -hypercube`
@@ -122,12 +124,22 @@ Key implementation notes:
       - `-type <flag>` : the dataset that is used (mnist or sift)
       - `-range <true|false>` : activates (true) or deactivates (false) range search
       - `-hypercube` : the method (algorithm) that is used in the search
-      - [Optional] `-norm` : applies normalization to the mnist dataset ([0-255] -> [0.0-1.0]). Attention to the parameters that must be alternated.
+      - [Optional] `-norm` : applies normalization to the mnist dataset ([0-255] -> [0.0-1.0]). Attention to the parameters that must be alternated.  
+
+      Example :
+      - ` ./search -d SIFT_data/input.dat -q SIFT_data/query.dat -k 6 -L 14 -w 2.0 -N 5 -R 1.0 -type sift -range true -lsh -o ../results/results_lsh_sift.txt -norm `
 
    3. Approximate-NN search using IVFFlat algorithm :  
       `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -ivfflat –seed <int> `
 
    4. Approximate-NN search using IVFPQ algorithm :  
       `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -M <int> -ο <output file> -Ν <number nearest> -R <radius> -type <flag> -nbits <int> -range <true|false> -ivfpq –seed <int> `
- 
- 
+  
+    
+
+
+
+
+ ***NOTES*** : 
+ - The metrics for the search and a variety of different combinations of parameters are provided in [Report.md](Report.md).
+ - The results of the search can be found in [results folder](results/).

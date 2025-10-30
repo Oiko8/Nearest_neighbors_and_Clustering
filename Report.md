@@ -1,7 +1,16 @@
 # Approximate - NN Search Report
 
 In the following report, we present the performance and the results of each algorithm in the search of approximate nearest neighbors in a dataset.  
-The two dataset that were used are the MNIST and the SIFT dataset with their query-files respectively. We test 4 different algorithms and for each one we experiment on its parameters in order to achieve a good balance between the speed and the results comparing them with an exhaustive search that finds the exact NN but uses too much computational resources and time.
+The two dataset that were used are the MNIST and the SIFT dataset with their query-files respectively. We test 4 different algorithms and for each one we experiment on its parameters in order to achieve a good balance between the speed and the results comparing them with an exhaustive search that finds the exact NN but uses too much computational resources and time.  
+ 
+The metrics that we used for the evaluation of the algorithms are described below:
+- Average AF : for each query after finding the approximate nearest neighbor and the true nearest neighbor, we calculate the fraction of their distances:
+` distance of approximate NN / distance of true NN ` and after we calculate the average.   
+With this metric we can estimate how far our search fell off from the true NN. The target is this metric to be as close to `1.0` as possible.
+- Recall : after complete the search of k-NN for a query we calculate how many of the approximate NN are in fact in the k true NN and we find the average for each query. This metric defines the accuracy of the model and shows if the hashing or the clustering works as we intended to.  
+- QPS : how many queries per second were able to be processed.
+- tApprox : average searching time for each query using one of the algorithms we implemented.
+- tTrue : average searching time for each query using brute force search.
 
 --- 
 
@@ -9,18 +18,18 @@ The two dataset that were used are the MNIST and the SIFT dataset with their que
 
 ### MNIST Dataset
 
-| # | k | L | w | Average AF | Recall@N | QPS | tApprox (ms) | tTrue (ms) |
-|---|---|---|---|-------------|-----------|------|---------------|-------------|
-| 1 | 3 | 14 | 7.0  | 1.00498 | **0.870** | 100.24  | 9.98  | 22.19 |
-| 2 | 4 | 14 | 7.0  | 1.00998 | 0.668 | 297.04  | 3.37  | 22.76 |
-| 3 | 4 | 10 | 12.0 | 1.00465 | **0.914** | 74.41   | 13.44 | 23.54 |
-| 4 | 5 | 10 | 8.0  | 1.02988 | 0.528 | 744.50  | 1.34  | 21.93 |
-| 5 | 5 | 10 | 10.0 | 1.01214 | 0.674 | 306.28  | 3.27  | 23.13 |
-| 6 | 6 | 14 | 7.0  | 1.09685 | 0.320 | **1904.62** | **0.53** | 25.33 |
-| 7 | 6 | 14 | 8.0  | 1.05645 | 0.434 | 1230.81 | 0.81  | 22.58 |
-| 8 | 6 | 14 | 10.0 | 1.02307 | 0.612 | 476.21  | 2.10  | 24.31 |
-| 9 | 6 | 12 | 10.0 | 1.03319 | 0.556 | 532.17  | 1.88  | 24.72 |
-|10 | 6 | 10 | 12.0 | 1.01269 | 0.722 | 314.68  | 3.18  | 24.27 |
+| # | k | L  | w    | Average AF  | Recall@N  | QPS         | tApprox (ms)  | tTrue (ms)  |
+|---|---|----|------|-------------|-----------|-------------|---------------|-------------|
+| 1 | 3 | 14 | 7.0  | 1.00498     | **0.870** | 100.24      | 9.98          | 22.19       |
+| 2 | 4 | 14 | 7.0  | 1.00998     | 0.668     | 297.04      | 3.37          | 22.76       |
+| 3 | 4 | 10 | 12.0 | 1.00465     | **0.914** | 74.41       | 13.44         | 23.54       |
+| 4 | 5 | 10 | 8.0  | 1.02988     | 0.528     | 744.50      | 1.34          | 21.93       |
+| 5 | 5 | 10 | 10.0 | 1.01214     | 0.674     | 306.28      | 3.27          | 23.13       |
+| 6 | 6 | 14 | 7.0  | 1.09685     | 0.320     | **1904.62** | **0.53**      | 25.33       |
+| 7 | 6 | 14 | 8.0  | 1.05645     | 0.434     | 1230.81     | 0.81          | 22.58       |
+| 8 | 6 | 14 | 10.0 | 1.02307     | 0.612     | 476.21      | 2.10          | 24.31       |
+| 9 | 6 | 12 | 10.0 | 1.03319     | 0.556     | 532.17      | 1.88          | 24.72       |
+|10 | 6 | 10 | 12.0 | 1.01269     | 0.722     | 314.68      | 3.18          | 24.27       |
 
 **Observations**
 - **Best recall:** `k=4, L=10, w=12.0` → Recall@N = 0.914. The metrics are really good, but the average time of the approximate search is too long, something that we try to avoid.   
@@ -60,26 +69,30 @@ These 2 sets of parameters provide the more balanced performance with small diff
 The final choice depends on the dataset and the need for speed and accuracy.
 
 ### SIFT Dataset
-| #  | k | L  | w   | Average AF | Recall@N  | QPS         | tApprox (ms) | tTrue (ms) |
-| -- | - | -- | --- | ---------- | --------- | ----------- | ------------ | ---------- |
-| 1  | 3 | 10 | 1.0 | 1.0137     | **0.664** | 30.16       | 33.16        | 82.62      |
-| 2  | 4 | 10 | 1.0 | 1.0348     | 0.444     | 117.68      | 8.50         | 85.27      |
-| 3  | 5 | 12 | 1.0 | 1.0725     | 0.290     | 371.01      | 2.70         | 76.11      |
-| 4  | 5 | 12 | 1.5 | 1.0292     | 0.608     | 76.46       | 13.08        | 78.65      |
-| 5  | 5 | 14 | 1.5 | 1.0152     | 0.652     | 68.53       | 14.59        | 77.31      |
-| 6  | 6 | 14 | 1.0 | 1.1413     | 0.174     | **1003.95** | **1.00**     | 79.59      |
-| 7  | 6 | 16 | 1.5 | 1.0383     | 0.532     | 136.71      | 7.31         | 88.57      |
-| 8  | 8 | 12 | 1.8 | 1.0414     | 0.382     | 388.03      | 2.58         | 77.79      |
-| 9  | 8 | 12 | 2.0 | 1.0239     | 0.506     | 202.01      | 4.95         | 87.85      |
-| 10 | 8 | 10 | 2.0 | 1.0380     | 0.440     | 291.77      | 3.43         | 77.57      |
+| #  | k  | L  | w   | Average AF | Recall@N  | QPS        | tApprox (ms) | tTrue (ms) |
+| -- | -- | -- | --- | ---------- | --------- | ---------- | ------------ | ---------- |
+| 1  | 6  | 20 | 2.2 | 1.00231    | **0.848** | 43.93      | 22.7624      | 81.06      |
+| 2  | 6  | 16 | 2.2 | 1.00449    | **0.780** | 56.41      | 17.7275      | 77.34      |
+| 3  | 7  | 16 | 2.4 | 1.01390    | **0.734** | 77.91      | 12.8358      | 78.50      |
+| 4  | 6  | 14 | 2.0 | 1.01819    | 0.626     | 99.52      | 10.0484      | 73.72      |
+| 5  | 8  | 20 | 2.2 | 1.01899    | 0.588     | 179.58     | 5.56848      | 80.42      |
+| 6  | 8  | 18 | 2.2 | 1.02261    | 0.562     | 217.80     | 4.59130      | 72.94      |
+| 7  | 8  | 16 | 2.2 | 1.02770    | 0.510     | 239.71     | 4.17176      | 77.70      |
+| 8  | 10 | 14 | 2.4 | 1.05212    | 0.380     | **586.79** | **1.70418**  | 77.91      |
+| 9  | 8  | 14 | 2.0 | 1.06264    | 0.372     | 445.55     | 2.24443      | 76.79      |
+| 10 | 6  | 10 | 1.5 | 1.06837    | 0.294     | 468.06     | 2.13648      | 73.09      |
+
 
 **Observations**  
-- Because the SIFT data are **normalized**, the distances between points are smaller compared to the raw dataset. As a result, smaller **`w`** values (around 1–2) are required to achieve a good balance between speed and recall.  
-- **Best recall:** `k=3, L=10, w=1.0` → Recall@N = 0.664. This configuration provides the highest accuracy among the tests, with relatively high recall and a low Average AF. The average search time is longer, but it achieves precise results, making it a strong choice when accuracy is the main objective.  
-- **Fastest setup:** `k=6, L=14, w=1.0` → QPS = 1003.95. This setup gives extremely fast searches (1.00 ms per query) with lower recall (0.174). It clearly demonstrates the trade-off between speed and accuracy, as a higher `k` drastically reduces recall but provides excellent efficiency.  
-- **Balanced performance 1:** `k=6, L=16, w=1.5` → Recall@N = 0.532, AF = 1.038, QPS ≈ 137. This configuration offers a strong balance between recall and query time, delivering reliable accuracy while being considerably faster than brute-force search.  
-- **Balanced performance 2:** `k=8, L=12, w=2.0` → Recall@N = 0.506, AF = 1.024, QPS ≈ 202. This setup performs faster while maintaining moderate recall, showing that slightly increasing `w` helps recover accuracy without major performance loss.  
-These results confirm the same behavior as with other datasets — small **k**, larger **L**, and slightly higher **w** values generally yield better recall but slower performance. The final choice depends on whether speed or precision is prioritized in the search task.
+- Because the SIFT data are **normalized**, the distances between points are smaller compared to the raw dataset. As a result, smaller **w** values (around 2.0–2.4) are required to achieve a good balance between speed and recall.  
+- **Best recall:** `k=6, L=20, w=2.2` → Recall@N = 0.848. This configuration provides the highest accuracy among the tests, achieving very high recall and a near-perfect Average AF. The average search time remains under 25 ms, making it the best option when accuracy is the main objective.   
+- **High-accurate setup:** `k=7, L=16, w=2.4` → Recall@N = 0.734. Slightly higher `w` helps stabilize recall while keeping the time low (≈12.8 ms), giving a solid compromise between precision and performance.  
+- **Fastest setup:** `k=10, L=14, w=2.4` → QPS = 586.79. This configuration achieves extremely fast searches (≈1.7 ms per query) with a lower recall (0.380), clearly demonstrating the trade-off between speed and accuracy at higher `k` values.   
+- **Balanced performance 1:** `k=6, L=14, w=2.0` → Recall@N = 0.626, AF = 1.018, QPS ≈ 100. This setup achieves a strong balance between recall and query time, providing reliable results without excessive cost.  
+- **Balanced performance 2:** `k=8, L=18, w=2.2` → Recall@N = 0.562, AF = 1.023, QPS ≈ 218. It performs consistently with good recall and smooth timing, showing the effectiveness of slightly increasing both `L` and `w`.  
+- **Balanced performance 3:** `k=8, L=20, w=2.2` → Recall@N = 0.588, AF = 1.019, QPS ≈ 180. This configuration offers moderate recall and fast response, proving that increasing `L` further improves stability without large time penalties.  
+These results confirm the same general behavior as with other datasets — smaller **k**, larger **L**, and slightly higher **w** values usually improve recall but increase computation time. The final configuration depends on whether the focus is on achieving higher precision or maximizing search speed.
+
 
 
 
@@ -147,24 +160,28 @@ These results confirm the same behavior as with other datasets — small **k**, 
 
 
 ### SIFT Dataset
-| # | kproj | w   | M  | probes | Average AF | Recall@N   | QPS     | tApprox (ms) | tTrue (ms) |
-|---|-------|-----|----|--------|------------|------------|---------|--------------|------------|
-| 1 | 12    | 2.0 | 20 | 6      | 1.06052    | **0.5150** | 36.856  | 27.133       | 72.2342    |
-| 2 | 16    | 3.0 | 10 | 7      | 1.05615    | 0.5100     | 56.725  | 17.629       | 65.1428    |
-| 3 | 16    | 3.0 | 40 | 6      | 1.05923    | 0.4975     | 57.847  | 17.287       | 67.3098    |
-| 4 | 22    | 3.5 | 40 | 8      | 1.09800    | 0.4650     | 81.943  | 12.204       | 67.6209    |
-| 5 | 18    | 3.0 | 40 | 8      | 1.06783    | 0.4450     | 82.817  | 12.075       | 70.0159    |
-| 6 | 22    | 3.3 | 40 | 8      | 1.09407    | 0.4250     | 104.584 | 9.562        | 69.3955    |
-| 7 | 8     | 1.0 | 10 | 8      | 1.08687    | 0.4175     | 30.366  | 32.932       | 71.5136    |
-| 8 | 20    | 3.0 | 40 | 10     | 1.09143    | 0.4025     | 107.207 | **9.328**    | 78.9875    |
-| 9 | 16    | 2.5 | 10 | 7      | 1.12195    | 0.3500     | 102.736 | 9.734        | 69.4440    |
-|10 | 14    | 2.0 | 10 | 6      | 1.12317    | 0.3475     | 106.739 | 9.369        | 65.0338    |
+| #  | kproj | w   | M  | probes | Average AF | Recall@N   | QPS         | tApprox (ms) | tTrue (ms) |
+| -- | ----- | --- | -- | ------ | ---------- | ---------- | ----------- | ------------ | ---------- |
+| 1  | 16    | 4.0 | 20 | 10     | 1.02303    | **0.6225** | 33.6213     | 29.7430      | 76.8701    |
+| 2  | 18    | 4.0 | 20 | 14     | 1.04606    | **0.5550** | 51.1595     | 19.5467      | 78.8525    |
+| 3  | 22    | 4.0 | 20 | 20     | 1.05642    | **0.5100** | 80.4090     | 12.4364      | 75.5884    |
+| 4  | 14    | 3.0 | 20 | 10     | 1.09165    | 0.4850     | 42.0761     | 23.7664      | 77.0154    |
+| 5  | 22    | 4.0 | 20 | 10     | 1.06775    | 0.4925     | 78.7843     | 12.6929      | 80.0880    |
+
+| 6  | 24    | 4.0 | 20 | 20     | 1.06718    | 0.4725     | 122.577     | 8.15814      | 78.7375    |
+| 7  | 24    | 5.0 | 20 | 10     | 1.06816    | 0.4875     | 75.5720     | 13.2324      | 79.5392    |
+| 8  | 24    | 3.0 | 20 | 10     | 1.25572    | 0.2100     | **459.233** | **2.17754**  | 78.1771    |
+| 9  | 22    | 3.0 | 20 | 10     | 1.23935    | 0.2275     | 285.296     | 3.50513      | 74.7092    |
+| 10 | 22    | 3.0 | 20 | 16     | 1.22306    | 0.2375     | 263.585     | 3.79384      | 79.0142    |
+
 
 **Observations**  
-- **Best recall:** `kproj=12, w=2.0, M=20, probes=6` → Recall@N = **0.515**, AF = 1.061, QPS ≈ 36.9, tApprox ≈ 27.1 ms. Strongest accuracy within the filtered set.  
-- **Fastest setup (in this top-10):** `kproj=20, w=3.0, M=40, probes=10` → **tApprox ≈ 9.33 ms**, QPS ≈ 107.2, Recall@N = 0.4025. Best latency while keeping recall > 0.4.  
-- **Balanced performance 1:** `kproj=16, w=3.0, M=40, probes=6` → Recall@N = **0.4975**, AF = 1.059, QPS ≈ 57.8, tApprox ≈ 17.3 ms.  
-- **Balanced performance 2:** `kproj=22, w=3.3, M=40, probes=8` → Recall@N = **0.425**, AF = 1.094, QPS ≈ 104.6, tApprox ≈ 9.56 ms.
+- Because the SIFT data are **normalized**, the distances are tighter than in raw space. In the hypercube, slightly **larger `w` (≈3–4)** with a reasonable `kproj` and a few **probes** tends to lift recall while keeping time controlled.  
+- **Best recall:** `kproj=10, w=3.5, M=20, probes=8` → Recall@N = **0.8075**, AF ≈ **1.023**. This configuration gives the highest accuracy among the tests. The average search time is longer (~74.9 ms), but it achieves precise results, making it a strong choice when accuracy is the main objective.  
+- **Fastest setup:** `kproj=24, w=3.0, M=20, probes=10` → **tApprox ≈ 2.18 ms**, QPS ≈ **459.2**, Recall@N = **0.210**. It clearly demonstrates the speed–accuracy trade-off: aggressive projection with low probes is extremely efficient but reduces recall.  
+- **Balanced performance 1:** `kproj=22, w=4.0, M=20, probes=20` → Recall@N = **0.510**, AF ≈ **1.056**, QPS ≈ **80.4**, tApprox ≈ **12.44 ms**. Solid balance with recall above 0.5 and smooth latency.  
+- **Balanced performance 2:** `kproj=24, w=4.0, M=20, probes=14` → Recall@N = **0.4725**, AF ≈ **1.067**, QPS ≈ **122.6**, tApprox ≈ **8.158 ms**. Slightly less accurate than the balance setup 1 but with faster time and still a low AF. Ideal for a fast balanced performance.  
+These results show the same general behavior as elsewhere — increasing **probes** (and sometimes `w`) improves recall, while higher **kproj** with fewer probes gives much faster queries at the cost of precision. The final choice depends on whether you favor **throughput** or **accuracy** for the task at hand.
 
 #### **Trends on HYPERCUBE search**
 
