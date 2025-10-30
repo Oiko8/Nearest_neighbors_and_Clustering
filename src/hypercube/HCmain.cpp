@@ -18,8 +18,9 @@ struct Args {
     int kproj = 14;           // -kproj
     int M = 5;                // -M (per-vertex or total depending on config)
     int probes = 4;           // -probes (number of vertices to visit)
-    float w = 4.0;           // -w
-    float R = 2000.0;        // -R (MNIST default)
+    int queries_num = 0;      // subset of queries you choose to run 
+    float w = 4.0;            // -w
+    float R = 2000.0;         // -R (MNIST default)
     bool range = false;       // -range (if there will be a range search)
     bool norm = false;
 };
@@ -46,6 +47,7 @@ static Args parse_args(int argc, char** argv){
         else if (flag=="-range"){ need(1); a.range=str2bool(argv[++i]); }
         else if (flag=="-hypercube"){  a.algorithm="hypercube"; }
         else if (flag=="-norm"){ a.norm=true; } 
+        else if (flag=="-subset"){ a.queries_num = stoi(argv[++i]); }
         else { cerr<<"Unknown flag: "<<flag<<"\n"; exit(1);}
     }
     if (a.data_path.empty()){
@@ -157,8 +159,11 @@ static void search_in_dataset(Args args , string type){
     float sum_tApprox_ms = 0.0;       // sum of the time for the approx search
     float sum_tTrue_ms   = 0.0;       // sum of the time for the true search 
  
-    int queries_num = min(100, (int)queries.size());
-    // int queries_num = (int)queries.size();
+    // if a subset is not provided take all the set of queries
+    int queries_num = (args.queries_num==0) ? (int)queries.size() : args.queries_num;
+
+    out << "[Hypercube]\n\n";
+
     for (int i=0 ; i<queries_num && i < (int)queries.size(); i++){
         q = queries[i];
 

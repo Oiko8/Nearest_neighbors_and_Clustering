@@ -1,15 +1,17 @@
+[Hypercube]
+
 Query: 1
 Nearest neighbor-1: 2176
 distanceApproximate: 1.26964
 distanceTrue: 1.06822
-Nearest neighbor-2: 988993
-distanceApproximate: 1.35251
+Nearest neighbor-2: 562814
+distanceApproximate: 1.43052
 distanceTrue: 1.07667
-Nearest neighbor-3: 436861
-distanceApproximate: 1.38993
+Nearest neighbor-3: 591078
+distanceApproximate: 1.43799
 distanceTrue: 1.11922
-Nearest neighbor-4: 161141
-distanceApproximate: 1.41481
+Nearest neighbor-4: 125848
+distanceApproximate: 1.44059
 distanceTrue: 1.17184
 
 R-near neighbors:
@@ -24,8 +26,8 @@ distanceTrue: 1.05175
 Nearest neighbor-3: 706838
 distanceApproximate: 1.07395
 distanceTrue: 1.07395
-Nearest neighbor-4: 942339
-distanceApproximate: 1.08783
+Nearest neighbor-4: 941776
+distanceApproximate: 1.10136
 distanceTrue: 1.07566
 
 R-near neighbors:
@@ -46,41 +48,41 @@ distanceTrue: 0.847122
 
 R-near neighbors:
 669835
-408764
-408462
 408855
 551661
 551743
 861530
-906773
 311367
 150588
 230295
 55587
-695462
 609782
-762362
 889222
 227542
 401475
 606268
 370619
+669801
+299884
+669812
+746345
+70410
 527380
-69035
-62269
 744548
 322818
 533274
 980997
 139967
-940565
+408764
+408462
+906773
+695462
+762362
+398521
 861882
-406273
 406324
-678042
 534822
 937126
-392607
 10065
 23781
 917085
@@ -94,46 +96,38 @@ R-near neighbors:
 275762
 196946
 937830
-239766
-57338
-398086
+769053
+105963
 402106
 306132
 401804
 736302
 260648
-115312
 829132
 736271
-971815
-940582
 709211
-905339
+61501
+239766
+57338
 742644
 743053
-762311
-61501
-762523
-80333
 
 Query: 4
 Nearest neighbor-1: 885741
 distanceApproximate: 0.91502
 distanceTrue: 0.801244
-Nearest neighbor-2: 967144
-distanceApproximate: 0.918749
-distanceTrue: 0.805865
-Nearest neighbor-3: 780591
-distanceApproximate: 0.971481
-distanceTrue: 0.830478
-Nearest neighbor-4: 885692
+Nearest neighbor-2: 885692
 distanceApproximate: 0.987678
+distanceTrue: 0.805865
+Nearest neighbor-3: 885785
+distanceApproximate: 1.04399
+distanceTrue: 0.830478
+Nearest neighbor-4: 664638
+distanceApproximate: 1.05639
 distanceTrue: 0.856657
 
 R-near neighbors:
-967144
 885741
-780591
 885692
 
 Query: 5
@@ -146,8 +140,8 @@ distanceTrue: 0.998347
 Nearest neighbor-3: 716433
 distanceApproximate: 1.05164
 distanceTrue: 1.00657
-Nearest neighbor-4: 340288
-distanceApproximate: 1.10443
+Nearest neighbor-4: 953387
+distanceApproximate: 1.10535
 distanceTrue: 1.00708
 
 R-near neighbors:
@@ -163,8 +157,8 @@ distanceTrue: 1.17642
 Nearest neighbor-3: 489179
 distanceApproximate: 1.28782
 distanceTrue: 1.17642
-Nearest neighbor-4: 207170
-distanceApproximate: 1.29079
+Nearest neighbor-4: 281457
+distanceApproximate: 1.30458
 distanceTrue: 1.18374
 
 R-near neighbors:
@@ -173,14 +167,14 @@ Query: 7
 Nearest neighbor-1: 628383
 distanceApproximate: 1.12541
 distanceTrue: 1.02903
-Nearest neighbor-2: 170274
-distanceApproximate: 1.13068
-distanceTrue: 1.03924
-Nearest neighbor-3: 681834
+Nearest neighbor-2: 681834
 distanceApproximate: 1.13667
+distanceTrue: 1.03924
+Nearest neighbor-3: 565415
+distanceApproximate: 1.14163
 distanceTrue: 1.05899
-Nearest neighbor-4: 923329
-distanceApproximate: 1.14099
+Nearest neighbor-4: 746690
+distanceApproximate: 1.1463
 distanceTrue: 1.05971
 
 R-near neighbors:
@@ -205,37 +199,33 @@ R-near neighbors:
 479784
 476618
 866796
-38783
 819353
 807398
 800805
 107360
 211981
 309448
-374743
 573961
-761352
-469613
 807599
 207868
-762217
-543133
 108097
 51349
 325150
 994709
-55254
-695955
-995722
 124488
 807699
-344109
 890779
-826666
 53320
 619025
 870732
 637614
+429332
+809598
+599751
+140732
+825316
+928837
+874617
 107468
 235792
 37728
@@ -246,8 +236,6 @@ R-near neighbors:
 38699
 153004
 247071
-5671
-639916
 950313
 39873
 558464
@@ -256,11 +244,15 @@ R-near neighbors:
 4597
 294830
 280193
+151746
+257200
 5868
 997837
 999898
 896185
-769907
+38783
+374743
+761352
 57655
 53230
 56999
@@ -272,14 +264,14 @@ Query: 9
 Nearest neighbor-1: 376328
 distanceApproximate: 0.980096
 distanceTrue: 0.980096
-Nearest neighbor-2: 325865
-distanceApproximate: 1.03125
-distanceTrue: 1.03125
-Nearest neighbor-3: 323160
+Nearest neighbor-2: 323160
 distanceApproximate: 1.03472
-distanceTrue: 1.03472
-Nearest neighbor-4: 376277
+distanceTrue: 1.03125
+Nearest neighbor-3: 376277
 distanceApproximate: 1.05764
+distanceTrue: 1.03472
+Nearest neighbor-4: 724549
+distanceApproximate: 1.0723
 distanceTrue: 1.05764
 
 R-near neighbors:
@@ -304,17 +296,17 @@ R-near neighbors:
 177646
 
 Query: 11
-Nearest neighbor-1: 320547
-distanceApproximate: 1.10323
-distanceTrue: 1.0673
-Nearest neighbor-2: 992617
-distanceApproximate: 1.11486
-distanceTrue: 1.10323
-Nearest neighbor-3: 432201
-distanceApproximate: 1.20027
-distanceTrue: 1.11486
-Nearest neighbor-4: 988918
+Nearest neighbor-1: 988918
 distanceApproximate: 1.20055
+distanceTrue: 1.0673
+Nearest neighbor-2: 98601
+distanceApproximate: 1.23388
+distanceTrue: 1.10323
+Nearest neighbor-3: 166533
+distanceApproximate: 1.25255
+distanceTrue: 1.11486
+Nearest neighbor-4: 949727
+distanceApproximate: 1.28036
 distanceTrue: 1.18826
 
 R-near neighbors:
@@ -344,7 +336,6 @@ R-near neighbors:
 4762
 469120
 852753
-806212
 753346
 168473
 730317
@@ -359,27 +350,23 @@ R-near neighbors:
 130733
 625928
 704665
-141531
 
 Query: 13
-Nearest neighbor-1: 390776
-distanceApproximate: 0.908616
-distanceTrue: 0.908616
-Nearest neighbor-2: 923810
+Nearest neighbor-1: 923810
 distanceApproximate: 0.947911
+distanceTrue: 0.908616
+Nearest neighbor-2: 224306
+distanceApproximate: 1.02344
 distanceTrue: 0.923124
-Nearest neighbor-3: 931688
-distanceApproximate: 0.953191
+Nearest neighbor-3: 878854
+distanceApproximate: 1.02682
 distanceTrue: 0.947911
-Nearest neighbor-4: 191546
-distanceApproximate: 0.967118
+Nearest neighbor-4: 518898
+distanceApproximate: 1.03021
 distanceTrue: 0.953191
 
 R-near neighbors:
-390776
 923810
-931688
-191546
 
 Query: 14
 Nearest neighbor-1: 565610
@@ -434,40 +421,33 @@ R-near neighbors:
 918194
 
 Query: 17
-Nearest neighbor-1: 796844
-distanceApproximate: 0.851508
+Nearest neighbor-1: 780753
+distanceApproximate: 1.0615
 distanceTrue: 0.851508
-Nearest neighbor-2: 796217
-distanceApproximate: 0.880005
+Nearest neighbor-2: 224196
+distanceApproximate: 1.06805
 distanceTrue: 0.880005
-Nearest neighbor-3: 798456
-distanceApproximate: 0.909588
+Nearest neighbor-3: 666574
+distanceApproximate: 1.11456
 distanceTrue: 0.909588
-Nearest neighbor-4: 23370
-distanceApproximate: 0.978699
+Nearest neighbor-4: 652967
+distanceApproximate: 1.11785
 distanceTrue: 0.978699
 
 R-near neighbors:
-563318
-796844
-796217
-798456
-426178
-23370
-685252
 
 Query: 18
-Nearest neighbor-1: 117181
-distanceApproximate: 1.02482
-distanceTrue: 0.951412
-Nearest neighbor-2: 579505
+Nearest neighbor-1: 579505
 distanceApproximate: 1.04201
-distanceTrue: 1.02151
-Nearest neighbor-3: 862392
+distanceTrue: 0.951412
+Nearest neighbor-2: 862392
 distanceApproximate: 1.05021
-distanceTrue: 1.02482
-Nearest neighbor-4: 862676
+distanceTrue: 1.02151
+Nearest neighbor-3: 862676
 distanceApproximate: 1.05672
+distanceTrue: 1.02482
+Nearest neighbor-4: 579460
+distanceApproximate: 1.06647
 distanceTrue: 1.04088
 
 R-near neighbors:
@@ -489,33 +469,26 @@ distanceTrue: 1.06645
 R-near neighbors:
 
 Query: 20
-Nearest neighbor-1: 921304
-distanceApproximate: 0.929734
-distanceTrue: 0.900929
-Nearest neighbor-2: 905999
+Nearest neighbor-1: 905999
 distanceApproximate: 0.938575
-distanceTrue: 0.905809
-Nearest neighbor-3: 629123
+distanceTrue: 0.900929
+Nearest neighbor-2: 629123
 distanceApproximate: 0.946812
 distanceTrue: 0.905809
-Nearest neighbor-4: 514347
-distanceApproximate: 0.952848
+Nearest neighbor-3: 70562
+distanceApproximate: 0.974531
+distanceTrue: 0.905809
+Nearest neighbor-4: 876201
+distanceApproximate: 0.977667
 distanceTrue: 0.927536
 
 R-near neighbors:
 629123
 876201
-803526
-902150
-249859
-921304
 905999
-514347
-842163
 363189
 867974
 394288
-886542
 70562
 
 Query: 21
@@ -535,24 +508,44 @@ distanceTrue: 0.701025
 R-near neighbors:
 587404
 666481
-929092
 82246
 601801
 541161
 860624
-928637
 481713
 448233
 475757
-359780
 546573
 519210
 589531
 54836
 306578
-442761
 346559
+307708
+468112
+344579
+682558
+827227
+929092
+928637
+359780
+442761
 113419
+422112
+774710
+386628
+559021
+105722
+113885
+954796
+374273
+925843
+543353
+196025
+274841
+659953
+558650
+442913
 587884
 860018
 65029
@@ -565,25 +558,20 @@ R-near neighbors:
 442800
 57707
 920219
-814260
 937464
 860908
 105571
-478270
-421586
 895571
-870615
-57580
+341619
+919741
+82668
+151633
 421453
 920816
-422035
 899396
 820537
-447211
-814270
 631391
 464887
-445845
 905635
 734150
 779461
@@ -592,13 +580,17 @@ R-near neighbors:
 920570
 221721
 379285
-253846
+743421
+519189
+922006
+897104
+80855
+310871
 382669
 520678
 411763
 545328
 828212
-53668
 62673
 184660
 410938
@@ -613,58 +605,35 @@ R-near neighbors:
 869808
 906433
 128773
+758493
+739535
+733969
+737437
 86661
-559650
 112324
-682609
 82979
-158559
-6757
 112303
 84514
 412143
 502270
-427766
 826582
-452248
 854733
 904280
 50584
-116567
 718524
-195737
-274553
-12369
-520359
-11960
-494866
-975296
-753760
-507643
-922234
-343837
-798054
-779493
-770758
-923892
-299716
-963645
-606539
-753888
-753790
 
 Query: 22
-Nearest neighbor-1: 4490
-distanceApproximate: 0.370851
-distanceTrue: 0.370851
-Nearest neighbor-2: 4457
+Nearest neighbor-1: 4457
 distanceApproximate: 0.402443
-distanceTrue: 0.402443
-Nearest neighbor-3: 440896
+distanceTrue: 0.370851
+Nearest neighbor-2: 440896
 distanceApproximate: 0.745508
-distanceTrue: 0.745508
-Nearest neighbor-4: 105025
+distanceTrue: 0.402443
+Nearest neighbor-3: 105025
 distanceApproximate: 0.751566
+distanceTrue: 0.745508
+Nearest neighbor-4: 30046
+distanceApproximate: 0.765478
 distanceTrue: 0.751566
 
 R-near neighbors:
@@ -677,7 +646,6 @@ R-near neighbors:
 497354
 337027
 787655
-187642
 190535
 497211
 104971
@@ -688,12 +656,12 @@ R-near neighbors:
 190529
 365353
 312454
+776967
 566609
 559990
 321611
 710368
 570662
-805687
 152427
 534926
 51399
@@ -701,13 +669,14 @@ R-near neighbors:
 905096
 90283
 571084
-806064
 450148
 90715
 905085
 384648
 294898
 547273
+525540
+784818
 234950
 306259
 365266
@@ -733,25 +702,43 @@ R-near neighbors:
 305062
 525351
 804015
-106148
 352508
 476723
 9102
 336800
 365877
-892757
 609688
 693963
 535938
-742854
 458327
 326056
 391740
 30052
+583687
+305395
+609761
+337012
+105434
+684414
+422828
+790959
+522806
+744468
+609715
+210703
+747962
+609691
+339682
+734797
+929119
+490761
+122865
+20796
+490525
+339360
 352277
 87409
 523702
-790898
 68889
 235965
 351475
@@ -759,28 +746,20 @@ R-near neighbors:
 699216
 699424
 141360
-4490
-104882
-869260
-68545
-30174
-498717
-803969
-923874
-340430
+500246
 
 Query: 23
-Nearest neighbor-1: 31629
-distanceApproximate: 0.753174
-distanceTrue: 0.753174
-Nearest neighbor-2: 68360
+Nearest neighbor-1: 68360
 distanceApproximate: 0.773762
-distanceTrue: 0.773762
-Nearest neighbor-3: 426465
+distanceTrue: 0.753174
+Nearest neighbor-2: 426465
 distanceApproximate: 0.781407
-distanceTrue: 0.781407
-Nearest neighbor-4: 4957
+distanceTrue: 0.773762
+Nearest neighbor-3: 4957
 distanceApproximate: 0.793816
+distanceTrue: 0.781407
+Nearest neighbor-4: 558357
+distanceApproximate: 0.796767
 distanceTrue: 0.793816
 
 R-near neighbors:
@@ -789,60 +768,56 @@ R-near neighbors:
 722938
 188225
 4552
-86049
-663916
 498498
 731226
-31629
 68360
 426465
 4957
 4784
 281276
-633279
-536469
-776801
-94976
 932260
-122002
-32170
-724538
-724529
 803987
-472860
 61496
-810003
 886310
+85443
+915411
+427122
+699245
+723270
+700271
+525215
+131103
+684216
+524769
+723790
 30171
-722221
 30919
+86049
+663916
 162309
 63432
 36508
-105818
-151455
 98887
 
 Query: 24
-Nearest neighbor-1: 364790
-distanceApproximate: 0.939539
-distanceTrue: 0.939539
-Nearest neighbor-2: 686808
+Nearest neighbor-1: 686808
 distanceApproximate: 0.944497
-distanceTrue: 0.944497
-Nearest neighbor-3: 363583
+distanceTrue: 0.939539
+Nearest neighbor-2: 363583
 distanceApproximate: 0.952031
-distanceTrue: 0.952031
-Nearest neighbor-4: 452484
+distanceTrue: 0.944497
+Nearest neighbor-3: 452484
 distanceApproximate: 0.964972
+distanceTrue: 0.952031
+Nearest neighbor-4: 931784
+distanceApproximate: 0.970885
 distanceTrue: 0.964972
 
 R-near neighbors:
-452484
 452900
 363583
 931784
-364790
+452484
 686808
 
 Query: 25
@@ -863,22 +838,19 @@ R-near neighbors:
 4630
 4554
 4623
-242430
 188771
-292781
 278815
 278674
 806386
-188787
-749719
 635607
-736496
-278998
-160073
 188768
 172451
 493981
 475114
+160073
+242430
+736496
+278998
 804007
 784790
 525082
@@ -887,7 +859,9 @@ R-near neighbors:
 708719
 708731
 292520
-279489
+292781
+188787
+749719
 
 Query: 26
 Nearest neighbor-1: 719083
@@ -906,84 +880,84 @@ distanceTrue: 1.10725
 R-near neighbors:
 
 Query: 27
-Nearest neighbor-1: 426756
-distanceApproximate: 0.797334
-distanceTrue: 0.792729
-Nearest neighbor-2: 10021
+Nearest neighbor-1: 10021
 distanceApproximate: 0.809435
-distanceTrue: 0.797334
-Nearest neighbor-3: 525190
+distanceTrue: 0.792729
+Nearest neighbor-2: 525190
 distanceApproximate: 0.818701
-distanceTrue: 0.809435
-Nearest neighbor-4: 475114
+distanceTrue: 0.797334
+Nearest neighbor-3: 475114
 distanceApproximate: 0.824834
+distanceTrue: 0.809435
+Nearest neighbor-4: 9899
+distanceApproximate: 0.841477
 distanceTrue: 0.818701
 
 R-near neighbors:
 525190
 475114
 363510
-566480
 525650
-794330
-430486
-241053
 808825
-29483
 525274
-6827
-559733
-918783
 208379
 353367
-718019
-309588
-979585
-432501
+600663
+141701
+391789
+994746
+322681
+514337
+372424
+391735
 368838
 499584
 946094
 951157
 944286
-560397
-606914
 352382
-468178
-770595
-790153
-336660
-784788
-926623
-168672
-301312
-515960
-278993
-733415
-965624
-615043
-429452
-426756
+566480
+430486
+241053
+6827
+559733
+918783
+718019
+309588
+432501
+830115
+451228
+611722
+501599
 10021
-514206
-321539
 9899
 515955
 321507
-791127
 13710
 10487
-790870
-336645
 106152
-925006
 13776
-924153
-369459
-29924
 510252
-717813
+978851
+590943
+869861
+302247
+961155
+960990
+291931
+218083
+30522
+713669
+854383
+468178
+770595
+926623
+168672
+278993
+615043
+429452
+794330
 353320
-436966
 
 Query: 28
 Nearest neighbor-1: 291918
@@ -1009,17 +983,17 @@ R-near neighbors:
 291938
 176129
 717127
-176295
 366495
 296045
 353020
 58968
-814403
 140601
 802361
 717049
 364341
-903495
+560083
+925261
+559966
 110381
 572925
 800169
@@ -1037,57 +1011,52 @@ R-near neighbors:
 59052
 390118
 907212
-528315
 780755
 341468
+742176
+176295
+814403
+903495
+637605
+176650
+417346
+645120
+417607
+434032
+158898
+255038
+821018
+89349
+510898
+128327
+522810
 363857
 70085
 932814
 133251
-232930
-872738
-466628
-736607
 
 Query: 29
 Nearest neighbor-1: 725057
 distanceApproximate: 0.874969
 distanceTrue: 0.874969
-Nearest neighbor-2: 422521
-distanceApproximate: 0.881629
+Nearest neighbor-2: 515173
+distanceApproximate: 0.945944
 distanceTrue: 0.881629
-Nearest neighbor-3: 210568
-distanceApproximate: 0.926821
+Nearest neighbor-3: 477926
+distanceApproximate: 0.958836
 distanceTrue: 0.916019
-Nearest neighbor-4: 724824
-distanceApproximate: 0.932897
+Nearest neighbor-4: 599088
+distanceApproximate: 0.968759
 distanceTrue: 0.926821
 
 R-near neighbors:
 725057
 515173
-227825
-905032
 653519
 98185
-237960
-678307
-614982
-724824
-103965
-208287
+905032
 477926
 599088
-103826
-426089
-559733
-965124
-478039
-653177
-907104
-422521
-210568
-621908
 
 Query: 30
 Nearest neighbor-1: 5453
@@ -1124,6 +1093,26 @@ R-near neighbors:
 787992
 768172
 885240
+786482
+62308
+992151
+768239
+824103
+913088
+539962
+862100
+443001
+768061
+7766
+655605
+768133
+632433
+406620
+768306
+469255
+543541
+801832
+38251
 555262
 638091
 823050
@@ -1157,13 +1146,13 @@ R-near neighbors:
 823485
 38797
 786610
-26675
 6406
 467325
 467289
 768081
-543450
 787901
+38757
+790074
 678014
 715416
 763415
@@ -1188,7 +1177,6 @@ R-near neighbors:
 391045
 911496
 656247
-26213
 
 Query: 31
 Nearest neighbor-1: 528396
@@ -1200,8 +1188,8 @@ distanceTrue: 0.950936
 Nearest neighbor-3: 140175
 distanceApproximate: 1.00232
 distanceTrue: 0.958946
-Nearest neighbor-4: 736536
-distanceApproximate: 1.03768
+Nearest neighbor-4: 842322
+distanceApproximate: 1.042
 distanceTrue: 0.984594
 
 R-near neighbors:
@@ -1242,13 +1230,12 @@ distanceApproximate: 0.93213
 distanceTrue: 0.93213
 
 R-near neighbors:
-330332
-133114
 71999
 30920
 599126
 684695
-281121
+330332
+133114
 5300
 69173
 70085
@@ -1261,11 +1248,11 @@ distanceTrue: 1.01265
 Nearest neighbor-2: 676916
 distanceApproximate: 1.13831
 distanceTrue: 1.13171
-Nearest neighbor-3: 615911
-distanceApproximate: 1.23488
-distanceTrue: 1.13831
-Nearest neighbor-4: 100515
+Nearest neighbor-3: 100515
 distanceApproximate: 1.25579
+distanceTrue: 1.13831
+Nearest neighbor-4: 646457
+distanceApproximate: 1.25646
 distanceTrue: 1.15444
 
 R-near neighbors:
@@ -1277,11 +1264,11 @@ distanceTrue: 0.931046
 Nearest neighbor-2: 540894
 distanceApproximate: 1.01774
 distanceTrue: 0.990751
-Nearest neighbor-3: 188171
-distanceApproximate: 1.05961
-distanceTrue: 1.01774
-Nearest neighbor-4: 238380
+Nearest neighbor-3: 238380
 distanceApproximate: 1.06942
+distanceTrue: 1.01774
+Nearest neighbor-4: 845487
+distanceApproximate: 1.08707
 distanceTrue: 1.05961
 
 R-near neighbors:
@@ -1297,8 +1284,8 @@ distanceTrue: 0.643822
 Nearest neighbor-3: 6707
 distanceApproximate: 0.823838
 distanceTrue: 0.823838
-Nearest neighbor-4: 392768
-distanceApproximate: 1.0931
+Nearest neighbor-4: 240849
+distanceApproximate: 1.15261
 distanceTrue: 1.04477
 
 R-near neighbors:
@@ -1316,8 +1303,8 @@ distanceTrue: 0.642824
 Nearest neighbor-3: 580180
 distanceApproximate: 1.17192
 distanceTrue: 0.733529
-Nearest neighbor-4: 920719
-distanceApproximate: 1.18705
+Nearest neighbor-4: 221457
+distanceApproximate: 1.19796
 distanceTrue: 1.09345
 
 R-near neighbors:
@@ -1352,8 +1339,8 @@ distanceTrue: 0.730482
 Nearest neighbor-3: 132200
 distanceApproximate: 1.22672
 distanceTrue: 0.743275
-Nearest neighbor-4: 328306
-distanceApproximate: 1.25613
+Nearest neighbor-4: 135445
+distanceApproximate: 1.27726
 distanceTrue: 0.813312
 
 R-near neighbors:
@@ -1366,85 +1353,46 @@ distanceTrue: 0.679859
 Nearest neighbor-2: 689683
 distanceApproximate: 0.791041
 distanceTrue: 0.729055
-Nearest neighbor-3: 84515
-distanceApproximate: 0.822304
-distanceTrue: 0.748705
-Nearest neighbor-4: 602063
+Nearest neighbor-3: 602063
 distanceApproximate: 0.836738
+distanceTrue: 0.748705
+Nearest neighbor-4: 293041
+distanceApproximate: 0.890676
 distanceTrue: 0.762738
 
 R-near neighbors:
-689683
-419372
-293041
-875983
-293553
-817660
-421911
 881503
 52199
-236061
-513884
 477601
-748771
-150768
-53291
 987329
-239959
-685103
-744749
-83097
-56462
-51902
 685537
 784846
 982441
 83119
-9721
 83866
 73998
-337035
-804964
-724387
-895285
 602063
 503695
-232642
-10306
 53678
-471546
-584223
-82074
-601752
 84249
-504539
-241291
-898929
 120566
-742622
 421660
-81988
-863403
-84515
 157336
 83002
-279913
 890103
-492367
 53655
-529379
-529558
 778481
-295780
 347015
-982270
 9841
 42488
 288333
 279622
 511528
-365272
-830031
+948319
+689683
+293041
+863403
+513884
 
 Query: 41
 Nearest neighbor-1: 4773
@@ -1456,8 +1404,8 @@ distanceTrue: 0.850333
 Nearest neighbor-3: 678598
 distanceApproximate: 1.01678
 distanceTrue: 0.863288
-Nearest neighbor-4: 474658
-distanceApproximate: 1.03779
+Nearest neighbor-4: 379937
+distanceApproximate: 1.11631
 distanceTrue: 0.889624
 
 R-near neighbors:
@@ -1499,6 +1447,15 @@ R-near neighbors:
 415612
 889607
 250351
+373932
+917292
+103944
+774797
+543046
+821385
+950908
+102137
+821544
 672663
 543266
 304642
@@ -1519,15 +1476,6 @@ R-near neighbors:
 926207
 389253
 143641
-373932
-917292
-103944
-774797
-543046
-821385
-950908
-102137
-821544
 779153
 865729
 825337
@@ -1537,7 +1485,6 @@ R-near neighbors:
 374487
 897859
 904269
-820611
 823899
 4643
 374653
@@ -1548,6 +1495,7 @@ R-near neighbors:
 825162
 285598
 824519
+4564
 668534
 339313
 122989
@@ -1564,26 +1512,23 @@ R-near neighbors:
 830617
 710778
 827618
-931256
-483300
 
 Query: 43
 Nearest neighbor-1: 279441
 distanceApproximate: 0.936387
 distanceTrue: 0.923113
-Nearest neighbor-2: 280744
-distanceApproximate: 0.996427
-distanceTrue: 0.936387
-Nearest neighbor-3: 684403
+Nearest neighbor-2: 684403
 distanceApproximate: 1.02255
+distanceTrue: 0.936387
+Nearest neighbor-3: 442262
+distanceApproximate: 1.08048
 distanceTrue: 0.962811
-Nearest neighbor-4: 176619
-distanceApproximate: 1.02868
+Nearest neighbor-4: 5224
+distanceApproximate: 1.08611
 distanceTrue: 0.996427
 
 R-near neighbors:
 279441
-280744
 
 Query: 44
 Nearest neighbor-1: 6302
@@ -1592,42 +1537,36 @@ distanceTrue: 0.758436
 Nearest neighbor-2: 698353
 distanceApproximate: 1.11487
 distanceTrue: 0.888228
-Nearest neighbor-3: 189650
-distanceApproximate: 1.1873
-distanceTrue: 1.11487
-Nearest neighbor-4: 342108
+Nearest neighbor-3: 342108
 distanceApproximate: 1.20092
+distanceTrue: 1.11487
+Nearest neighbor-4: 550852
+distanceApproximate: 1.21313
 distanceTrue: 1.14415
 
 R-near neighbors:
 6302
 
 Query: 45
-Nearest neighbor-1: 754244
-distanceApproximate: 0.820024
-distanceTrue: 0.820024
-Nearest neighbor-2: 740214
-distanceApproximate: 0.850407
-distanceTrue: 0.850407
-Nearest neighbor-3: 477919
+Nearest neighbor-1: 477919
 distanceApproximate: 0.894048
-distanceTrue: 0.894048
-Nearest neighbor-4: 379564
+distanceTrue: 0.820024
+Nearest neighbor-2: 379564
 distanceApproximate: 0.947012
+distanceTrue: 0.850407
+Nearest neighbor-3: 477668
+distanceApproximate: 0.955407
+distanceTrue: 0.894048
+Nearest neighbor-4: 400851
+distanceApproximate: 0.991516
 distanceTrue: 0.930639
 
 R-near neighbors:
-740214
-477919
-379564
 477668
-734963
-402180
-994393
-669498
 400851
 90790
-754244
+477919
+379564
 
 Query: 46
 Nearest neighbor-1: 339510
@@ -1644,6 +1583,9 @@ distanceApproximate: 0.890086
 distanceTrue: 0.890086
 
 R-near neighbors:
+482497
+37601
+812385
 339510
 341048
 103857
@@ -1652,80 +1594,68 @@ R-near neighbors:
 780322
 21980
 826999
-482497
 827163
-37601
 327992
 351987
 812494
 314362
 344793
-812385
 176023
 37599
-103931
-290912
-220614
 
 Query: 47
 Nearest neighbor-1: 5880
 distanceApproximate: 0.457015
 distanceTrue: 0.457015
-Nearest neighbor-2: 750523
-distanceApproximate: 0.888737
-distanceTrue: 0.854923
-Nearest neighbor-3: 997994
+Nearest neighbor-2: 997994
 distanceApproximate: 0.90184
-distanceTrue: 0.888737
-Nearest neighbor-4: 417152
+distanceTrue: 0.854923
+Nearest neighbor-3: 417152
 distanceApproximate: 0.913501
+distanceTrue: 0.888737
+Nearest neighbor-4: 998162
+distanceApproximate: 0.921345
 distanceTrue: 0.90184
 
 R-near neighbors:
-417152
-417192
 345081
 5880
-750523
 997994
 998162
 289779
 478548
-369606
-535790
-207277
-999229
 9669
-236009
+417152
+417192
 
 Query: 48
 Nearest neighbor-1: 389019
 distanceApproximate: 1.34862
 distanceTrue: 1.29068
-Nearest neighbor-2: 17798
-distanceApproximate: 1.35649
-distanceTrue: 1.31059
-Nearest neighbor-3: 388928
+Nearest neighbor-2: 388928
 distanceApproximate: 1.37134
-distanceTrue: 1.33385
-Nearest neighbor-4: 858681
+distanceTrue: 1.31059
+Nearest neighbor-3: 858681
 distanceApproximate: 1.40326
+distanceTrue: 1.33385
+Nearest neighbor-4: 806645
+distanceApproximate: 1.4162
 distanceTrue: 1.33863
 
 R-near neighbors:
 
 Query: 49
-Nearest neighbor-1: 873171
-distanceApproximate: 1.13379
-distanceTrue: 0.714508
-Nearest neighbor-2: 632830
+Nearest neighbor-1: 632830
 distanceApproximate: 1.19031
-distanceTrue: 0.973461
-Nearest neighbor-3: 376001
+distanceTrue: 0.714508
+Nearest neighbor-2: 376001
 distanceApproximate: 1.22235
-distanceTrue: 0.989146
-Nearest neighbor-4: 863888
+distanceTrue: 0.973461
+Nearest neighbor-3: 863888
 distanceApproximate: 1.23707
+distanceTrue: 0.989146
+Nearest neighbor-4: 375922
+distanceApproximate: 1.24924
 distanceTrue: 1.00407
 
 R-near neighbors:
@@ -1745,56 +1675,50 @@ distanceApproximate: 0.739969
 distanceTrue: 0.739969
 
 R-near neighbors:
-336709
 724181
 305111
 279962
-336790
 263596
 5084
 189094
 79548
 823640
 699300
-719257
-389989
 823529
 691303
 51028
-30674
-390376
 608899
-521864
 53701
-83191
 151174
-151186
-490525
 34121
+53645
+502655
+825498
+784841
+363371
+282491
+294347
+94342
 559574
 953450
-716517
 639813
-336756
 989539
 348075
 720067
 448626
 519294
 464945
-488086
 524917
-185170
 524879
 414441
-789691
-373664
 789068
 16538
-426852
 426791
 291888
-777048
+336709
+336790
+789691
+373664
 
 Query: 51
 Nearest neighbor-1: 5653
@@ -1830,13 +1754,12 @@ distanceTrue: 0.977032
 R-near neighbors:
 6123
 6192
-863669
 774030
 86102
 898134
 56891
-84314
 402541
+863669
 
 Query: 53
 Nearest neighbor-1: 353210
@@ -1856,7 +1779,6 @@ R-near neighbors:
 352562
 892861
 300557
-226027
 321785
 286143
 466142
@@ -1883,41 +1805,35 @@ R-near neighbors:
 915493
 713982
 601599
-435564
 497632
 334696
 560543
+310841
 315815
 200796
 265074
 430373
 307684
 111705
-335476
 64733
-410093
 353210
 781593
 781199
-500929
 781390
-896322
 772234
 344759
 106770
-235157
 733673
-235304
 73649
 262716
 428721
-772293
 426574
 193694
 272510
 924676
 210754
 212563
+226027
 
 Query: 54
 Nearest neighbor-1: 351987
@@ -1942,7 +1858,6 @@ R-near neighbors:
 459172
 101249
 862947
-367362
 242141
 357055
 179420
@@ -1954,8 +1869,12 @@ R-near neighbors:
 82784
 263502
 323292
+780128
 917926
 175304
+367362
+807124
+310801
 323246
 745960
 806165
@@ -2027,6 +1946,7 @@ R-near neighbors:
 907764
 737446
 188929
+78036
 640967
 827025
 750179
@@ -2098,109 +2018,107 @@ distanceApproximate: 0.834572
 distanceTrue: 0.834572
 
 R-near neighbors:
-79553
-307829
 279070
 279393
 419768
 312604
-105292
 540901
 4903
 472375
 324833
 363623
 152096
+518988
+424310
+605061
+524947
+389803
+270365
+206087
+748306
+261443
+11738
+79553
+307829
+105292
 152552
 514182
-518988
 168143
 37090
-424310
 79638
+177666
+279049
+363522
+544114
+279486
+994018
+278928
+30847
+190423
+719189
+744280
+601232
 84208
 748000
 31920
 369637
-699421
 499357
 744752
-821923
 684189
-361724
 187755
-339484
-559881
 803971
 98664
-427850
 662893
-84173
 131735
 16569
-749482
-76046
+261484
+719667
+84576
+243318
+662671
+175405
+909051
 830084
-323296
-470730
-470502
-431027
 470462
-448352
-141856
-542616
 308262
 736291
-603409
-732965
 480475
-368542
-311418
 516066
-406515
 466921
-364895
 28662
 732930
-91337
-500109
-403551
 514539
-366170
 417888
-526307
-79528
-808819
-370613
-632919
-830085
-336735
-389425
-350499
-911299
-103146
-336715
-332978
-64851
-295158
-68634
-474912
-724317
-65093
-431468
+232598
+331409
+419338
+341646
+419351
+92209
+431360
+772210
+122045
+514361
 151617
 614387
-424082
-452152
-754804
+808819
+632919
+911299
+332978
+295158
+694116
+404987
+902844
+470133
+706624
+276134
+197318
+63986
+431664
+599060
 95406
 261821
 242513
-684142
-389911
-684523
-449724
-516648
 
 Query: 58
 Nearest neighbor-1: 966916
@@ -2219,11 +2137,9 @@ distanceTrue: 0.806401
 R-near neighbors:
 556125
 966411
-225733
 562323
 562251
 686203
-607932
 214354
 483179
 545950
@@ -2234,35 +2150,31 @@ R-near neighbors:
 239099
 753477
 607693
-546260
 665056
 632838
-208338
-214386
 595994
 541839
 541889
-916109
-917398
-256663
-869817
-515358
+208338
+214386
 561522
 29693
 432923
-703936
 269431
 205153
+916109
+256663
+869817
 966916
 469634
 469532
 389229
 389145
-195128
-273944
 16663
 389133
 308648
+607932
+546260
 
 Query: 59
 Nearest neighbor-1: 7237
@@ -2282,87 +2194,82 @@ R-near neighbors:
 7237
 
 Query: 60
-Nearest neighbor-1: 6316
-distanceApproximate: 0.537383
-distanceTrue: 0.524844
-Nearest neighbor-2: 768167
+Nearest neighbor-1: 768167
 distanceApproximate: 0.579164
-distanceTrue: 0.537383
-Nearest neighbor-3: 768289
+distanceTrue: 0.524844
+Nearest neighbor-2: 768289
 distanceApproximate: 0.610678
-distanceTrue: 0.57422
-Nearest neighbor-4: 768413
+distanceTrue: 0.537383
+Nearest neighbor-3: 768413
 distanceApproximate: 0.638011
+distanceTrue: 0.57422
+Nearest neighbor-4: 6648
+distanceApproximate: 0.643037
 distanceTrue: 0.579164
 
 R-near neighbors:
-6316
 768167
 768366
 44166
 256462
 8674
-920035
 916819
 122464
 921037
-715005
-920463
 921928
 6710
 82010
-208132
 604845
 151977
 258526
-585858
-6376
-657378
-768338
-768446
-910726
-6692
-648908
-468833
-833445
-101867
-834041
-899729
-833244
-254687
-899946
-228376
-102194
-673312
-610400
-886148
+601408
 569221
-309425
-38391
 768304
-44062
-878478
-979415
 637522
 902856
-836579
-469105
-767443
-328472
-312083
-582223
 151746
 228169
 537096
 886258
 886392
+388851
+475153
+45394
+608067
+952078
+271070
+206792
+4894
+167246
+45246
+896506
+6376
+657378
+768338
+768446
+6692
+648908
+101867
+834041
+899729
+254687
+899946
+102194
+673312
+886148
+238103
+885980
+886702
+26689
+886339
+238025
+916935
+920035
+920463
 768289
 768413
 6648
-768544
-620522
 155568
-471520
 917104
 43986
 44037
@@ -2373,41 +2280,31 @@ R-near neighbors:
 673267
 796447
 309931
-708854
 957176
-447083
-652023
 904963
 862271
-753827
 865172
 191208
-708998
-604192
-4799
-446167
-37799
-672869
-4815
 768551
+544148
+544144
 
 Query: 61
-Nearest neighbor-1: 5278
-distanceApproximate: 0.781232
-distanceTrue: 0.781232
-Nearest neighbor-2: 421775
+Nearest neighbor-1: 421775
 distanceApproximate: 0.995804
-distanceTrue: 0.995804
-Nearest neighbor-3: 615794
+distanceTrue: 0.781232
+Nearest neighbor-2: 615794
 distanceApproximate: 0.999611
+distanceTrue: 0.995804
+Nearest neighbor-3: 864283
+distanceApproximate: 1.03417
 distanceTrue: 0.999611
-Nearest neighbor-4: 509171
-distanceApproximate: 1.02925
+Nearest neighbor-4: 336785
+distanceApproximate: 1.04567
 distanceTrue: 1.00324
 
 R-near neighbors:
 615794
-5278
 421775
 
 Query: 62
@@ -2432,7 +2329,6 @@ R-near neighbors:
 635448
 47155
 419910
-659864
 660111
 780053
 80543
@@ -2444,7 +2340,6 @@ R-near neighbors:
 426647
 785567
 690236
-544475
 785319
 144459
 777151
@@ -2452,12 +2347,8 @@ R-near neighbors:
 662132
 733376
 660891
-780505
 370453
 262281
-417975
-780705
-262613
 
 Query: 63
 Nearest neighbor-1: 6560
@@ -2480,24 +2371,24 @@ R-near neighbors:
 428591
 449203
 616263
-563584
-652460
 757864
 761782
-593002
 655464
-759223
 654336
 642741
 655881
-639580
 912702
 827285
-838096
+802848
+211738
+657325
+40495
+802413
+211427
+639580
 905853
 423107
 643171
-423176
 716460
 642165
 656322
@@ -2514,14 +2405,7 @@ R-near neighbors:
 790386
 423220
 650128
-563394
-881956
-571985
-565829
-638308
-536918
-649397
-187191
+217412
 666919
 379097
 99850
@@ -2533,92 +2417,82 @@ R-near neighbors:
 655178
 656087
 448955
-821712
 654582
-639193
-674575
 821773
 898341
 821852
-423959
 881377
-643958
-838675
-654705
 645782
-616027
-384839
-803617
+757984
+913208
+769219
+638627
+642039
+643094
+638483
 651894
 638394
-656442
 101972
-655488
 643472
 793487
 397591
 423917
-924505
+563394
+571985
+565829
+638308
+536918
+649397
+593002
+759223
+563584
+652460
+838096
+838395
+906955
+656845
+642837
+996605
+417485
+373492
 
 Query: 64
-Nearest neighbor-1: 6321
-distanceApproximate: 0.435393
-distanceTrue: 0.435393
-Nearest neighbor-2: 6413
+Nearest neighbor-1: 6413
 distanceApproximate: 0.569842
+distanceTrue: 0.435393
+Nearest neighbor-2: 413918
+distanceApproximate: 0.931577
 distanceTrue: 0.569842
-Nearest neighbor-3: 694080
-distanceApproximate: 0.900357
+Nearest neighbor-3: 276987
+distanceApproximate: 0.95004
 distanceTrue: 0.612398
-Nearest neighbor-4: 590708
-distanceApproximate: 0.912279
+Nearest neighbor-4: 198171
+distanceApproximate: 0.95004
 distanceTrue: 0.699161
 
 R-near neighbors:
-413918
-54160
 276987
 198171
-307515
-715440
-536232
-413913
-6321
-697452
-694080
-590708
-930044
-125367
-23651
 6413
-989396
-518559
-516851
-602813
-423231
-730220
-973329
+413918
 
 Query: 65
-Nearest neighbor-1: 848657
-distanceApproximate: 0.759199
-distanceTrue: 0.634289
-Nearest neighbor-2: 422008
+Nearest neighbor-1: 422008
 distanceApproximate: 0.930921
+distanceTrue: 0.634289
+Nearest neighbor-2: 682797
+distanceApproximate: 0.986622
 distanceTrue: 0.744661
-Nearest neighbor-3: 641803
-distanceApproximate: 0.958913
+Nearest neighbor-3: 387016
+distanceApproximate: 1.01013
 distanceTrue: 0.759199
-Nearest neighbor-4: 891088
-distanceApproximate: 0.980708
+Nearest neighbor-4: 474320
+distanceApproximate: 1.04343
 distanceTrue: 0.916881
 
 R-near neighbors:
 682797
-848657
-641803
 422008
-891088
 
 Query: 66
 Nearest neighbor-1: 992978
@@ -2637,23 +2511,21 @@ distanceTrue: 0.814062
 R-near neighbors:
 782307
 781821
-250950
 58168
-139673
-304041
-211639
 495408
 813075
 433057
-44931
 58374
 399368
+250950
+139673
+304041
+211639
+44931
 52188
 861875
 228997
-303868
 863273
-475404
 109811
 976555
 51731
@@ -2661,13 +2533,10 @@ R-near neighbors:
 474781
 881709
 118273
-58267
 992978
 606380
 251521
-944767
 447150
-157836
 457414
 52083
 252381
@@ -2679,49 +2548,44 @@ distanceTrue: 0.921402
 Nearest neighbor-2: 686362
 distanceApproximate: 1.04183
 distanceTrue: 1.03532
-Nearest neighbor-3: 7758
-distanceApproximate: 1.10756
-distanceTrue: 1.04183
-Nearest neighbor-4: 102274
+Nearest neighbor-3: 102274
 distanceApproximate: 1.11879
+distanceTrue: 1.04183
+Nearest neighbor-4: 102476
+distanceApproximate: 1.14681
 distanceTrue: 1.05527
 
 R-near neighbors:
 
 Query: 68
-Nearest neighbor-1: 37790
-distanceApproximate: 0.850296
-distanceTrue: 0.850296
-Nearest neighbor-2: 213670
+Nearest neighbor-1: 213670
 distanceApproximate: 0.875029
-distanceTrue: 0.855354
-Nearest neighbor-3: 48146
+distanceTrue: 0.850296
+Nearest neighbor-2: 48146
 distanceApproximate: 0.880674
-distanceTrue: 0.875029
-Nearest neighbor-4: 335382
+distanceTrue: 0.855354
+Nearest neighbor-3: 335382
 distanceApproximate: 0.885452
+distanceTrue: 0.875029
+Nearest neighbor-4: 543283
+distanceApproximate: 0.88824
 distanceTrue: 0.880674
 
 R-near neighbors:
 213670
 335382
 476957
-538413
 763427
 48146
 543283
 538358
-994346
 520776
 612244
 479037
 640146
-705781
-641477
 137151
 46942
-37790
-38802
+538413
 993766
 
 Query: 69
@@ -2745,11 +2609,9 @@ R-near neighbors:
 935682
 911388
 741609
-504336
 742152
 476077
 893594
-50683
 112141
 777318
 215178
@@ -2759,6 +2621,8 @@ R-near neighbors:
 969550
 935602
 29632
+869879
+786777
 477883
 741851
 669445
@@ -2769,7 +2633,6 @@ R-near neighbors:
 743433
 254415
 672034
-65473
 657975
 10966
 23243
@@ -2779,6 +2642,7 @@ R-near neighbors:
 188863
 487377
 477643
+477616
 745349
 861037
 771029
@@ -2796,7 +2660,6 @@ R-near neighbors:
 322621
 536348
 188989
-339463
 189130
 53860
 106848
@@ -2804,12 +2667,18 @@ R-near neighbors:
 730231
 158717
 52521
-129191
-661427
 131135
 428919
 715341
-516025
+53526
+537322
+338769
+50683
+52634
+218104
+124372
+86180
+994954
 345192
 777296
 448200
@@ -2820,20 +2689,21 @@ R-near neighbors:
 579297
 998523
 829690
-255718
+504336
+516025
 
 Query: 70
-Nearest neighbor-1: 827118
-distanceApproximate: 1.18937
-distanceTrue: 1.12283
-Nearest neighbor-2: 373414
+Nearest neighbor-1: 373414
 distanceApproximate: 1.21206
-distanceTrue: 1.13227
-Nearest neighbor-3: 184561
-distanceApproximate: 1.24259
-distanceTrue: 1.13842
-Nearest neighbor-4: 778562
+distanceTrue: 1.12283
+Nearest neighbor-2: 778562
 distanceApproximate: 1.24285
+distanceTrue: 1.13227
+Nearest neighbor-3: 590027
+distanceApproximate: 1.27293
+distanceTrue: 1.13842
+Nearest neighbor-4: 778355
+distanceApproximate: 1.27489
 distanceTrue: 1.15799
 
 R-near neighbors:
@@ -2845,65 +2715,41 @@ distanceTrue: 0.214765
 Nearest neighbor-2: 6430
 distanceApproximate: 0.36866
 distanceTrue: 0.36866
-Nearest neighbor-3: 768112
-distanceApproximate: 0.469663
+Nearest neighbor-3: 638187
+distanceApproximate: 0.550669
 distanceTrue: 0.462257
-Nearest neighbor-4: 541740
-distanceApproximate: 0.476203
+Nearest neighbor-4: 417477
+distanceApproximate: 0.558541
 distanceTrue: 0.469663
 
 R-near neighbors:
 6124
-543487
-89419
 417477
-718993
-839323
-571614
-683818
-893393
-568207
-716260
 852294
-567966
-443267
-885318
 912615
-421238
-654778
-10867
-655583
-655162
-655785
-568134
-407977
-755856
-655468
-755913
-710200
-755808
-652548
-986791
-953086
-655057
-953080
-568062
-839336
-657077
-655033
-893387
-937364
-543444
+373867
+51812
+540462
+768247
+955593
+825847
+373796
+953062
+907667
+62182
+855072
+868087
+849233
+947664
+475662
+763416
 996146
 468788
-417809
 782243
 415511
-449268
 779447
 755671
 735898
-717778
 379172
 768740
 468779
@@ -2913,152 +2759,143 @@ R-near neighbors:
 895676
 885408
 799776
-768112
-953089
-84498
-755930
-911962
-656224
-792968
-756002
-83273
-207098
-885400
-684025
+558600
+779627
+717815
+38685
+710200
+709822
+26676
+540438
+449440
+11489
+820602
+694692
+641044
+11863
+694894
+637973
+820646
+12352
+715111
+980837
+544849
+40916
+544699
+981129
 912580
-568154
-191181
-821849
-754293
-771336
-827632
-771344
-86748
-543096
-88026
-171799
-427773
-638429
-57204
-657657
-906989
-543086
-677092
-852746
-963523
-715965
-657785
-996744
-819514
-660828
-53302
-656529
-893149
+793032
+421738
+42771
+390526
+795792
+207564
+99301
+99144
 868120
 992061
-655398
-5196
 715692
 878481
-142673
-464960
-882147
 795857
-718481
-553244
 207674
 490929
-795582
-447589
-425247
-24053
 698053
+100488
+571912
+471034
+227291
+653654
+678487
+955651
+654098
+710493
+378592
+221266
+801717
+543086
+783698
+543640
+517555
+591407
+901189
 803716
-892573
-877777
 850886
-189391
 809144
 821817
-558631
-638793
 988094
 678117
 558607
 862041
 778914
-715367
-387907
-566406
+639313
+605716
+544994
+208991
+649668
+768898
+375812
 6430
-541740
 638187
 862388
-572160
 981353
-862092
-862743
 871112
 7486
-571147
 871140
-972351
-905247
-38821
-855403
 870426
-605151
-39367
-699382
-850849
-992614
-535088
-376053
-664970
-876331
-962377
-611379
-421643
-857111
-876347
-415514
-187488
-559911
-585442
-770525
-774268
-559902
-909582
-717520
+7765
+51752
+51703
+373878
+996329
+641003
+568700
+783000
+768254
+40973
+953038
+537830
+191096
+421244
+610211
+989317
+652948
+8038
+43378
+427543
+191105
+100216
+853320
+955941
+955143
 
 Query: 72
-Nearest neighbor-1: 5155
-distanceApproximate: 1.02202
+Nearest neighbor-1: 250953
+distanceApproximate: 1.24341
 distanceTrue: 0.888417
-Nearest neighbor-2: 807562
-distanceApproximate: 1.05111
+Nearest neighbor-2: 783088
+distanceApproximate: 1.27624
 distanceTrue: 0.943584
-Nearest neighbor-3: 126227
-distanceApproximate: 1.06837
+Nearest neighbor-3: 588684
+distanceApproximate: 1.2808
 distanceTrue: 0.961947
-Nearest neighbor-4: 788868
-distanceApproximate: 1.07659
+Nearest neighbor-4: 600061
+distanceApproximate: 1.31794
 distanceTrue: 1.00435
 
 R-near neighbors:
 
 Query: 73
-Nearest neighbor-1: 906834
-distanceApproximate: 1.31489
-distanceTrue: 1.26118
-Nearest neighbor-2: 483587
+Nearest neighbor-1: 483587
 distanceApproximate: 1.32526
-distanceTrue: 1.29572
-Nearest neighbor-3: 435928
+distanceTrue: 1.26118
+Nearest neighbor-2: 435928
 distanceApproximate: 1.34099
-distanceTrue: 1.30256
-Nearest neighbor-4: 461696
+distanceTrue: 1.29572
+Nearest neighbor-3: 461696
 distanceApproximate: 1.37341
+distanceTrue: 1.30256
+Nearest neighbor-4: 118536
+distanceApproximate: 1.38885
 distanceTrue: 1.31489
 
 R-near neighbors:
@@ -3067,14 +2904,14 @@ Query: 74
 Nearest neighbor-1: 470408
 distanceApproximate: 1.14717
 distanceTrue: 1.05715
-Nearest neighbor-2: 894402
-distanceApproximate: 1.272
-distanceTrue: 1.09576
-Nearest neighbor-3: 75711
+Nearest neighbor-2: 75711
 distanceApproximate: 1.28936
-distanceTrue: 1.12036
-Nearest neighbor-4: 258419
+distanceTrue: 1.09576
+Nearest neighbor-3: 258419
 distanceApproximate: 1.32558
+distanceTrue: 1.12036
+Nearest neighbor-4: 196411
+distanceApproximate: 1.32664
 distanceTrue: 1.14717
 
 R-near neighbors:
@@ -3089,67 +2926,62 @@ distanceTrue: 0.876075
 Nearest neighbor-3: 426975
 distanceApproximate: 0.877922
 distanceTrue: 0.877922
-Nearest neighbor-4: 437048
-distanceApproximate: 0.886402
+Nearest neighbor-4: 314481
+distanceApproximate: 0.887232
 distanceTrue: 0.886402
 
 R-near neighbors:
-7364
 426975
 314481
 548275
+168854
+338867
+933093
+312599
+227188
+690462
+542563
+429433
+763242
+516513
+451914
+516508
+548488
+821918
+415444
+408924
+560369
+600086
+7364
 724824
 831381
 55790
 55897
-168854
-338867
-933093
 430402
 547237
 55821
-188779
-55987
-923208
 729981
-312599
-547189
-547350
-13271
-56067
-15218
-817015
-560003
-602878
-600086
-798019
-208631
-662671
-758159
+736348
+804114
+547224
+517176
+64405
+729983
+442826
+471421
+242863
+735215
+653177
 426817
-433078
 548288
-655775
-432969
-280355
-602092
-637061
-437048
-123845
-625854
-522526
 411562
-158809
-256851
 179639
 614872
-940572
+337875
+80035
+353104
 781966
 782218
-377141
-353104
-736733
-422129
 
 Query: 76
 Nearest neighbor-1: 6553
@@ -3158,11 +2990,11 @@ distanceTrue: 0.972758
 Nearest neighbor-2: 874762
 distanceApproximate: 1.12207
 distanceTrue: 1.12207
-Nearest neighbor-3: 937405
-distanceApproximate: 1.14204
-distanceTrue: 1.14204
-Nearest neighbor-4: 106343
+Nearest neighbor-3: 106343
 distanceApproximate: 1.14472
+distanceTrue: 1.14204
+Nearest neighbor-4: 7616
+distanceApproximate: 1.16866
 distanceTrue: 1.14472
 
 R-near neighbors:
@@ -3172,11 +3004,11 @@ Query: 77
 Nearest neighbor-1: 120210
 distanceApproximate: 0.892953
 distanceTrue: 0.892953
-Nearest neighbor-2: 218377
-distanceApproximate: 0.89366
-distanceTrue: 0.89366
-Nearest neighbor-3: 324333
+Nearest neighbor-2: 324333
 distanceApproximate: 0.958748
+distanceTrue: 0.89366
+Nearest neighbor-3: 267648
+distanceApproximate: 1.01276
 distanceTrue: 0.958748
 Nearest neighbor-4: 203370
 distanceApproximate: 1.01276
@@ -3184,7 +3016,6 @@ distanceTrue: 0.968564
 
 R-near neighbors:
 120210
-218377
 324333
 
 Query: 78
@@ -3194,11 +3025,11 @@ distanceTrue: 1.07112
 Nearest neighbor-2: 581325
 distanceApproximate: 1.16303
 distanceTrue: 1.14236
-Nearest neighbor-3: 988313
-distanceApproximate: 1.1637
-distanceTrue: 1.16303
-Nearest neighbor-4: 32969
+Nearest neighbor-3: 32969
 distanceApproximate: 1.19252
+distanceTrue: 1.16303
+Nearest neighbor-4: 63070
+distanceApproximate: 1.23256
 distanceTrue: 1.1637
 
 R-near neighbors:
@@ -3207,141 +3038,110 @@ Query: 79
 Nearest neighbor-1: 544739
 distanceApproximate: 0.828893
 distanceTrue: 0.828893
-Nearest neighbor-2: 924921
-distanceApproximate: 0.960514
-distanceTrue: 0.960514
-Nearest neighbor-3: 547884
+Nearest neighbor-2: 547884
 distanceApproximate: 0.968053
-distanceTrue: 0.968053
-Nearest neighbor-4: 464954
+distanceTrue: 0.960514
+Nearest neighbor-3: 464954
 distanceApproximate: 0.968498
+distanceTrue: 0.968053
+Nearest neighbor-4: 465039
+distanceApproximate: 0.988625
 distanceTrue: 0.968498
 
 R-near neighbors:
-544739
 547884
-924921
 464954
 465039
+544739
 
 Query: 80
-Nearest neighbor-1: 6070
-distanceApproximate: 0.679658
-distanceTrue: 0.679658
-Nearest neighbor-2: 919617
+Nearest neighbor-1: 919617
 distanceApproximate: 0.685193
-distanceTrue: 0.685193
-Nearest neighbor-3: 138184
+distanceTrue: 0.679658
+Nearest neighbor-2: 138184
 distanceApproximate: 0.71774
-distanceTrue: 0.71774
-Nearest neighbor-4: 8069
+distanceTrue: 0.685193
+Nearest neighbor-3: 8069
 distanceApproximate: 0.735849
+distanceTrue: 0.71774
+Nearest neighbor-4: 7489
+distanceApproximate: 0.826707
 distanceTrue: 0.735849
 
 R-near neighbors:
+863852
+870806
+113427
+901066
+579134
+113423
+866274
 919617
-7080
-136445
 579385
 971540
-865265
 673970
-874286
 132665
 191990
 396465
 763199
 674079
 534426
-886268
 132169
-374106
-760147
 971323
-134555
-411888
-901066
-579134
-113423
-220049
-627907
-570035
-866274
-758796
+568063
+611526
+886153
+164196
+768562
+411966
+5952
+647996
 138184
-8486
-972546
-406375
-105769
 8069
 7489
-227994
 538504
 536512
-570159
-875589
-536656
 870474
-227661
-920260
 921167
-238213
-447933
-886606
-892258
-872682
-958635
-6070
-5967
-673324
-674756
-673335
 862760
-374258
-113497
-865087
-468983
-873256
 447850
-864672
 833033
-873728
-963407
-672819
-673581
-468907
-673207
+832977
+475247
+898557
+131629
+811166
+958181
 
 Query: 81
 Nearest neighbor-1: 7451
 distanceApproximate: 0.671153
 distanceTrue: 0.671153
-Nearest neighbor-2: 591140
-distanceApproximate: 0.982037
-distanceTrue: 0.982037
-Nearest neighbor-3: 7188
+Nearest neighbor-2: 7188
 distanceApproximate: 1.05915
-distanceTrue: 1.05915
-Nearest neighbor-4: 900930
+distanceTrue: 0.982037
+Nearest neighbor-3: 900930
 distanceApproximate: 1.08494
+distanceTrue: 1.05915
+Nearest neighbor-4: 610680
+distanceApproximate: 1.1105
 distanceTrue: 1.08494
 
 R-near neighbors:
 7451
-591140
 
 Query: 82
-Nearest neighbor-1: 833230
-distanceApproximate: 1.1465
-distanceTrue: 1.1465
-Nearest neighbor-2: 840245
+Nearest neighbor-1: 840245
 distanceApproximate: 1.14772
-distanceTrue: 1.14772
-Nearest neighbor-3: 986179
+distanceTrue: 1.1465
+Nearest neighbor-2: 986179
 distanceApproximate: 1.15562
-distanceTrue: 1.15562
-Nearest neighbor-4: 223910
+distanceTrue: 1.14772
+Nearest neighbor-3: 223910
 distanceApproximate: 1.17006
+distanceTrue: 1.15562
+Nearest neighbor-4: 800817
+distanceApproximate: 1.1776
 distanceTrue: 1.17006
 
 R-near neighbors:
@@ -3353,11 +3153,11 @@ distanceTrue: 1.00848
 Nearest neighbor-2: 280953
 distanceApproximate: 1.08926
 distanceTrue: 1.02631
-Nearest neighbor-3: 127248
-distanceApproximate: 1.12816
+Nearest neighbor-3: 154577
+distanceApproximate: 1.17269
 distanceTrue: 1.08926
-Nearest neighbor-4: 806288
-distanceApproximate: 1.15302
+Nearest neighbor-4: 724893
+distanceApproximate: 1.17762
 distanceTrue: 1.12816
 
 R-near neighbors:
@@ -3366,25 +3166,21 @@ Query: 84
 Nearest neighbor-1: 847922
 distanceApproximate: 0.85922
 distanceTrue: 0.796251
-Nearest neighbor-2: 414280
-distanceApproximate: 0.865904
-distanceTrue: 0.833058
-Nearest neighbor-3: 40878
+Nearest neighbor-2: 40878
 distanceApproximate: 0.892222
-distanceTrue: 0.848215
-Nearest neighbor-4: 54762
+distanceTrue: 0.833058
+Nearest neighbor-3: 54762
 distanceApproximate: 0.912533
+distanceTrue: 0.848215
+Nearest neighbor-4: 157088
+distanceApproximate: 0.972098
 distanceTrue: 0.85922
 
 R-near neighbors:
 847922
 40878
 54762
-414280
-241559
-132176
 157088
-353210
 
 Query: 85
 Nearest neighbor-1: 8894
@@ -3396,8 +3192,8 @@ distanceTrue: 0.996817
 Nearest neighbor-3: 280838
 distanceApproximate: 1.02086
 distanceTrue: 1.01147
-Nearest neighbor-4: 711937
-distanceApproximate: 1.04189
+Nearest neighbor-4: 469776
+distanceApproximate: 1.04288
 distanceTrue: 1.01511
 
 R-near neighbors:
@@ -3408,14 +3204,14 @@ Query: 86
 Nearest neighbor-1: 419010
 distanceApproximate: 1.02207
 distanceTrue: 1.021
-Nearest neighbor-2: 802125
-distanceApproximate: 1.02751
-distanceTrue: 1.02207
-Nearest neighbor-3: 479823
+Nearest neighbor-2: 479823
 distanceApproximate: 1.15349
-distanceTrue: 1.02751
-Nearest neighbor-4: 479638
+distanceTrue: 1.02207
+Nearest neighbor-3: 479638
 distanceApproximate: 1.18649
+distanceTrue: 1.02751
+Nearest neighbor-4: 885372
+distanceApproximate: 1.38651
 distanceTrue: 1.06069
 
 R-near neighbors:
@@ -3430,8 +3226,8 @@ distanceTrue: 0.922418
 Nearest neighbor-3: 73061
 distanceApproximate: 0.937005
 distanceTrue: 0.937005
-Nearest neighbor-4: 910669
-distanceApproximate: 0.940143
+Nearest neighbor-4: 900912
+distanceApproximate: 0.968129
 distanceTrue: 0.940143
 
 R-near neighbors:
@@ -3439,11 +3235,9 @@ R-near neighbors:
 642062
 73061
 253067
-910669
 900912
 808513
 526166
-114829
 424719
 
 Query: 88
@@ -3462,27 +3256,26 @@ distanceTrue: 0.847842
 
 R-near neighbors:
 7722
+521335
+417700
+820955
+34081
+119894
+856498
+893693
+484291
+297056
+441662
+387568
 526037
 39337
 643125
 282502
-521335
-417700
-642572
-820955
-34081
 38168
 50082
-119894
-856498
 5690
 39242
-893693
-387568
-484291
 8011
-297056
-441662
 
 Query: 89
 Nearest neighbor-1: 7098
@@ -3506,19 +3299,19 @@ R-near neighbors:
 7065
 754572
 709057
-39488
 230886
 389235
 44080
-417228
 292790
-6326
 709371
 813449
 39130
-410425
 637468
 810860
+249653
+409821
+255717
+37971
 38545
 38522
 38386
@@ -3537,18 +3330,14 @@ R-near neighbors:
 740833
 754679
 51549
-50486
 740552
-897035
-810556
+979071
 38996
-558816
 158572
 712436
 58523
 478437
 397589
-411756
 239662
 537398
 768299
@@ -3561,112 +3350,66 @@ R-near neighbors:
 902272
 688432
 107908
+39488
+417228
+6326
+410425
+661991
+980188
+779574
 
 Query: 90
-Nearest neighbor-1: 7627
-distanceApproximate: 0.525385
-distanceTrue: 0.525385
-Nearest neighbor-2: 754531
+Nearest neighbor-1: 754531
 distanceApproximate: 0.601232
+distanceTrue: 0.525385
+Nearest neighbor-2: 191344
+distanceApproximate: 0.832553
 distanceTrue: 0.601232
-Nearest neighbor-3: 7118
-distanceApproximate: 0.721745
+Nearest neighbor-3: 41745
+distanceApproximate: 0.861604
 distanceTrue: 0.6704
-Nearest neighbor-4: 825274
-distanceApproximate: 0.750459
+Nearest neighbor-4: 391609
+distanceApproximate: 0.886556
 distanceTrue: 0.721745
 
 R-near neighbors:
-213122
-389418
 41745
-391609
-421899
-416064
-295960
-51590
-686223
-413353
-874718
 820644
-6245
-569938
 349683
-282245
 812340
 807793
-826983
+251216
+41865
+779528
+391609
+416064
+51590
+413353
+421899
+295960
+686223
+282245
 467416
-7627
-7118
-825274
-386717
-825123
-870522
-825030
-679055
-207153
-753931
-678052
-906901
-131568
-639570
-250640
-990885
-762369
-637548
-285959
-207874
-754531
-191344
-213176
-707844
-39882
-118008
-851759
-442835
-54767
-126841
-494458
-685908
-617224
-753930
-866747
-457532
-442886
-411855
-44559
-905574
-814177
-44529
-479615
-556117
-707149
-639971
-872546
-905765
-852141
-51578
-758275
-344000
-786337
-546695
-546924
-664611
-558452
-50638
-546618
-891083
-475515
-754556
-872575
-408313
-236693
+247975
+879329
+146741
+54608
+55615
+313774
+249220
+282164
+55406
+747870
+990976
 52648
 385950
 667320
-886212
-386927
+754531
+191344
+685908
+457532
+477322
+891083
 
 Query: 91
 Nearest neighbor-1: 9258
@@ -3690,7 +3433,6 @@ R-near neighbors:
 815326
 85967
 815425
-85193
 815524
 923125
 815333
@@ -3703,6 +3445,7 @@ R-near neighbors:
 29960
 815305
 818650
+964730
 520730
 815297
 445488
@@ -3723,26 +3466,26 @@ R-near neighbors:
 332653
 305104
 129259
-482240
-422680
-82941
-389910
-483144
-638136
-470730
-703021
-321615
-82365
-429254
-297308
-364980
-482789
-892872
-470502
-246521
-857476
-68351
-4740
+85193
+450147
+123867
+84376
+99360
+615082
+615071
+430248
+4678
+635111
+426094
+521885
+426386
+122079
+305064
+787528
+525278
+964875
+423103
+337246
 825762
 420681
 814658
@@ -3763,6 +3506,26 @@ R-near neighbors:
 845522
 825671
 459495
+482240
+422680
+82941
+389910
+483144
+638136
+470730
+703021
+321615
+82365
+297308
+364980
+482789
+892872
+470502
+246521
+857476
+68351
+4740
+569408
 815480
 815287
 111924
@@ -3783,17 +3546,31 @@ R-near neighbors:
 815368
 815398
 100400
+409729
+16238
+292484
+522809
+469954
+292853
+720969
+24294
+452362
+14322
+104739
+560676
+285569
+88402
+720608
+942502
+63929
+152080
+89178
+351132
 810004
-995694
 551621
 551681
-995923
 469122
-615244
 469275
-551643
-466913
-6490
 125195
 420873
 823546
@@ -3803,111 +3580,98 @@ R-near neighbors:
 168519
 723217
 823501
-635848
-698792
-742847
+130260
+469248
+815201
+261464
+569321
+709114
 
 Query: 92
-Nearest neighbor-1: 439826
-distanceApproximate: 1.05787
-distanceTrue: 1.05787
-Nearest neighbor-2: 57569
+Nearest neighbor-1: 57569
 distanceApproximate: 1.16284
-distanceTrue: 1.0812
-Nearest neighbor-3: 802478
+distanceTrue: 1.05787
+Nearest neighbor-2: 802478
 distanceApproximate: 1.2204
-distanceTrue: 1.16284
-Nearest neighbor-4: 803095
+distanceTrue: 1.0812
+Nearest neighbor-3: 803095
 distanceApproximate: 1.2683
+distanceTrue: 1.16284
+Nearest neighbor-4: 385776
+distanceApproximate: 1.2703
 distanceTrue: 1.20803
 
 R-near neighbors:
 
 Query: 93
-Nearest neighbor-1: 8356
-distanceApproximate: 0.648916
-distanceTrue: 0.648916
-Nearest neighbor-2: 7797
-distanceApproximate: 1.12482
-distanceTrue: 1.12482
-Nearest neighbor-3: 511325
-distanceApproximate: 1.20931
-distanceTrue: 1.20931
-Nearest neighbor-4: 806838
+Nearest neighbor-1: 806838
 distanceApproximate: 1.24267
+distanceTrue: 0.648916
+Nearest neighbor-2: 183768
+distanceApproximate: 1.26304
+distanceTrue: 1.12482
+Nearest neighbor-3: 942656
+distanceApproximate: 1.27406
+distanceTrue: 1.20931
+Nearest neighbor-4: 407483
+distanceApproximate: 1.28549
 distanceTrue: 1.24267
 
 R-near neighbors:
-8356
 
 Query: 94
-Nearest neighbor-1: 742678
-distanceApproximate: 0.877431
-distanceTrue: 0.855538
-Nearest neighbor-2: 742597
-distanceApproximate: 0.918692
-distanceTrue: 0.858068
-Nearest neighbor-3: 311426
+Nearest neighbor-1: 311426
 distanceApproximate: 0.926253
-distanceTrue: 0.858497
-Nearest neighbor-4: 44017
+distanceTrue: 0.855538
+Nearest neighbor-2: 44017
 distanceApproximate: 0.942713
+distanceTrue: 0.858068
+Nearest neighbor-3: 441175
+distanceApproximate: 0.964983
+distanceTrue: 0.858497
+Nearest neighbor-4: 98494
+distanceApproximate: 0.98871
 distanceTrue: 0.877431
 
 R-near neighbors:
-311426
 44017
-98494
-733866
 441175
-812041
-527477
 634001
-742678
-742597
+98494
+311426
 
 Query: 95
 Nearest neighbor-1: 8419
 distanceApproximate: 0.736564
 distanceTrue: 0.736564
-Nearest neighbor-2: 37970
-distanceApproximate: 0.772061
-distanceTrue: 0.772061
-Nearest neighbor-3: 986478
+Nearest neighbor-2: 986478
 distanceApproximate: 0.856939
+distanceTrue: 0.772061
+Nearest neighbor-3: 29315
+distanceApproximate: 0.968889
 distanceTrue: 0.856939
-Nearest neighbor-4: 962974
-distanceApproximate: 0.867045
+Nearest neighbor-4: 38139
+distanceApproximate: 0.998631
 distanceTrue: 0.867045
 
 R-near neighbors:
 986478
 29315
-962974
-985312
-616609
-984016
-856493
-380955
 38139
-37970
-768288
 8419
-768179
-973942
 
 Query: 96
 Nearest neighbor-1: 849118
 distanceApproximate: 1.1231
 distanceTrue: 1.1231
-Nearest neighbor-2: 691386
-distanceApproximate: 1.14527
-distanceTrue: 1.13883
-Nearest neighbor-3: 332322
+Nearest neighbor-2: 332322
 distanceApproximate: 1.15461
+distanceTrue: 1.13883
+Nearest neighbor-3: 916928
+distanceApproximate: 1.17461
 distanceTrue: 1.14527
-Nearest neighbor-4: 298797
-distanceApproximate: 1.16801
+Nearest neighbor-4: 332566
+distanceApproximate: 1.198
 distanceTrue: 1.15461
 
 R-near neighbors:
@@ -3948,14 +3712,14 @@ Query: 99
 Nearest neighbor-1: 112511
 distanceApproximate: 0.468519
 distanceTrue: 0.468519
-Nearest neighbor-2: 911693
-distanceApproximate: 0.470491
-distanceTrue: 0.470491
-Nearest neighbor-3: 768297
+Nearest neighbor-2: 768297
 distanceApproximate: 0.474011
-distanceTrue: 0.474011
-Nearest neighbor-4: 896881
+distanceTrue: 0.470491
+Nearest neighbor-3: 896881
 distanceApproximate: 0.479265
+distanceTrue: 0.474011
+Nearest neighbor-4: 37844
+distanceApproximate: 0.483309
 distanceTrue: 0.479265
 
 R-near neighbors:
@@ -3964,21 +3728,41 @@ R-near neighbors:
 896881
 37844
 37993
-39076
-793629
 207803
-37752
-37734
 207733
 123062
-692804
 767889
 37775
 893351
 477272
 736499
 424121
+599452
+122927
+905694
+615191
+655481
+423856
+39076
+793629
+37752
+37734
+692804
 693505
+102895
+770380
+38711
+953020
+207721
+476935
+430337
+770280
+770404
+536170
+476891
+770577
+655284
+129279
 53586
 859802
 53461
@@ -3988,10 +3772,8 @@ R-near neighbors:
 619292
 56197
 771327
-716300
 552141
 415674
-778259
 845873
 994455
 520484
@@ -3999,10 +3781,11 @@ R-near neighbors:
 930253
 410144
 869831
+410358
+753534
 768073
 657841
 536382
-102872
 217391
 914023
 937268
@@ -4016,9 +3799,10 @@ R-near neighbors:
 639934
 907509
 655658
-666858
 896942
 655067
+656068
+937253
 655584
 667388
 39086
@@ -4029,7 +3813,6 @@ R-near neighbors:
 655652
 912952
 656094
-476989
 656060
 442807
 656308
@@ -4038,69 +3821,48 @@ R-near neighbors:
 656388
 907241
 715436
-38183
+423436
+640662
+82870
 822691
-374596
 816598
-826549
 965754
 423250
 654731
-39046
-912723
 814312
 41383
 822776
 41291
-654908
-693214
 786689
 445666
 884388
 655841
 131535
-911693
-280557
-656945
-123266
-124153
-476937
-207118
-681957
-129469
-568174
-601171
-536157
-675421
-667396
-207133
-222461
-657985
-541066
-541309
-675799
-96711
-994896
+814238
+599259
+654473
+884466
+667285
+642399
 
 Query: 100
-Nearest neighbor-1: 440321
-distanceApproximate: 0.996754
-distanceTrue: 0.846849
-Nearest neighbor-2: 753623
-distanceApproximate: 1.0069
-distanceTrue: 0.996754
-Nearest neighbor-3: 8782
+Nearest neighbor-1: 8782
 distanceApproximate: 1.07745
+distanceTrue: 0.846849
+Nearest neighbor-2: 873725
+distanceApproximate: 1.20538
+distanceTrue: 0.996754
+Nearest neighbor-3: 424272
+distanceApproximate: 1.23435
 distanceTrue: 1.0069
-Nearest neighbor-4: 64957
-distanceApproximate: 1.18738
+Nearest neighbor-4: 423878
+distanceApproximate: 1.23482
 distanceTrue: 1.07745
 
 R-near neighbors:
-440321
 
-Average AF: 1.03503
-Recall@N: 0.6225
-QPS: 33.6213
-tApproximateAverage: 29.743
-tTrueAverage: 80.46
+Average AF: 1.06775
+Recall@N: 0.4925
+QPS: 68.2075
+tApproximateAverage: 14.6612
+tTrueAverage: 79.8481

@@ -43,13 +43,13 @@ int main(int argc, char** argv) {
             found = true;
             return hypercube_main(argc, argv);
         } 
-        // else if (a == "-ivfflat") {
-        //      found = true;
-        //      return ivfflat_main(argc, argv);
-        //  } else if (a == "-ivfpq") {
-        //      found = true;
-        //      return ivfpq_main(argc, argv);
-        //  }
+        else if (a == "-ivfflat") {
+             found = true;
+             return ivfflat_main(argc, argv);
+         } else if (a == "-ivfpq") {
+             found = true;
+             return ivfpq_main(argc, argv);
+         }
     }
 
     if (!found) {

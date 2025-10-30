@@ -1,3 +1,5 @@
+[LSH]
+
 Query: 1
 Nearest neighbor-1: 932085
 distanceApproximate: 1.06822
@@ -22881,6 +22883,6 @@ R-near neighbors:
 
 Average AF: 1.01819
 Recall@N: 0.626
-QPS: 89.9251
-tApproximateAverage: 11.1204
-tTrueAverage: 76.6973
+QPS: 93.5262
+tApproximateAverage: 10.6922
+tTrueAverage: 75.7156
