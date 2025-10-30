@@ -2,6 +2,7 @@
 #include "../../utils_functions/io.h"
 #include "vectors.h"
 #include "../../utils_functions/euclid.h"
+#include "../../utils_functions/nearest_neighbor.h"
 #include "kmeans.h"
 #include "ivf_main.h"
 #include <chrono>
@@ -26,6 +27,7 @@ struct Args {
     int nprobe = 5;                 // -nprobe poses listes tha elegxoume
     double R = -1.0;                // -R radius (optional)
     unsigned seed = 1; 
+    bool range = false; 
 };
 
 static Args parse_args(int argc, char** argv) { // function pou diabazei command line arguments
@@ -42,6 +44,11 @@ static Args parse_args(int argc, char** argv) { // function pou diabazei command
         else if (f == "-nprobe") { need(1); a.nprobe = std::stoi(argv[++i]); } // -nprobe
         else if (f == "-R") { need(1); a.R = std::stod(argv[++i]); }  // -R radius
         else if (f == "-seed") { need(1); a.seed = static_cast<unsigned>(std::stoul(argv[++i])); } // -seed
+        else if (f == "-range") { need(1); std::string v = argv[++i]; 
+            if (v == "true" || v == "1") a.range = true;
+            else if (v == "false" || v == "0") a.range = false;
+            else { std::cerr << "Invalid value for -range: " << v << " (use true|false)\n"; exit(1); }
+        }
         else { std::cerr << "Unknown flag: " << f << "\n"; exit(1); } // an flag den uparxei terminate
     }
     if (a.method != "ivfflat" && a.method != "ivfpq") { // elegxos tou method
@@ -53,37 +60,7 @@ static Args parse_args(int argc, char** argv) { // function pou diabazei command
     }
     return a; // epistrefei struct me args
 }
-// ===== nearest_neighbor =====
-// pair(distSquared, id) einai plhsios tropos gia nth_element
-static void nearest_neighbor(const Dataset &ds, const float* q, int N,
-                                      std::vector<uint32_t> &out_ids, std::vector<float> &out_dists) {
-    std::vector<std::pair<float,uint32_t>> all;   // vector apo (distSquared, id)
-    all.reserve(ds.n);                            // kratame capacity gia apodosh
 
-    for (size_t i=0;i<ds.n;i++){
-        float dsq = eucliddistance(q, ds.row(i), ds.d);
-        // emplace_back: prosthikei to \pair(dsq, i) sto telos tou vector, xwris extra copy
-        all.emplace_back(dsq, (uint32_t)i);
-    }
-
-    // an exoume perissotera apo N, xrisimopoioume nth_element gia na pairnoume top-N stoixia
-    if ((int)all.size() > N) {
-        std::nth_element(all.begin(), all.begin() + N, all.end(),
-                         [](const auto &a, const auto &b){ return a.first < b.first; });
-        // resize gia na kratame mono ta prwta N stoixeia (ta opoia einai ta N mikrotera, alla oxi sorted)
-        all.resize(N);
-    }
-
-    // twra ta sortaroume teleia (smallest -> largest)
-    std::sort(all.begin(), all.end(), [](const auto &a, const auto &b){ return a.first < b.first; });
-
-    // clear out vectors and gemise ta out_ids,out_dists me apotelesmata
-    out_ids.clear(); out_dists.clear();
-    for (auto &p : all) {
-        out_ids.push_back(p.second);           // p.second einai to id (uint32)
-        out_dists.push_back(std::sqrt(p.first)); // p.first einai squared dist, opote sqrt-> actual L2
-    }
-}
 int ivfflat_main(int argc, char** argv) {
     Args args = parse_args(argc, argv);   // diabazei args
 
@@ -169,15 +146,19 @@ int ivfflat_main(int argc, char** argv) {
             }
 
             // range search (an oristhike R)
-            if (args.R > 0.0) {
+            if (args.range && args.R > 0.0) {
                 std::vector<int> in_range;
                 auto allcand = index.search(qptr, base, base.n, static_cast<size_t>(args.nprobe), args.R);
-                for (auto &p : allcand) { float d = std::sqrt(p.second); if (d <= (float)args.R) in_range.push_back((int)p.first); }
-                std::sort(in_range.begin(), in_range.end());
-                in_range.erase(std::unique(in_range.begin(), in_range.end()), in_range.end());
-                std::cout << "\nR-near neighbors:\n";
-                for (int id : in_range) std::cout << id << "\n";
+                for (auto &p : allcand) {
+                    float d = std::sqrt(p.second);
+                    if (d <= static_cast<float>(args.R)) in_range.push_back(static_cast<int>(p.first));
+                }
+            std::sort(in_range.begin(), in_range.end());
+            in_range.erase(std::unique(in_range.begin(), in_range.end()), in_range.end());
+            std::cout << "\nR-near neighbors:\n";
+            for (int id : in_range) std::cout << id << "\n";
             }
+
 
             std::cout << "\n";
         } // telos loop queries
