@@ -37,4 +37,5 @@ void nearest_neighbor(const Dataset &ds,             // ds: to dataset me ta dia
         out_ids.push_back(p.second);                 // prosthetoume to id sti lista out_ids
         out_dists.push_back(std::sqrt(p.first));     // prosthetoume tin pragmatiki apostasi (sqrt tou squared)
     }
+
 }
