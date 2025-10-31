@@ -37,7 +37,9 @@ static Args parse_args(int argc, char** argv) {
         std::string f = argv[i];      // pairnoume to trexon arg
         auto need = [&](int more){ if (i + more >= argc) { std::cerr << "Missing value after " << f << "\n"; exit(1); } }; // elegxos oti yparxei timi meta to flag
 
-        if (f == "-method") { need(1); a.method = argv[++i]; }       // diavase -method
+        // if (f == "-method") { need(1); a.method = argv[++i]; }       // diavase -method
+        if (f == "-ivfflat") { a.method = "ivfflat"; }
+        else if (f == "-ivfpq") {a.method = "ivfpq" ;}
         else if (f == "-d") { need(1); a.data_path = argv[++i]; }    // diavase -d dataset
         else if (f == "-q") { need(1); a.query_path = argv[++i]; }   // diavase -q queries
         else if (f == "-type") { need(1); a.type = argv[++i]; }      // diavase -type mnist|sift
