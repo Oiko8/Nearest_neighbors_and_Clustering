@@ -103,13 +103,12 @@ Key implementation notes:
       - `-type <flag>` : the dataset that is used (mnist or sift)
       - `-range <true|false>` : activates (true) or deactivates (false) range search
       - `-lsh` : the method (algorithm) that is used in the search
-      - [Strongly suggested] `-norm` : applies normalization to the mnist dataset ([0-255] -> [0.0-1.0]). 
-      - [Optional] `-subset <number of queries>` : the algorithm only runs a subset of queries and not all the query file.
-      Attention to the parameters that must be alternated.  
+      - [Optional] `-raw` : does not apply normalization to the datasets. Attention to the parameters that must be alternated.  
+      - [Optional] `-subset <number of queries>` : the algorithm only runs a subset of queries and not all the query file. 
       
       Example :
-      - ` ./search -d MNIST_data/input.dat -q MNIST_data/query.dat -k 4 -L 14 -w 6.0 -N 5 -R 3.0 -type mnist -range true -lsh -o ../results/results_lsh_mnist.txt -norm -subset 100`
-      - ` ./search -d SIFT_data/input.dat -q SIFT_data/query.dat -k 6 -L 14 -w 2.0 -N 5 -R 1.0 -type sift -range true -lsh -o ../results/results_lsh_sift.txt -norm -subset 100`
+      - ` ./search -d MNIST_data/input.dat -q MNIST_data/query.dat -k 4 -L 14 -w 6.0 -N 5 -R 3.0 -type mnist -range true -lsh -o ../results/results_lsh_mnist.txt -subset 100`
+      - ` ./search -d SIFT_data/input.dat -q SIFT_data/query.dat -k 6 -L 14 -w 2.0 -N 5 -R 1.0 -type sift -range true -lsh -o ../results/results_lsh_sift.txt -subset 100`
    
    
    2. Approximate-NN search using Hypercube algorithm :  
@@ -126,12 +125,12 @@ Key implementation notes:
       - `-type <flag>` : the dataset that is used (mnist or sift)
       - `-range <true|false>` : activates (true) or deactivates (false) range search
       - `-hypercube` : the method (algorithm) that is used in the search
-      - [Strongly suggested] `-norm` : applies normalization to the mnist dataset ([0-MAX] -> [0.0-1.0]). Attention to the parameters that must be alternated.
+      - [Optional] `-raw` : does not apply normalization to the datasets. Attention to the parameters that must be alternated.
       - [Optional] `-subset <number of queries>` : the algorithm only runs a subset of queries and not all the query file.  
 
       Example :
-      - `./search -d MNIST_data/input.dat -q MNIST_data/query.dat -kproj 10 -w 12.0 -M 20 -probes 10 -N 4 -R 2.0 -type mnist -range true -hypercube -o ../results/results_hc_mnist.txt -norm -subset 100`
-      - `./search -d SIFT_data/input.dat -q SIFT_data/query.dat -kproj 22 -w 4.0 -M 20 -probes 10 -N 4 -R 1.0 -type sift -range true -hypercube -o ../results/results_hc_sift.txt -norm -subset 100`
+      - `./search -d MNIST_data/input.dat -q MNIST_data/query.dat -kproj 10 -w 12.0 -M 20 -probes 10 -N 4 -R 2.0 -type mnist -range true -hypercube -o ../results/results_hc_mnist.txt -subset 100`
+      - `./search -d SIFT_data/input.dat -q SIFT_data/query.dat -kproj 22 -w 4.0 -M 20 -probes 10 -N 4 -R 1.0 -type sift -range true -hypercube -o ../results/results_hc_sift.txt -subset 100`
 
    3. Approximate-NN search using IVFFlat algorithm :  
       `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -ivfflat –seed <int> `

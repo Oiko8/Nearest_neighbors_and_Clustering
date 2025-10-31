@@ -23,7 +23,7 @@ struct Args {
     float w = 4.0;            // -w
     float R = 2000.0;         // -R (MNIST default)
     bool range = false;       // -range (if there will be a range search)
-    bool norm = false;
+    bool norm = true;
 };
 
 static bool str2bool(const string& s){
@@ -46,7 +46,7 @@ static Args parse_args(int argc, char** argv){
         else if (flag=="-R") { need(1); a.R=stod(argv[++i]); }
         else if (flag=="-range"){ need(1); a.range=str2bool(argv[++i]); }
         else if (flag=="-lsh"){  a.algorithm="lsh"; }
-        else if (flag=="-norm"){ a.norm=true; } 
+        else if (flag=="-raw"){ a.norm=true; } 
         else if (flag=="-subset"){ a.queries_num = stoi(argv[++i]); }
         else { cerr<<"Unknown flag: "<<flag<<"\n"; exit(1);}
     }
