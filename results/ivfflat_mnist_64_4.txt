@@ -407382,6 +407382,6 @@ R-near neighbors:
 
 Average AF: 1.00103
 Recall@N: 0.99
-QPS: 537.634
-tApproximateAverage: 1.86 ms
-tTrueAverage: 24.11 ms
+QPS: 540.541
+tApproximateAverage: 1.85 ms
+tTrueAverage: 23.6 ms

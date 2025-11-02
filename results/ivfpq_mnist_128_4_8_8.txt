@@ -210433,6 +210433,6 @@ R-near neighbors:
 
 Average AF: 1.00741
 Recall@N: 0.25
-QPS: 0
-tApproximateAverage: 0 ms
-tTrueAverage: 24.88 ms
+QPS: 100000.00
+tApproximateAverage: 0.01 ms
+tTrueAverage: 24.09 ms
