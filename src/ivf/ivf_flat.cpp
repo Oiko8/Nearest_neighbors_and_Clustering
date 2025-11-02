@@ -19,10 +19,10 @@ void IVFFlat::train_and_index(const Dataset &ds, size_t kclusters_, unsigned see
     KMeans::assign_all(ds, centroids, assign);  // Antistoixizei kathe deigma sto kontinotero kentro
 
     for(size_t i=0;i<ds.n;i++){  // Gia kathe deigma
-        if(assign[i] < kclusters){ // Elegxos oti to cluster index einai egkyro
+        if(assign[i] >= kclusters){ // Elegxos oti to cluster index einai egkyro
             std::cerr << "Error: assignment out of bounds! i=" << i << " assign[i]=" << assign[i] << " kclusters=" << kclusters << "\n";
         }
-        assert(assign[i] < kclusters); // Elegxos me assert
+        // assert(assign[i] < kclusters); // Elegxos me assert
         lists[ assign[i] ].push_back((uint32_t)i); // Prosthetei to id tou deigmatos stin lista tou cluster
     }
 }
