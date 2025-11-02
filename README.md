@@ -159,7 +159,7 @@ Key Classes / Functions:
 - **Rangesearch.h (.cpp)** : Provides a full-scan R-range search using euclidean distance (L2) with an early-abandon cutoff, plus a variant that optionally returns (id, d²) sorted by distance.
 - **euclid.h (.cpp)** : Provides two alternative functions that returns the euclidean distance (L2) of two vectors. One pointers-based that returns the distance² and one vector-based that returns the true distance. The two routines were created in the early stages of the code's building and are kept both due to their usage in different search algorithms.
 - **nearest_neighbor.h (.cpp)** : Implements a brute-force nearest neighbor search on a dataset.
--  **nearest_neighbor (const Dataset &ds, const float* q, int N, vector<uint32_t> &out_ids, vector<float> &out_dists)** : Computes distances from query q to all vectors in ds. Keeps the top-N nearest vectors using nth_element for efficiency. Sorts the final N vectors in ascending order of distance. Returns the results as out_ids (vector indices) and out_dists (distances).
+-  **nearest_neighbor.h (.cpp)** : Computes distances from query q to all vectors in ds. Keeps the top-N nearest vectors using nth_element for efficiency. Sorts the final N vectors in ascending order of distance. Returns the results as out_ids (vector indices) and out_dists (distances).
    - Implementation Notes:
       nearest_neighbor uses squared L2 distance during selection to avoid unnecessary square roots for efficiency. The final distances are converted to true Euclidean distances using sqrt. Reserving memory for vectors (all, out_ids, out_dists) improves performance when working with large datasets like MNIST or SIFT.
 

@@ -1,5 +1,4 @@
 #include "Data_loader.h"
-#include "io.h" // Header me orismous gia eisodo/eksodo dedomenwn
 #include <fstream>  // Gia xeirismo arxeiwn se binary mode
 #include <iostream> // Gia emfanisi minimatwn sfalmatos
 #include <arpa/inet.h> // Gia ntohl (network to host long)
