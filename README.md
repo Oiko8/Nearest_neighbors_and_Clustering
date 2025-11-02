@@ -120,7 +120,7 @@ Key Classes / Functions:
 - **HCmain.h (.cpp)** : Performs approximate-nn search for a number of queries and evaluates the performance of the Hypercube search comparing to a simple exhaustive search. Prints the results in a specified output file. It is called through the [search.cpp](src/search.cpp).
 
 ### IVFflat
-- ivf_flat.h (.cpp): Defines the IVFFlat struct and functions for training (k-means for IVF centroids) and indexing.
+- **ivf_flat.h (.cpp)**: Defines the IVFFlat struct and functions for training (k-means for IVF centroids) and indexing.
    - train_and_index:
      Trains IVF centroids using k-means on the dataset.
      Assigns each vector to its nearest centroid.
@@ -129,25 +129,25 @@ Key Classes / Functions:
       Finds the nprobe nearest centroids for a query.
       Scans the vectors in those clusters, computing exact distances.
       Returns top-N results (id, distance) with optional radius R filtering.
-   - ivflat_main.cpp (.h): Contains the ivfflat_main function that launches the IVF-Flat program:
+- **ivflat_main.cpp (.h)**: Contains the ivfflat_main function that launches the IVF-Flat program:  
       Parses command-line parameters (input, query, N, kclusters, nprobe, R, output file, etc.).
       Calls train_and_index for training and indexing.
       Executes search for each query vector and writes results to the output file.
 
 ### IVF-PQ
-   - ivf_pq.h (.cpp): Defines the IVFPQ struct and functions for training, indexing, and search:
+   - **ivf_pq.h (.cpp)**: Defines the IVFPQ struct and functions for training, indexing, and search:
       - train:
         Trains IVF centroids for coarse quantization.
         Splits each vector into M subvectors and trains PQ codebooks per subspace using k-means.
-   - index_dataset:
+      - index_dataset:
         Assigns each vector to the nearest IVF centroid.
         Encodes each subvector using the corresponding PQ codebook.
         Stores (id, PQCode) pairs in inverted lists per cluster.
-   - search:
+      - search:
         Finds nprobe nearest IVF centroids.
         Precomputes lookup tables (LT) for each query subvector and each codebook centroid.
         Scans vectors in selected clusters, computes approximate distances using LT, applies radius filter R, and keeps top-N results.
-   - ivfpq_main.cpp (.h): Contains the ivfpq_main function:
+   - **ivfpq_main.cpp (.h)**: Contains the ivfpq_main function:
         Parses command-line parameters (input, query, N, kclusters, nprobe, M, nbits, R, output file, etc.).
         Calls train for IVF centroids and PQ codebooks training.
         Calls index_dataset to build inverted lists.
@@ -161,7 +161,7 @@ Key Classes / Functions:
 - **nearest_neighbor.h (.cpp)** : Implements a brute-force nearest neighbor search on a dataset.
 -  **nearest_neighbor (const Dataset &ds, const float* q, int N, vector<uint32_t> &out_ids, vector<float> &out_dists)** : Computes distances from query q to all vectors in ds. Keeps the top-N nearest vectors using nth_element for efficiency. Sorts the final N vectors in ascending order of distance. Returns the results as out_ids (vector indices) and out_dists (distances).
    - Implementation Notes:
-      nearest_neighbor uses squared L2 distance during selection to avoid unnecessary square roots for efficiency. The final distances are converted to true Euclidean distances using sqrt. Reserving memory for         vectors (all, out_ids, out_dists) improves performance when working with large datasets like MNIST or SIFT.
+      nearest_neighbor uses squared L2 distance during selection to avoid unnecessary square roots for efficiency. The final distances are converted to true Euclidean distances using sqrt. Reserving memory for vectors (all, out_ids, out_dists) improves performance when working with large datasets like MNIST or SIFT.
 
 This function is used by algorithms IVFFlat and IVFPQ as the exact search baseline for evaluating approximate nearest neighbor.
 ---
@@ -212,36 +212,36 @@ This function is used by algorithms IVFFlat and IVFPQ as the exact search baseli
       - `./search -d MNIST_data/input.dat -q MNIST_data/query.dat -kproj 10 -w 12.0 -M 20 -probes 10 -N 4 -R 2.0 -type mnist -range true -hypercube -o ../results/results_hc_mnist.txt -subset 100`
       - `./search -d SIFT_data/input.dat -q SIFT_data/query.dat -kproj 22 -w 4.0 -M 20 -probes 10 -N 4 -R 1.0 -type sift -range true -hypercube -o ../results/results_hc_sift.txt -subset 100`
 
-   3. Approximate-NN search using IVFFlat algorithm :
-      -d <input file> : contains the dataset vectors
-      -q <query file> : contains the query vectors
-      -kclusters <int> : number of IVF clusters to train
-      -nprobe <int> : number of closest clusters to probe during search
-      -ο <output file> : file to store the search results
-      -Ν <number of nearest> : number of nearest neighbors to return
-      -R <radius> : optional radius for range search (squared distance cutoff)
-      -type <flag> : dataset type (mnist or sift)
-      -range <true|false> : enable or disable range search
-      -ivfflat : select IVF-Flat as the search method
-      -seed <int> : random seed for k-means training
+   3. Approximate-NN search using IVFFlat algorithm :  
       Usage :
-      `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -ivfflat –seed <int> `
-   4. Approximate-NN search using IVFPQ algorithm :
-      -d <input file> : dataset vectors
-      -q <query file> : query vectors
-      -kclusters <int> : number of IVF clusters to train
-      -nprobe <int> : number of closest clusters to probe
-      -M <int> : number of subspaces for PQ encoding
-      -ο <output file> : file to store search results
-      -Ν <number nearest> : number of nearest neighbors to return
-      -R <radius> : optional radius for range search
-      -type <flag> : dataset type (mnist or sift)
-      -nbits <int> : number of bits per subvector for PQ (K = 2^nbits)
-      -range <true|false> : enable or disable range search
-      -ivfpq : select IVF-PQ as the search method
-      -seed <int> : random seed for k-means training (both IVF and PQ codebooks)
+      `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -ο <output file> -Ν <number of nearest> -R <radius> -type <flag> -range <true|false> -ivfflat –seed <int> `  
+      - `-d <input file>` : contains the dataset vectors  
+      - `-q <query file>` : contains the query vectors  
+      - `-kclusters <int>` : number of IVF clusters to train  
+      - `-nprobe <int>` : number of closest clusters to probe during search  
+      - `-ο <output file>` : file to store the search results  
+      - `-Ν <number of nearest>` : number of nearest neighbors to return  
+      - `-R <radius>` : optional radius for range search (squared distance cutoff)  
+      - `-type <flag>` : dataset type (mnist or sift)  
+      - `-range <true|false>` : enable or disable range search  
+      - `-ivfflat` : select IVF-Flat as the search method  
+      - `-seed <int>` : random seed for k-means training  
+   4. Approximate-NN search using IVFPQ algorithm :  
       Usage :
-      `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -M <int> -ο <output file> -Ν <number nearest> -R <radius> -type <flag> -nbits <int> -range <true|false> -ivfpq –seed <int> `
+      `./search –d <input file> –q <query file> –kclusters <int> -nprobe <int> -M <int> -ο <output file> -Ν <number nearest> -R <radius> -type <flag> -nbits <int> -range <true|false> -ivfpq –seed <int> `  
+      - `-d <input file>` : dataset vectors  
+      - `-q <query file>` : query vectors  
+      - `-kclusters <int>` : number of IVF clusters to train  
+      - `-nprobe <int>` : number of closest clusters to probe  
+      - `-M <int>` : number of subspaces for PQ encoding  
+      - `-ο <output file>` : file to store search results  
+      - `-Ν <number nearest`> : number of nearest neighbors to return  
+      - `-R <radius>` : optional radius for range search  
+      - `-type <flag>` : dataset type (mnist or sift)  
+      - `-nbits <int>` : number of bits per subvector for PQ (K = 2^nbits)  
+      - `-range <true|false>` : enable or disable range search  
+      - `-ivfpq` : select IVF-PQ as the search method  
+      - `-seed <int>` : random seed for k-means training (both IVF and PQ codebooks)  
 
 
  ***NOTES*** : 
