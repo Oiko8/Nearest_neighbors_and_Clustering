@@ -194,5 +194,47 @@ These results show the same general behavior as elsewhere — increasing **probe
 - For **maximum speed**, push **kproj↑** and **probes↓/M↓**; for **maximum recall**, push **probes↑/M↑** and **w↑** (accept higher `tApprox`).
 
 
+<br><br>
+
+--- 
+---
+
+<br><br>
 
 
+## IVFFLAT Results
+
+### MNIST Dataset
+
+| # | Clusters (C) | Probes | Average AF | Recall@N  | QPS         | tApprox (ms) | tTrue (ms) |
+| - | ------------ | ------ | ---------- | --------- | ----------- | ------------ | ---------- |
+| 1 | 64           | 2      | 1.01016    | 0.920     | **1282.05** | **0.78**     | 24.13      |
+| 2 | 64           | 4      | 1.00103    | **0.990** | 540.541     | 1.85         | 23.60      |
+| 3 | 128          | 2      | 1.00821    | 0.870     | **8333.33** | **0.12**     | 24.03      |
+| 4 | 128          | 4      | 1.00051    | **0.980** | 1111.11     | 0.90         | 23.38      |
+
+
+**Observations**  
+- **Best recall:** `C=64, probes=4` → Recall@N = **0.99**, AF = **1.001**, QPS ≈ 540. This setup achieves almost perfect recall with minimal loss in speed, showing that slightly increasing the number of probes drastically boosts accuracy.  
+- **Fastest setup:** `C=128, probes=2` → QPS = **8333.33** (≈0.12 ms/query), Recall@N = 0.87. Extremely fast but with a small trade-off in recall, highlighting IVFFlat’s scalability when few clusters are explored.  
+- **Balanced performance 1:** `C=64, probes=2` → Recall@N = **0.92**, AF = 1.010, QPS = 1282. This configuration balances speed and precision effectively.  
+- **Balanced performance 2:** `C=128, probes=4` → Recall@N = **0.98**, AF = **1.0005**, QPS = 1111. Very high accuracy and still under 1 ms average query time.  
+
+Overall, the **IVFFlat** method performs impressively on MNIST — recall reaches nearly exact search levels (≈ 0.99) with extremely low AF (≈ 1.00) and sub-millisecond average query times. The algorithm benefits clearly from increasing **probes**, while the number of **clusters** mainly affects indexing granularity and search speed.
+
+
+### SIFT Dataset
+
+| # | Clusters (C) | Probes | Average AF | Recall@N  | QPS         | tApprox (ms) | tTrue (ms) |
+| - | ------------ | ------ | ---------- | --------- | ----------- | ------------ | ---------- |
+| 1 | 64           | 2      | 0.65005    | 0.640     | **171.821** | **5.82**     | 60.74      |
+| 2 | 64           | 4      | 0.68000    | **0.680** | 83.963      | 11.91        | 61.81      |
+| 3 | 128          | 2      | 0.68005    | 0.670     | 159.744     | 6.26         | 64.88      |
+| 4 | 128          | 4      | 0.67900    | 0.660     | 83.963      | 11.91        | 61.81      |
+
+
+**Observations**  
+- **Best recall:** `C=64, probes=4` → Recall@N = **0.68**, AF = 0.68. This configuration provides the highest recall among the tested setups, indicating that increasing the number of probes slightly improves retrieval quality.  
+- **Fastest setup:** `C=64, probes=2` → QPS = **171.82**, tApprox ≈ **5.82 ms**, showing the clear trade-off between speed and recall. Even with fewer probes, it maintains reasonable accuracy (Recall = 0.64).  
+- **Balanced performance 1:** `C=128, probes=2` → Recall@N = **0.67**, AF = 0.68, QPS ≈ 160. This setting achieves a good midpoint between quality and speed.  
+- **Balanced performance 2:** `C=128, probes=4` → Recall@N = **0.66**, AF = 0.679, slightly slower but consistent in stability, with higher clustering resolution.  
