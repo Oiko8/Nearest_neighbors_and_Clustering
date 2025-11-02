@@ -238,3 +238,102 @@ Overall, the **IVFFlat** method performs impressively on MNIST — recall reache
 - **Fastest setup:** `C=64, probes=2` → QPS = **171.82**, tApprox ≈ **5.82 ms**, showing the clear trade-off between speed and recall. Even with fewer probes, it maintains reasonable accuracy (Recall = 0.64).  
 - **Balanced performance 1:** `C=128, probes=2` → Recall@N = **0.67**, AF = 0.68, QPS ≈ 160. This setting achieves a good midpoint between quality and speed.  
 - **Balanced performance 2:** `C=128, probes=4` → Recall@N = **0.66**, AF = 0.679, slightly slower but consistent in stability, with higher clustering resolution.  
+
+
+--- 
+
+## IVFPQ Results
+
+### MNIST Dataset
+
+| # | Clusters (C) | nprobe | M | nbits | Average AF | Recall@N | QPS           | tApprox (ms) | tTrue (ms) |
+| - | ------------ | ------ | - | ----- | ---------- | -------- | ------------- | ------------ | ---------- |
+| 1 | 64           | 2      | 8 | 8     | 1.01547    | 0.25     | **100000.00** | **0.01**     | 24.08      |
+| 2 | 128          | 4      | 8 | 8     | 1.00741    | 0.25     | **100000.00** | **0.01**     | 24.09      |
+
+**Observations**  
+- **Speed:** Both configurations achieve extremely high QPS (≈ **100k queries/sec**) due to the compact product quantization representation, resulting in ultra-fast lookups with very low computational overhead.  
+- **Accuracy trade-off:** Despite the speed, recall remains low (**0.25**) since the aggressive quantization with limited subvector resolution (`M=8, nbits=8`) sacrifices precision for throughput.  
+- **Effect of clusters:** Increasing clusters from 64 → 128 slightly improves AF (1.015 → 1.007), meaning distances are marginally closer to true values, but recall does not improve significantly.  
+Overall, IVFPQ on **MNIST** demonstrates exceptional speed efficiency but at the cost of retrieval accuracy, making it suitable for applications where extreme throughput is prioritized over precision.
+
+
+### SIFT Dataset
+| # | Clusters (C) | nprobe | M | nbits | Average AF | Recall@N | QPS         | tApprox (ms) | tTrue (ms) |
+| - | ------------ | ------ | - | ----- | ---------- | -------- | ----------- | ------------ | ---------- |
+| 1 | 64           | 2      | 8 | 8     | 0.67755    | 0.21     | **2325.58** | **0.43**     | 68.04      |
+| 2 | 128          | 8      | 8 | 4     | 0.34997    | 0.00     | 833.333     | 1.20         | 55.27      |
+
+**Observations (SIFT)**  
+- **Best recall:** `C=64, nprobe=2` → Recall@N = **0.21**, AF = 0.678. The system performs better with fewer clusters and higher quantization resolution (`nbits=8`).  
+- **Speed vs accuracy:** Both setups achieve fast responses (under 2 ms), but recall remains relatively low, especially in the more compressed configuration (`nbits=4`), which completely loses precision.  
+- **Impact of parameters:** Lowering `nbits` reduces vector precision heavily, and increasing clusters (`C=128`) doesn’t compensate for that drop in accuracy.  
+- **Efficiency:** Even with lower recall, IVFPQ maintains **thousands of QPS**, showing its suitability for large-scale retrieval where fast indexing is critical and some accuracy loss is acceptable.  
+
+
+
+
+<br><br>
+
+--- 
+---
+---
+
+<br><br>
+
+## ***Total Observations***
+
+### General comparison (speed vs. accuracy)
+- **Fastest overall:** **IVFPQ**
+  - MNIST: up to **100k QPS** (0.01 ms/query) with **low recall (~0.25)**.
+  - SIFT: **2.3k QPS** at 0.43 ms/query, recall **0.21 → 0.00** when codes are too coarse (`nbits=4`).
+- **Best accuracy on MNIST:** **IVFFlat**
+  - Reaches **Recall ≈ 0.99** with **sub-ms** latency; still very fast (0.12–1.85 ms/query, up to **8.3k QPS**).
+- **Best accuracy on SIFT (in our sweeps):** **LSH**
+  - Up to **Recall ≈ 0.85** with modest speed; classic tuning via `k/L/w`.
+- **Hypercube (HC):** sits between LSH and IVFFlat
+  - Tunable speed/recall via `kproj`, `w`, `probes`, `M`; fastest SIFT run ≈ **459 QPS**, MNIST ≈ **558 QPS**; recall mid-range but can be pushed higher with more probes/time.
+
+---
+
+### Per-algorithm takeaways
+
+**LSH**
+- **Accuracy:** Good→very good when `w` matches dataset scale; top SIFT recall in our runs.
+- **Speed:** Moderate→high (MNIST peak ≈ **1.9k QPS**; SIFT peak ≈ **587 QPS**).
+- **Prep time:** **Low** (no training; hash tables only).
+- **Sensitivity:** **High** — small changes in `k/L/w` move recall & QPS a lot → **more experiments** needed.
+
+**Hypercube**
+- **Accuracy:** Competitive with enough `probes`/proper `w`; approaches LSH with more vertex visits.
+- **Speed:** Moderate (hundreds of QPS); improves with larger `kproj` and fewer probes.
+- **Prep time:** **Low** (no training; index build).
+- **Sensitivity:** **High** — `kproj`, `w`, `probes`, `M` interact; we ran **more tests** to map trade-offs.
+
+**IVFFlat**
+- **Accuracy:** **Excellent on MNIST** (≈0.99) and **good on SIFT** (≈0.68) with modest `nprobe`.
+- **Speed:** **Very high** (MNIST up to **8.3k QPS** at 0.12 ms; SIFT ~160–170 QPS).
+- **Prep time:** **Medium–High** (k-means for `C` centroids; rebuild when `C` changes).
+- **Sensitivity:** **Lower** than LSH/HC — `nprobe` dominates. Nearby `C` values change latency more than recall; **metrics didn’t shift dramatically**, so **fewer runs** were practical.
+
+**IVFPQ**
+- **Accuracy:** **Lowest** in our tests (recall drops quickly as codes get coarser).
+- **Speed:** **Unmatched** throughput (up to **100k QPS** on MNIST; **2.3k QPS** on SIFT).
+- **Prep time:** **High** (k-means for lists **and** PQ codebooks; rebuild if `C/M/nbits` change).
+- **Sensitivity:** Once highly compressed, small parameter nudges change metrics little → extensive sweeps have **low payoff** vs. build cost.
+
+---
+
+### Why we tested LSH/HC more than IVFFlat/IVFPQ
+- **LSH & HC:** Cheap to rebuild and **highly parameter-sensitive**. Small tweaks in `w`, `k/L` (LSH) or `kproj/probes/M` (HC) cause large swings in recall & QPS → **broader grids** justified.
+- **IVFFlat & IVFPQ:** **Expensive** to (re)train/build (centroids + PQ). Within practical ranges **metrics were relatively stable** — `nprobe` is the main lever, while moderate changes in `C/M/nbits` gave **smaller, predictable** effects. Running many re-builds had **little benefit**, so we used a **compact set** to map the quality–latency frontier.
+
+---
+
+### Practical guidance
+- **Max throughput, tolerant of lower recall →** **IVFPQ**.
+- **Near-exact recall with sub-ms latency (MNIST-like) →** **IVFFlat** with a slightly higher `nprobe`.
+- **Wide, tunable trade-off and minimal build time →** **LSH** or **Hypercube**, but expect to **sweep parameters**.
+- **Normalization matters:** it changes distance scales (`w` for LSH/HC) and how aggressively you can increase `nprobe` in IVFFlat/IVFPQ without hurting latency.
+
+---
