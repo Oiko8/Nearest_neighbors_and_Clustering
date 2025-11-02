@@ -168,6 +168,7 @@ This function is used by algorithms IVFFlat and IVFPQ as the exact search baseli
 ## **Compilation and Execution**
 
 - Compilation: `make`  
+   Inside the `src` directory, the `make` command must be executed.  
    All algorithms are compiled into the same executable search. You can select which one to run via the corresponding flag (-lsh, -hypercube, -ivfflat, -ivfpq).
 - Execution:   
    1. Approximate-NN search using LSH algorithm :  
