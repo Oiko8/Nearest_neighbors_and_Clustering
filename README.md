@@ -1,13 +1,11 @@
-# Project 1: Nearest neighbors and Clustering
+# Nearest neighbors and Clustering
 ---
-### Team Members:
+#### Contributors
 ---
 1. - Name : ***Polyxeni Kollia***
    - Email : ***sdi1800280@di.uoa.gr***
-   - AM : 1115201800280
 2. - Name : ***Ioannis Oikonomidis***
    - Email : ***sdi1600120@di.uoa.gr***
-   - AM : 1115201600120
  
 
 ---
