@@ -1,12 +1,5 @@
 # Nearest neighbors and Clustering
 ---
-#### Contributors
----
-1. - Name : ***Polyxeni Kollia***
-   - Email : ***sdi1800280@di.uoa.gr***
-2. - Name : ***Ioannis Oikonomidis***
-   - Email : ***sdi1600120@di.uoa.gr***
- 
 
 ---
 
